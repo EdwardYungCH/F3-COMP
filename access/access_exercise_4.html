@@ -411,6 +411,68 @@ select.stl{height:150px}
 .ppage th,.ppage td{border:1px solid #999;padding:3px 7px;text-align:left;white-space:nowrap}
 .ppage th{background:#eee;font-weight:400}
 .ppage .pft{margin-top:auto;padding-top:16px;text-align:center;color:#555}
+/* ---------- 精簡版面：在電腦螢幕（1366×768 起）一眼看到全部內容，整頁不用捲動 ---------- */
+#hdr{height:44px;gap:8px;padding:0 10px}
+#hdr .logo{width:26px;height:26px;font-size:14px}
+#hdr .ttl{font-size:14px}
+#hdr .ttl small{font-size:11px}
+.chip{font-size:12px;padding:3px 9px}
+#hdr .hb{padding:6px 11px;font-size:12.5px}
+#wrap{height:calc(100vh - 44px);grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr) 320px}
+#left{padding:6px;min-height:0}
+#guide{padding:8px;min-height:0}
+#titlebar{height:26px;font-size:12px}
+.qat button{width:26px;height:22px;padding:2px}
+#tabsbar{min-height:26px}
+.tab{padding:4px 12px 5px;font-size:12.5px}
+.ctxgrp .cl{font-size:10px;padding:0 8px}
+#ribbon{min-height:76px;padding:2px 4px 0}
+.grp .gn{font-size:10.5px;padding:1px 0 2px}
+.rbB{min-height:56px;min-width:48px;font-size:11px;gap:2px;padding:2px}
+.rbB .i{width:26px;height:26px}
+.split{min-height:56px;width:54px}
+.split .top .i{width:26px;height:26px}
+.split .bot{font-size:11px;padding:1px 0 2px}
+.rbS{height:19px;font-size:11px}
+.rbS .i{width:15px;height:15px}
+#nav{width:170px;font-size:12px}
+#nav .nh{padding:4px 8px}
+#nav .srch{margin:4px 8px;padding:2px 6px}
+#nav .it{padding:3px 8px 3px 14px}
+#nav .navtip{padding:6px 8px;font-size:11px}
+#doctabs{min-height:24px;font-size:12px}
+#doctabs .dt{padding:2px 6px 2px 10px}
+#status{height:22px;font-size:11.5px}
+table.dg th{padding:3px 6px}
+table.dg td{height:22px}
+table.dg input,table.dg select{height:22px;padding:2px 6px}
+.dv .top{min-height:110px}
+.props{max-height:42%}
+.props .pl{padding:2px 8px 6px}
+.props .ptabs{margin:2px 0 2px}
+.props .pttl{margin:1px 0 3px}
+.props td{height:21px;padding:1px 6px}
+.props input,.props select{height:19px;padding:1px 4px}
+.props .ph{padding:8px 10px}
+table.ds th{padding:3px 8px}
+table.ds td{height:22px}
+table.ds input[type=text]{height:22px;padding:2px 8px}
+.empty{padding:24px 24px}
+.gcard{padding:10px;margin-bottom:8px}
+.gprog{margin-bottom:6px}
+.gcur .h{font-size:15px;margin:3px 0 4px}
+.gcur .d{font-size:12.5px;line-height:1.6}
+.hintbar{margin-top:8px}
+.hintbar button{padding:4px 9px;font-size:12px}
+.slist li{padding:4px 6px;font-size:12.5px}
+.slist li .tl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sref{margin-top:8px;background:#fff;border:1px solid #cfe3d6;border-radius:6px;padding:6px 8px 8px}
+.sref h4{margin:0 0 4px;font-size:12.5px}
+.sref .reft{font-size:12px}
+.tbox .th{padding:2px 8px}
+.tbox .fl{padding:1px 0}
+.tbox .fld{padding:1px 6px;line-height:17px}
+.qtop{flex-basis:48%}
 @media (max-width:560px){
   .tbox{width:150px}
   table.qg td{min-width:112px;width:112px}
@@ -924,7 +986,7 @@ AX.reportInner = function (cfg, d, ev, code) {
     lookup: s(grid(B, 2, 3, 15, 13) + '<rect x="13" y="13" width="9" height="8" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M15.5 16l2 2 2-2" stroke="' + K + '" stroke-width="1.2"/>'),
     propSheet: s('<rect x="3" y="3" width="18" height="18" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M3 8h18M3 13h18M3 18h18M10 8v13" stroke="' + K + '" stroke-width=".9"/><rect x="3" y="3" width="18" height="5" fill="' + L + '"/>'),
     indexes: s('<path d="M6 4h12M6 9h12M6 14h12M6 19h8" stroke="' + K + '" stroke-width="1.4"/><path d="M19 13l-2.5 4h3l-2.5 5" stroke="' + Y + '" stroke-width="1.6"/>'),
-    save: s('<path d="M4 3h13l3 3v15H4z" fill="#fff" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="3" width="8" height="5.5" stroke="currentColor" stroke-width="1.3"/><rect x="7" y="13" width="10" height="8" stroke="currentColor" stroke-width="1.3"/>'),
+    save: s('<path d="M3.5 3.5h13.2l3.8 3.8v13.2h-17z" fill="rgba(255,255,255,.18)" stroke="currentColor" stroke-width="1.6"/><rect x="7" y="3.5" width="8.5" height="5.5" fill="currentColor" opacity=".9"/><rect x="12.3" y="4.6" width="1.9" height="3.3" fill="#a4373a"/><rect x="6.5" y="12.8" width="11" height="7.7" rx=".6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8.6 15.4h6.8M8.6 17.9h6.8" stroke="currentColor" stroke-width="1.1"/>'),
     undo: s('<path d="M9 7L4 11l5 4" stroke="currentColor" stroke-width="1.8"/><path d="M4 11h10a6 6 0 0 1 0 12h-3" stroke="currentColor" stroke-width="1.8"/>'),
     redo: s('<path d="M15 7l5 4-5 4" stroke="currentColor" stroke-width="1.8"/><path d="M20 11H10a6 6 0 0 0 0 12h3" stroke="currentColor" stroke-width="1.8"/>'),
     navTable: s('<rect x="3" y="5" width="18" height="14" rx="1" fill="#fff" stroke="' + B + '" stroke-width="1.6"/><rect x="3" y="5" width="18" height="4" fill="' + B + '"/><path d="M3 14h18M9 9v10M15 9v10" stroke="' + B + '" stroke-width="1.2"/>'),
@@ -1365,7 +1427,7 @@ AX.boot = function (C) {
     } else {
       var s = C.steps[v];
       h += '<div class="k"><span>' + (ASSESS ? '任務 ' + s.id : '步驟 ' + (v + 1) + ' / ' + N) + (!ASSESS && d[v] ? ' · ✔ 已完成' : '') + '</span>' + (s.m ? '<span>' + s.m + ' 分</span>' : '') + '</div>' +
-        '<div class="h">' + E(s.title) + '</div><div class="d">' + (s.detail || '') + '</div>' + hintBlock(v);
+        '<div class="h">' + E(s.title) + '</div><div class="d">' + (s.detail || '') + '</div>' + (s.ref ? '<div class="sref">' + s.ref(S, AX) + '</div>' : '') + hintBlock(v);
       if (S.ui.viewStep != null && !ASSESS && v !== cur) h += '<div style="margin-top:8px"><button class="gtoggle" style="display:block" data-act="vstep" data-arg="-1">↩ 回到目前步驟</button></div>';
       if (ASSESS) h += '<div style="margin-top:8px"><button class="gtoggle" style="display:block" data-act="vstep" data-arg="-1">↩ 回到評測說明</button></div>';
     }
@@ -1375,7 +1437,7 @@ AX.boot = function (C) {
       if (S.ui.viewStep === i) cls += ' view';
       if (U.pops[i]) cls += ' pop';
       var mark = ASSESS ? s.id : (d[i] ? '✔' : i + 1);
-      h += '<li class="' + cls + '" data-act="vstep" data-arg="' + i + '"><span class="st">' + mark + '</span><span>' + E(s.title) + '</span>' + (s.m ? '<span class="m">' + s.m + ' 分</span>' : '') + '</li>';
+      h += '<li class="' + cls + '" data-act="vstep" data-arg="' + i + '"><span class="st">' + mark + '</span><span class="tl" title="' + E(s.title) + '">' + E(s.title) + '</span>' + (s.m ? '<span class="m">' + s.m + ' 分</span>' : '') + '</li>';
     });
     U.pops = {};
     h += '</ul></div></div>';
@@ -1849,7 +1911,7 @@ AX.boot = function (C) {
     var list = ctx === 'rel' ? S.relLayout : S.qdraft.tables, added = [];
     names.forEach(function (n) {
       if (list.some(function (b) { return b.n === n; })) { toast('「' + n + '」已經加入了。', 'warn'); return; }
-      var k = list.length; list.push({ n: n, x: 20 + k * 215, y: 16 + (k % 2) * 22 });
+      var k = list.length; list.push({ n: n, x: 20 + k * 215, y: ctx === 'rel' ? 16 + (k % 2) * 22 : 8 + (k % 2) * 14 });
       added.push(n);
       if (ctx === 'rel') { S.flags.relAdded = S.flags.relAdded || {}; S.flags.relAdded[n] = true; }
     });
