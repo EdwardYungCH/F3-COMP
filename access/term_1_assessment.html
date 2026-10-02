@@ -331,6 +331,91 @@ select.lst{width:100%;height:170px;font-size:13px;border:1px solid #7a7a7a}
 .demo-badge{background:#f0c64a;color:#4a3800;font-weight:700}
 
 /* ---------- 回應式(平板/細螢幕) ---------- */
+/* ---------- 資料庫關聯圖 / 查詢設計 ---------- */
+#win{position:relative}
+.relv{height:100%;display:flex;flex-direction:column}
+.relcv{position:relative;overflow:auto;flex:1;min-height:0;background:#fff}
+.relv .relcv{background:#fbfbfb}
+.relin{position:relative;width:1000px;height:560px}
+.qtop .relin{height:250px}
+.rlines{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:1}
+.rlines .rl{fill:none;stroke:#333;stroke-width:1.6}
+.rlines .rl.sel{stroke:#0a64c8;stroke-width:3}
+.rlines .rhit{fill:none;stroke:transparent;stroke-width:14;pointer-events:stroke;cursor:pointer}
+.rlines .rm{font-size:13px;font-weight:700;fill:#222;text-anchor:middle}
+.rlines .rtmp{stroke:#0a64c8;stroke-width:1.6;stroke-dasharray:5 3}
+.tbox{position:absolute;width:172px;background:#fff;border:1px solid #9a9a9a;box-shadow:2px 2px 6px rgba(0,0,0,.18);z-index:2;font-size:12.5px}
+.tbox.sel{border-color:#0a64c8;box-shadow:0 0 0 2px rgba(10,100,200,.35),2px 2px 6px rgba(0,0,0,.18)}
+.tbox .th{background:#dfe7f1;border-bottom:1px solid #9a9a9a;padding:4px 8px;font-weight:700;cursor:move;touch-action:none;user-select:none;-webkit-user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbox.sel .th{background:#c9daf0}
+.tbox .fl{padding:2px 0}
+.tbox .fld{display:flex;align-items:center;gap:3px;padding:3px 6px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;white-space:nowrap}
+.tbox .fld:hover{background:#e5f1fb}
+.tbox .fld .i{width:14px;height:14px;flex:none}
+.tbox .fld.star{color:#555;font-weight:700}
+.relempty{position:absolute;left:24px;top:24px;color:#999;font-size:13px}
+#axghost{position:fixed;z-index:99;pointer-events:none;background:#fffbe0;border:1px solid #c9a800;padding:2px 8px;font-size:12px;border-radius:2px;box-shadow:1px 2px 6px rgba(0,0,0,.2);display:none}
+.qdv{display:flex;flex-direction:column;height:100%}
+.qtop{flex:0 0 46%;min-height:150px;display:flex;border-bottom:5px solid #c8c8c8}
+.qbot{flex:1;overflow:auto;min-height:0;background:#fff}
+table.qg{border-collapse:collapse;font-size:12.5px;margin:6px 0 10px}
+table.qg th{background:#f3f3f3;border:1px solid #d6d6d6;padding:3px 8px;font-weight:400;text-align:right;white-space:nowrap;width:64px;position:sticky;left:0;z-index:1}
+table.qg td{border:1px solid #d6d6d6;min-width:132px;width:132px;height:24px;padding:0;background:#fff}
+table.qg td.qs{background:#fff8e0}
+table.qg tr.qcsr td{height:9px;background:#e8e8e8;cursor:pointer}
+table.qg tr.qcsr td.on{background:#333}
+table.qg tr.qcsr th{background:#fff;border-color:transparent}
+table.qg select,table.qg input[type=text]{width:100%;border:0;background:transparent;font-size:12.5px;height:24px;padding:2px 4px}
+table.qg select:focus,table.qg input[type=text]:focus{outline:2px solid #e3a33a;outline-offset:-2px;background:#fffbe8}
+table.qg td.ck{text-align:center}
+table.qg td.ck input{width:15px;height:15px;margin:4px}
+table.qg .qt{display:block;padding:3px 6px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.ds.qr td{padding:4px 8px;white-space:nowrap}
+#viewbtns .sqlb{font-size:9.5px;font-weight:700}
+.sttabs{display:flex;gap:2px;margin-bottom:6px;border-bottom:1px solid #ccc}
+.sttabs span{padding:4px 14px;border:1px solid #ccc;border-bottom:0;background:#f3f3f3;cursor:pointer;font-size:12.5px;margin-bottom:-1px}
+.sttabs span.on{background:#fff;font-weight:700}
+select.stl{height:150px}
+.sthint{font-size:12px;color:#666;margin-top:6px}
+.erel .ergrid{width:100%;border-collapse:collapse;margin-bottom:10px}
+.erel .ergrid th{font-weight:400;text-align:left;font-size:12.5px;color:#444;padding:2px 4px}
+.erel .ergrid td{padding:2px 4px;width:50%}
+.erel .ergrid td.tn{font-weight:700;border:1px solid #bbb;background:#fafafa;padding:4px 6px}
+.erel .ergrid select{width:100%;font-size:13px;padding:3px;border:1px solid #7a7a7a}
+.erel .erck{display:block;margin:4px 0;font-size:13px}
+.erel .erck.sub{margin-left:22px}
+.erel .erck input:disabled+*{color:#aaa}
+.erel .ertype{margin-top:10px;font-size:13px}
+.erel .ererr{color:var(--bad,#c0392b);font-size:12.5px;margin-top:6px;min-height:1em}
+/* 檔案 → 列印 */
+#bstage{position:absolute;left:0;right:0;top:32px;bottom:0;z-index:30;display:none;background:#fff}
+#bstage .bs{height:100%}
+#bstage .side .back{font-size:22px;padding:6px 22px 14px}
+#bstage .ptiles{display:flex;flex-direction:column;gap:10px;max-width:520px}
+#bstage .ptile{display:flex;gap:14px;align-items:center;border:1px solid #ddd;padding:12px 14px;cursor:pointer;font-size:13px;color:#555;line-height:1.5}
+#bstage .ptile b{color:#222;font-size:14.5px}
+#bstage .ptile:hover{background:#fbe3e4;border-color:#e8b6b8}
+#bstage .ptile .i{width:42px;height:42px;flex:none}
+.prd fieldset{border:1px solid #ccc;padding:8px 10px;margin:0 0 10px;font-size:13px}
+.prd legend{font-size:12.5px;color:#444;padding:0 4px}
+.prd select{font-size:13px;padding:3px;min-width:240px}
+.prd .prs{font-size:12px;color:#666;margin-top:6px}
+.prd .prrow{display:flex;gap:10px}
+.prd .prrow fieldset{flex:1}
+.prd .prrow label{display:block}
+.prd .prwhat{font-size:13px}
+.pprev{background:#8a8a8a;padding:16px;display:flex;justify-content:center;max-height:62vh;overflow:auto}
+.ppage{background:#fff;width:100%;max-width:600px;min-height:420px;padding:28px 30px;box-shadow:0 2px 10px rgba(0,0,0,.4);font-size:12px;display:flex;flex-direction:column}
+.ppage .phd{display:flex;justify-content:space-between;font-weight:700;margin-bottom:12px;font-size:13px}
+.ppage table{border-collapse:collapse}
+.ppage th,.ppage td{border:1px solid #999;padding:3px 7px;text-align:left;white-space:nowrap}
+.ppage th{background:#eee;font-weight:400}
+.ppage .pft{margin-top:auto;padding-top:16px;text-align:center;color:#555}
+@media (max-width:560px){
+  .tbox{width:150px}
+  table.qg td{min-width:112px;width:112px}
+  #bstage .side{width:96px}
+}
 @media (max-width:1280px){
   #wrap{grid-template-columns:minmax(0,1fr) 300px}
   #nav{width:160px}
@@ -373,6 +458,9 @@ select.lst{width:100%;height:170px;font-size:13px;border:1px solid #7a7a7a}
   #rptCard{box-shadow:none;padding:0;width:auto}
   .rbar{display:none}
 }
+
+/* 設計檢視：列選取器可拖曳選取多列（組合主索引鍵） */
+table.dg td.rs{touch-action:none;user-select:none;-webkit-user-select:none}
 
 /* ===== 報告(畫面、下載檔、列印共用;盡量一頁 A4) ===== */
 .rp{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;color:#1f2328;font-size:12.5px;line-height:1.45}
@@ -475,9 +563,119 @@ AX.namedRows = function (t) { return t ? t.rows.filter(function (r) { return AX.
 AX.table = function (S, name) { for (var i = 0; i < S.tables.length; i++) if (S.tables[i].name === name) return S.tables[i]; return null; };
 AX.mainTable = function (S, name) { return AX.table(S, name) || S.tables[0] || null; };
 AX.pkName = function (t) { return (t && t.pk != null && t.rows[t.pk]) ? AX.nm(t.rows[t.pk].name) : ''; };
+/* 組合主索引鍵：t.pkx = [列號, 列號…]（兩列或以上）；單一主索引鍵只用 t.pk */
+AX.isPk = function (t, i) { return !!t && (t.pkx && t.pkx.length > 1 ? t.pkx.indexOf(i) >= 0 : t.pk === i); };
+AX.pkNames = function (t) {
+  if (!t) return [];
+  var ix = t.pkx && t.pkx.length > 1 ? t.pkx : (t.pk != null ? [t.pk] : []);
+  return ix.map(function (i) { return t.rows[i] ? AX.nm(t.rows[i].name) : ''; }).filter(Boolean);
+};
+AX.savedPks = function (t) { return t ? (t.savedPks && t.savedPks.length ? t.savedPks : (t.savedPk ? [t.savedPk] : [])) : []; };
 AX.field = function (t, name) { var r = AX.namedRows(t); for (var i = 0; i < r.length; i++) if (AX.nm(r[i].name) === name) return r[i]; return null; };
 AX.savedField = function (t, name) { if (!t) return null; for (var i = 0; i < t.fields.length; i++) if (t.fields[i].name === name) return t.fields[i]; return null; };
 AX.form = function (S, name) { for (var i = 0; i < S.forms.length; i++) if (S.forms[i].name === name) return S.forms[i]; return null; };
+AX.query = function (S, name) { var q = S.queries || []; for (var i = 0; i < q.length; i++) if (q[i].name === name) return q[i]; return null; };
+
+/* ---------- 關聯 / 查詢 ---------- */
+AX.collator = (function () {
+  try { return new Intl.Collator('zh-Hant-TW-u-co-stroke', { numeric: true }); } catch (e) { return new Intl.Collator('zh-Hant', { numeric: true }); }
+})();
+AX.dateVal = function (s) { var m = String(s == null ? '' : s).match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/); return m ? new Date(+m[1], +m[2] - 1, +m[3]).getTime() : NaN; };
+AX.cmpVal = function (type, a, b) {
+  var x, y;
+  if (type === '數字' || type === '貨幣' || type === '自動編號') { x = AX.num(a); y = AX.num(b); }
+  else if (type === '日期/時間') { x = AX.dateVal(a); y = AX.dateVal(b); }
+  else if (type === '是/否') { x = a === true ? 1 : 0; y = (b === true || /^(true|yes|是|-1)$/i.test(String(b))) ? 1 : 0; }
+  else {
+    var sa = String(a == null ? '' : a), sb = String(b == null ? '' : b);
+    if (sa.toLowerCase() === sb.toLowerCase()) return 0;
+    if (sa === '') return -1; if (sb === '') return 1;
+    return AX.collator.compare(sa, sb);
+  }
+  if (isNaN(x) && isNaN(y)) return 0; if (isNaN(x)) return -1; if (isNaN(y)) return 1;
+  return x - y;
+};
+/* 準則：="男"、男、"男"、>5、<>3、Like "陳*"、Not "男" */
+AX.parseCrit = function (s) {
+  s = String(s == null ? '' : s).trim(); if (!s) return null;
+  var op = '=', v = s, m = s.match(/^(<>|<=|>=|=|<|>)\s*([\s\S]*)$/);
+  if (m) { op = m[1]; v = m[2]; }
+  else if ((m = s.match(/^like\s+([\s\S]*)$/i))) { op = 'like'; v = m[1]; }
+  else if ((m = s.match(/^not\s+([\s\S]*)$/i))) { op = '<>'; v = m[1]; }
+  v = v.trim().replace(/^"([\s\S]*)"$/, '$1').replace(/^'([\s\S]*)'$/, '$1').replace(/^#([\s\S]*)#$/, '$1');
+  return { op: op, v: v };
+};
+AX.critMatch = function (type, val, c) {
+  if (!c) return true;
+  if (c.op === 'like') {
+    var re = new RegExp('^' + c.v.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$', 'i');
+    return re.test(String(val == null ? '' : val));
+  }
+  var d = AX.cmpVal(type, val, c.v);
+  return c.op === '=' ? d === 0 : c.op === '<>' ? d !== 0 : c.op === '<' ? d < 0 : c.op === '>' ? d > 0 : c.op === '<=' ? d <= 0 : d >= 0;
+};
+AX.keyEq = function (a, b) {
+  var x = String(a == null ? '' : a).trim(), y = String(b == null ? '' : b).trim();
+  if (x === '' || y === '') return false;
+  if (x === y) return true;
+  var nx = Number(x), ny = Number(y);
+  return !isNaN(nx) && !isNaN(ny) && nx === ny;
+};
+AX.qTables = function (q) { return ((q && q.tables) || []).map(function (t) { return typeof t === 'string' ? t : t.n; }); };
+AX.qCols = function (q) { return ((q && q.cols) || []).filter(function (c) { return c && c.f; }); };
+/* 執行選取查詢：按關聯聯結 → 準則 → 排序 → 顯示欄位 */
+AX.runQuery = function (S, q) {
+  var names = AX.qTables(q), tabs = names.map(function (n) { return AX.table(S, n); }).filter(Boolean);
+  var cols = AX.qCols(q), rels = S.rels || [], res = { heads: [], cols: [], rows: [], cross: false };
+  if (!tabs.length) return res;
+  var joined = [tabs[0].name], rows = tabs[0].records.map(function (r) { var o = {}; o[tabs[0].name] = r.f; return o; }), rest = tabs.slice(1);
+  while (rest.length) {
+    var pick = -1, conds = [];
+    for (var i = 0; i < rest.length && pick < 0; i++) {
+      var nm = rest[i].name;
+      var cs = rels.filter(function (r) { return r.t1 !== r.t2 && ((r.t1 === nm && joined.indexOf(r.t2) >= 0) || (r.t2 === nm && joined.indexOf(r.t1) >= 0)); });
+      if (cs.length) { pick = i; conds = cs; }
+    }
+    if (pick < 0) { pick = 0; res.cross = true; }
+    var T = rest.splice(pick, 1)[0], nr = [];
+    rows.forEach(function (o) {
+      T.records.forEach(function (r) {
+        var ok = conds.every(function (c) { return c.t1 === T.name ? AX.keyEq(r.f[c.f1], o[c.t2] && o[c.t2][c.f2]) : AX.keyEq(r.f[c.f2], o[c.t1] && o[c.t1][c.f1]); });
+        if (ok) { var n = {}; Object.keys(o).forEach(function (k) { n[k] = o[k]; }); n[T.name] = r.f; nr.push(n); }
+      });
+    });
+    rows = nr; joined.push(T.name);
+  }
+  var fdef = function (c) { var t = AX.table(S, c.t); return t ? AX.savedField(t, c.f) : null; };
+  var typ = function (c) { var f = fdef(c); return f ? f.type : '簡短文字'; };
+  var get = function (o, c) { return o[c.t] ? o[c.t][c.f] : ''; };
+  var g1 = cols.filter(function (c) { return c.f !== '*' && String(c.crit || '').trim(); });
+  var g2 = cols.filter(function (c) { return c.f !== '*' && String(c.or || '').trim(); });
+  if (g1.length || g2.length) {
+    rows = rows.filter(function (o) {
+      var pass = function (g, key) { return g.length > 0 && g.every(function (c) { return AX.critMatch(typ(c), get(o, c), AX.parseCrit(c[key])); }); };
+      return pass(g1, 'crit') || pass(g2, 'or');
+    });
+  }
+  var sorts = cols.filter(function (c) { return c.f !== '*' && (c.sort === '遞增' || c.sort === '遞減'); });
+  if (sorts.length) {
+    rows = rows.map(function (o, i) { return { o: o, i: i }; }).sort(function (a, b) {
+      for (var k = 0; k < sorts.length; k++) { var c = sorts[k], d = AX.cmpVal(typ(c), get(a.o, c), get(b.o, c)); if (d) return c.sort === '遞減' ? -d : d; }
+      return a.i - b.i;
+    }).map(function (x) { return x.o; });
+  }
+  var out = [];
+  cols.forEach(function (c) {
+    if (c.show === false) return;
+    if (c.f === '*') { var t = AX.table(S, c.t); if (t) t.fields.forEach(function (F) { out.push({ t: c.t, f: F.name }); }); }
+    else out.push({ t: c.t, f: c.f });
+  });
+  var fn = out.map(function (x) { return x.f; });
+  res.cols = out;
+  res.heads = out.map(function (x) { return fn.filter(function (n) { return n === x.f; }).length > 1 ? x.t + '.' + x.f : x.f; });
+  res.rows = rows.map(function (o) { return out.map(function (x) { var v = get(o, x); return v == null ? '' : v; }); });
+  return res;
+};
 
 /* ---------- SHA-256（純 JavaScript，不需網絡） ---------- */
 AX.sha256 = function (str) {
@@ -545,7 +743,7 @@ AX.gradeTasks = function (cfg, S) {
 
 /* ---------- 提交資料（報告內嵌） ---------- */
 AX.stateForGrade = function (S) {
-  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags };
+  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags, rels: S.rels || [], relLayout: S.relLayout || [], queries: S.queries || [], qdraft: S.qdraft || null };
 };
 AX.buildPayload = function (cfg, S, ev, endISO) {
   var d = {
@@ -734,7 +932,27 @@ AX.reportInner = function (cfg, d, ev, code) {
     pk: s('<circle cx="8" cy="12" r="4" fill="' + Y + '" stroke="#8a6a00" stroke-width="1.3"/><circle cx="7.2" cy="12" r="1.2" fill="#fff"/><path d="M12 12h9v3M18 12v2.5" stroke="#8a6a00" stroke-width="2.2"/>'),
     db: s('<ellipse cx="12" cy="5.5" rx="8" ry="3" fill="#fbe9ea" stroke="#a4373a" stroke-width="1.4"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" stroke="#a4373a" stroke-width="1.4"/>'),
     folder: s('<path d="M2.5 6.5V19h19V8.5h-9l-2-2z" fill="#f6dc8f" stroke="#a07f20" stroke-width="1.3"/>'),
-    tpl: s('<rect x="3" y="3" width="8" height="8" rx="1" fill="#fbe9ea" stroke="#a4373a" stroke-width="1.2"/><rect x="13" y="3" width="8" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="13" width="8" height="8" rx="1" fill="#e6f4ea" stroke="' + G + '" stroke-width="1.2"/><rect x="13" y="13" width="8" height="8" rx="1" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>')
+    tpl: s('<rect x="3" y="3" width="8" height="8" rx="1" fill="#fbe9ea" stroke="#a4373a" stroke-width="1.2"/><rect x="13" y="3" width="8" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="13" width="8" height="8" rx="1" fill="#e6f4ea" stroke="' + G + '" stroke-width="1.2"/><rect x="13" y="13" width="8" height="8" rx="1" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>'),
+    relEdit: s('<rect x="2" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="13" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><path d="M9 7.5h4" stroke="' + K + '" stroke-width="1.3"/>' + pencil),
+    clearLayout: s('<rect x="2" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="11" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/>' + xmark),
+    relReport: s('<rect x="4" y="2.5" width="14" height="19" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><rect x="6.5" y="6" width="4" height="4" fill="#e8f0fb" stroke="' + B + '" stroke-width="1"/><rect x="12" y="12" width="4" height="4" fill="#e8f0fb" stroke="' + B + '" stroke-width="1"/><path d="M10.5 8h3v4" stroke="' + K + '" stroke-width="1"/>'),
+    showTable: s(grid(B, 2, 3, 15, 13) + plus(G)),
+    hideTable: s(grid(B, 2, 3, 15, 13) + xmark),
+    relDirect: s('<rect x="2" y="8" width="7" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="15" y="8" width="7" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><path d="M9 12h6" stroke="' + K + '" stroke-width="1.6"/>'),
+    relAll: s('<rect x="2" y="3" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><rect x="16" y="3" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><rect x="2" y="15" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><rect x="16" y="15" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><path d="M8 6h8M5 9v6M19 9v6M8 18h8" stroke="' + K + '" stroke-width="1.1"/>'),
+    closeX: s('<rect x="3" y="3" width="18" height="18" rx="2" fill="#fbe9ea" stroke="' + R + '" stroke-width="1.4"/><path d="M8 8l8 8M16 8l-8 8" stroke="' + R + '" stroke-width="2"/>'),
+    run: s('<path d="M7 2.5l3.4 9.5H7.2l3.6 9.5" stroke="' + R + '" stroke-width="2.6"/><path d="M7 2.5l3.4 9.5H7.2l3.6 9.5" stroke="#ff6b5b" stroke-width="1"/>'),
+    qSelect: s(grid(O, 3, 4, 18, 16)),
+    qMake: s(grid(O, 2, 3, 14, 12) + '<path d="M14 18h7" stroke="' + K + '" stroke-width="1.4"/><path d="M18.5 15.5l2.5 2.5-2.5 2.5" stroke="' + K + '" stroke-width="1.4"/>'),
+    qAppend: s(grid(O, 2, 3, 14, 12) + plus(O)),
+    qUpdate: s(grid(O, 2, 3, 14, 12) + pencil),
+    qCross: s(grid(P, 3, 4, 18, 16)),
+    qDelete: s(grid(O, 2, 3, 14, 12) + xmark),
+    totals: s('<path d="M18 4H6l6.5 8L6 20h12" stroke="' + K + '" stroke-width="1.8"/>'),
+    insCol: s('<rect x="3" y="3" width="6" height="18" fill="#fff" stroke="' + K + '" stroke-width="1.1"/><rect x="11" y="3" width="6" height="18" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>' + plus(G)),
+    delCol: s('<rect x="3" y="3" width="6" height="18" fill="#fff" stroke="' + K + '" stroke-width="1.1"/><rect x="11" y="3" width="6" height="18" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>' + xmark),
+    printer: s('<rect x="6" y="2.5" width="12" height="6" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><rect x="2.5" y="8.5" width="19" height="9" rx="1.5" fill="#e9edf2" stroke="' + K + '" stroke-width="1.3"/><rect x="6" y="14" width="12" height="7.5" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M8.5 17h7M8.5 19.3h5" stroke="' + B + '" stroke-width="1"/><circle cx="18.3" cy="11.3" r=".9" fill="' + G + '"/>'),
+    navQuery: s('<rect x="3" y="5" width="18" height="14" rx="1" fill="#fff" stroke="' + O + '" stroke-width="1.6"/><rect x="3" y="5" width="18" height="4" fill="' + O + '"/><path d="M3 14h18M9 9v10M15 9v10" stroke="' + O + '" stroke-width="1.2"/>')
   };
 })();
 
@@ -755,10 +973,11 @@ AX.boot = function (C) {
   /* ================= 狀態 ================= */
   function mkTable(def) {
     var rows = def.fields.map(function (f) { return { name: f.name, type: f.type, size: f.size || AX.defSize(f.type), desc: '', orig: f.name }; });
+    var pks = def.pk ? [].concat(def.pk) : [], fnames = def.fields.map(function (f) { return f.name; }), ix = pks.map(function (n) { return fnames.indexOf(n); });
     return {
-      name: def.name, rows: rows, pk: def.pk ? def.fields.map(function (f) { return f.name; }).indexOf(def.pk) : null,
+      name: def.name, rows: rows, pk: ix.length ? ix[0] : null, pkx: ix.length > 1 ? ix : null,
       fields: def.fields.map(function (f) { return { name: f.name, type: f.type, size: f.size || AX.defSize(f.type) }; }),
-      savedPk: def.pk || null, dirty: false, autoPK: false,
+      savedPk: pks.length === 1 ? pks[0] : null, savedPks: pks.length > 1 ? pks : null, dirty: false, autoPK: false,
       records: (def.records || []).map(function (arr) {
         var o = { f: {}, src: {}, by: 'base' };
         def.fields.forEach(function (f, i) { o.f[f.name] = arr[i] == null ? '' : arr[i]; });
@@ -771,6 +990,7 @@ AX.boot = function (C) {
     return {
       v: 2, ex: C.id, phase: st.phase || 'db', db: st.db || null,
       tables: (st.tables || []).map(mkTable), forms: AX.clone(st.forms || []),
+      rels: AX.clone(st.rels || []), relLayout: AX.clone(st.relLayout || []), queries: AX.clone(st.queries || []), qdraft: null,
       open: { k: 'none', t: -1, f: -1 },
       ui: { tab: 'home', sel: 0, selRec: -1, navSel: null, fRec: 0, fNew: false, viewStep: null },
       flags: {}, hints: {}, errs: 0, errList: [], log: [],
@@ -806,7 +1026,7 @@ AX.boot = function (C) {
     '<button data-act="undo" title="復原">' + I.undo + '</button><button data-act="undo" title="取消復原">' + I.redo + '</button></div>' +
     '<div id="tt"></div><div class="wctl"><span>—</span><span>▢</span><span>✕</span></div></div>' +
     '<div id="tabsbar"></div><div id="ribbon"></div><div id="wbody"></div>' +
-    '<div id="status"><span id="stmsg"></span><span class="sp"></span><span id="viewbtns"></span></div>' +
+    '<div id="status"><span id="stmsg"></span><span class="sp"></span><span id="viewbtns"></span></div><div id="bstage"></div>' +
     '</div></section><aside id="guide"></aside></div>' +
     '<div id="cover" class="cover"></div><div id="layer"></div><div id="ctx"></div><div id="vmenu" class="vmenu" style="display:none"></div>' +
     '<div id="toast"></div><div id="rptOverlay"><div id="rptCard"></div></div>';
@@ -887,6 +1107,17 @@ AX.boot = function (C) {
       { n: '檢視', i: [{ split: 1 }] },
       { n: '工具', i: [{ id: 'pk', ic: 'key', l: '主索引鍵', big: 1 }, { id: 'builder', ic: 'builder', l: '產生器', big: 1 }, { id: 'testval', ic: 'testVal', l: '測試驗證規則', big: 1 }, { col: [{ id: 'insrow', ic: 'insRow', l: '插入列' }, { id: 'delrow', ic: 'delRow', l: '刪除列' }, { id: 'lookup', ic: 'lookup', l: '修改查閱' }] }] },
       { n: '顯示/隱藏', i: [{ id: 'propsheet', ic: 'propSheet', l: '屬性表', big: 1 }, { id: 'indexes', ic: 'indexes', l: '索引', big: 1 }] }
+    ] },
+    reltools: { label: '設計', ctx: '關聯工具', groups: [
+      { n: '工具', i: [{ id: 'reledit', ic: 'relEdit', l: '編輯關聯', big: 1 }, { col: [{ id: 'relclear', ic: 'clearLayout', l: '清除版面配置' }, { id: 'relreport', ic: 'relReport', l: '關聯報告' }] }] },
+      { n: '關聯', i: [{ id: 'showtbl', ic: 'showTable', l: '顯示資料表', big: 1 }, { col: [{ id: 'hidetbl', ic: 'hideTable', l: '隱藏資料表' }, { id: 'reldirect', ic: 'relDirect', l: '直接關聯' }, { id: 'relall', ic: 'relAll', l: '所有關聯' }] }] },
+      { n: '關聯', i: [{ id: 'relclose', ic: 'closeX', l: '關閉', big: 1 }] }
+    ] },
+    qtools: { label: '設計', ctx: '查詢工具', groups: [
+      { n: '結果', i: [{ split: 1 }, { id: 'qrun', ic: 'run', l: '執行', big: 1 }] },
+      { n: '查詢類型', i: [{ id: 'qselect', ic: 'qSelect', l: '選取', big: 1 }, { id: 'qmake', ic: 'qMake', l: '製成資料表', big: 1 }, { id: 'qappend', ic: 'qAppend', l: '新增', big: 1 }, { id: 'qupdate', ic: 'qUpdate', l: '更新', big: 1 }, { col: [{ id: 'qcross', ic: 'qCross', l: '交叉資料表' }, { id: 'qdelete', ic: 'qDelete', l: '刪除' }] }] },
+      { n: '查詢設定', i: [{ id: 'showtbl', ic: 'showTable', l: '顯示資料表', big: 1 }, { col: [{ id: 'qinscol', ic: 'insCol', l: '插入欄' }, { id: 'qdelcol', ic: 'delCol', l: '刪除欄' }, { id: 'qbuilder', ic: 'builder', l: '產生器' }] }] },
+      { n: '顯示/隱藏', i: [{ id: 'totals', ic: 'totals', l: '合計', big: 1 }, { id: 'qprops', ic: 'propSheet', l: '屬性表', big: 1 }] }
     ] }
   };
   var LABEL = {};
@@ -896,13 +1127,14 @@ AX.boot = function (C) {
     var tb = $('#tabsbar'), rb = $('#ribbon');
     if (S.phase === 'backstage') { tb.style.display = 'none'; rb.style.display = 'none'; return; }
     tb.style.display = ''; rb.style.display = '';
-    if (S.ui.tab === 'design' && S.open.k !== 'design') S.ui.tab = 'home';
+    var ctab = ({ design: 'design', rel: 'reltools', qdesign: 'qtools' })[S.open.k];
+    if (!RB[S.ui.tab] || (RB[S.ui.tab].ctx && S.ui.tab !== ctab)) S.ui.tab = 'home';
     var h = '<div class="tab file" data-act="tab" data-arg="file">檔案</div>';
     ['home', 'create', 'ext', 'tools'].forEach(function (k) { h += '<div class="tab' + (S.ui.tab === k ? ' on' : '') + '" data-act="tab" data-arg="' + k + '">' + RB[k].label + '</div>'; });
-    if (S.open.k === 'design') h += '<div class="ctxgrp"><div class="cl">資料表工具</div><div class="tab' + (S.ui.tab === 'design' ? ' on' : '') + '" data-act="tab" data-arg="design">設計</div></div>';
+    if (ctab) h += '<div class="ctxgrp"><div class="cl">' + RB[ctab].ctx + '</div><div class="tab' + (S.ui.tab === ctab ? ' on' : '') + '" data-act="tab" data-arg="' + ctab + '">' + RB[ctab].label + '</div></div>';
     tb.innerHTML = h;
-    var t = curT(), pkOn = S.open.k === 'design' && t && t.pk === S.ui.sel;
-    var viewIc = S.open.k === 'design' ? I.viewDs : S.open.k === 'ds' ? I.viewDesign : S.open.k === 'form' ? I.viewDesign : I.viewDs;
+    var t = curT(), pkOn = S.open.k === 'design' && t && AX.isPk(t, S.ui.sel);
+    var viewIc = (S.open.k === 'ds' || S.open.k === 'form' || S.open.k === 'qres') ? I.viewDesign : I.viewDs;
     rb.innerHTML = RB[S.ui.tab].groups.map(function (g) {
       return '<div class="grp"><div class="gi">' + g.i.map(function (it) {
         if (it.split) return '<div class="split"><button class="top" data-act="btn" data-arg="view" title="切換檢視"><span class="i">' + viewIc + '</span></button><button class="bot" data-act="viewmenu">檢視 ▾</button></div>';
@@ -933,6 +1165,11 @@ AX.boot = function (C) {
     var any = false;
     S.tables.forEach(function (t, i) { if (t.name == null) return; any = true; h += '<div class="it' + (S.ui.navSel === 't' + i ? ' on' : '') + '" data-act="navitem" data-arg="t' + i + '"><span class="i">' + I.navTable + '</span>' + E(t.name) + '</div>'; });
     if (!any) h += '<div class="none">（無）</div>';
+    if (feat('query') || (S.queries && S.queries.length)) {
+      h += '<div class="ng">查詢 <span>⌃</span></div>';
+      if (!S.queries.length) h += '<div class="none">（無）</div>';
+      S.queries.forEach(function (q, i) { h += '<div class="it' + (S.ui.navSel === 'q' + i ? ' on' : '') + '" data-act="navitem" data-arg="q' + i + '"><span class="i">' + I.navQuery + '</span>' + E(q.name) + '</div>'; });
+    }
     h += '<div class="ng">表單 <span>⌃</span></div>';
     if (!S.forms.length) h += '<div class="none">（無）</div>';
     S.forms.forEach(function (f, i) { h += '<div class="it' + (S.ui.navSel === 'f' + i ? ' on' : '') + '" data-act="navitem" data-arg="f' + i + '"><span class="i">' + I.navForm + '</span>' + E(f.name) + '</div>'; });
@@ -945,23 +1182,25 @@ AX.boot = function (C) {
     var da = $('#docarea'); if (!da) return;
     var ae = document.activeElement, fk = ae && ae.getAttribute ? ae.getAttribute('data-fk') : null, ss = null, se = null;
     if (fk) { try { ss = ae.selectionStart; se = ae.selectionEnd; } catch (e) { } }
-    var top = $('.top', da), sc = top ? top.scrollTop : 0;
-    var o = S.open, dt = $('#doctabs');
+    var keep = {}; ['.top', '.relcv', '.qbot'].forEach(function (k) { var x = $(k, da); if (x) keep[k] = [x.scrollLeft, x.scrollTop]; });
+    var o = S.open;
+    $('#doctabs').innerHTML = docTabHTML();
     if (o.k === 'none') {
-      dt.innerHTML = '';
       da.innerHTML = '<div class="empty">' + (C.emptyMsg ? C.emptyMsg(S) : '資料庫 <b>' + E(S.db) + '</b> 已開啟。') + '</div>';
       return;
     }
     var t = curT(), f = curF();
-    var label = o.k === 'form' ? f.name : tName(t), ic = o.k === 'form' ? I.navForm : I.navTable;
-    dt.innerHTML = '<div class="dt"><span class="i">' + ic + '</span>' + E(label) + (o.k === 'design' && t.dirty ? ' *' : '') + '<button class="x" data-act="close" title="關閉">✕</button></div>';
     if (o.k === 'design') da.innerHTML = designHTML(t);
     else if (o.k === 'ds') da.innerHTML = dsHTML(t, 'ds', t.fields.map(function (x) { return x.name; }));
     else if (o.k === 'form') {
       var flds = f.fields.filter(function (n) { return !!AX.savedField(t, n); });
       da.innerHTML = (f.layout === '表格式' || f.layout === '資料工作表') ? dsHTML(t, 'form', flds, f) : formHTML(t, f, flds);
     }
-    var nt = $('.top', da); if (nt) nt.scrollTop = sc;
+    else if (o.k === 'rel') da.innerHTML = '<div class="relv">' + canvasHTML(S.relLayout, 'rel') + '</div>';
+    else if (o.k === 'qdesign') da.innerHTML = qdHTML(S.qdraft);
+    else if (o.k === 'qres') da.innerHTML = qresHTML(S.qdraft);
+    Object.keys(keep).forEach(function (k) { var x = $(k, da); if (x) { x.scrollLeft = keep[k][0]; x.scrollTop = keep[k][1]; } });
+    if (o.k === 'rel' || o.k === 'qdesign') drawLines();
     if (fk) {
       var el = da.querySelector('[data-fk="' + (window.CSS && CSS.escape ? CSS.escape(fk) : fk) + '"]');
       if (el) { el.focus({ preventScroll: true }); if (ss != null) { try { el.setSelectionRange(ss, se); } catch (e) { } } }
@@ -973,19 +1212,20 @@ AX.boot = function (C) {
     while (t.rows.length < n) t.rows.push({ name: '', type: '', size: '', desc: '', orig: '' });
   }
   function dgRow(t, r, i) {
-    var mark = t.pk === i ? '<span class="i">' + I.pk + '</span>' : (S.ui.sel === i ? '▶' : '');
-    return '<tr class="' + (S.ui.sel === i ? 'sel' : '') + '" data-row="' + i + '"><td class="rs" data-act="drow" data-arg="' + i + '">' + mark + '</td>' +
+    var mark = AX.isPk(t, i) ? '<span class="i">' + I.pk + '</span>' : (S.ui.sel === i ? '▶' : '');
+    return '<tr class="' + (rowSel(i) ? 'sel' : '') + '" data-row="' + i + '"><td class="rs" data-act="drow" data-arg="' + i + '">' + mark + '</td>' +
       '<td><input type="text" data-in="dg-name" data-r="' + i + '" data-fk="dgn' + i + '" maxlength="64" value="' + E(r.name) + '" autocomplete="off"></td>' +
       '<td><select data-in="dg-type" data-r="' + i + '" data-fk="dgt' + i + '">' + AX.TYPES.map(function (x) { return '<option' + (x === r.type ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></td>' +
       '<td><input type="text" data-in="dg-desc" data-r="' + i + '" data-fk="dgd' + i + '" value="' + E(r.desc) + '" autocomplete="off"></td></tr>';
   }
+  function rowSel(i) { return S.ui.selx && S.ui.selx.length > 1 ? S.ui.selx.indexOf(i) >= 0 : S.ui.sel === i; }
   function designHTML(t) {
     padRows(t);
     return '<div class="dv"><div class="top"><table class="dg"><thead><tr><th style="width:26px"></th><th style="width:30%">欄位名稱</th><th style="width:22%">資料類型</th><th>描述 （選用）</th></tr></thead><tbody>' +
       t.rows.map(function (r, i) { return dgRow(t, r, i); }).join('') + '</tbody></table></div>' + propsHTML(t) + '</div>';
   }
   function propsHTML(t) {
-    var r = t.rows[S.ui.sel] || { name: '', type: '', size: '' }, isPk = t.pk === S.ui.sel, ro = function (v) { return '<span class="ro">' + E(v) + '</span>'; };
+    var r = t.rows[S.ui.sel] || { name: '', type: '', size: '' }, isPk = AX.isPk(t, S.ui.sel), multi = !!(t.pkx && t.pkx.length > 1), ro = function (v) { return '<span class="ro">' + E(v) + '</span>'; };
     var sz;
     if (r.type === '簡短文字') sz = '<input type="text" data-in="fp-size" data-fk="fps" value="' + E(r.size) + '" maxlength="3" inputmode="numeric">';
     else if (r.type === '數字') sz = '<select data-in="fp-sizes" data-fk="fps">' + AX.NUMSIZE.map(function (o) { return '<option' + (o === r.size ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>';
@@ -993,7 +1233,7 @@ AX.boot = function (C) {
     var txt = r.type === '簡短文字' || r.type === '長文字';
     var P2 = [['欄位大小', sz], ['格式', ro(r.type === '貨幣' ? '貨幣' : r.type === '是/否' ? '是/否' : r.type === '日期/時間' ? '' : '')], ['輸入遮罩', ro('')], ['標題', ro('')],
       ['預設值', ro(r.type === '是/否' ? 'No' : r.type === '數字' || r.type === '貨幣' ? '0' : '')], ['驗證規則', ro('')], ['驗證文字', ro('')],
-      ['必須有資料', ro(isPk ? '是' : '否')], ['允許零長度字串', ro(txt ? '是' : '')], ['索引', ro(isPk ? '是 （不可重複）' : '否')]];
+      ['必須有資料', ro(isPk ? '是' : '否')], ['允許零長度字串', ro(txt ? '是' : '')], ['索引', ro(isPk ? (multi ? '是 （可重複）' : '是 （不可重複）') : '否')]];
     var help = r.type === '簡短文字' ? '「欄位大小」是這個欄位最多可以輸入的字元數，最大值是 255。' :
       r.type === '數字' ? '「欄位大小」決定可以存放的數字範圍：「整數」可存 -32,768 至 32,767 的整數。' :
         '欄位名稱最多可以有 64 個字元（包括空格）。先按左邊的列選取器選取欄位，這裏便會顯示該欄位的屬性。';
@@ -1059,11 +1299,14 @@ AX.boot = function (C) {
         '<button data-act="view" data-arg="design" title="設計檢視" class="' + (S.open.k === 'design' ? 'on' : '') + '">' + I.viewDesign + '</button>';
     } else if (S.open.k === 'form') {
       vb = '<button class="on" title="表單檢視">' + I.viewForm + '</button><button data-act="view" data-arg="layout" title="版面配置檢視">' + I.formDesign + '</button><button data-act="view" data-arg="fdesign" title="設計檢視">' + I.viewDesign + '</button>';
+    } else if (isQ()) {
+      vb = '<button data-act="view" data-arg="ds" title="資料工作表檢視" class="' + (S.open.k === 'qres' ? 'on' : '') + '">' + I.viewDs + '</button><button data-act="view" data-arg="sql" title="SQL 檢視" class="sqlb">SQL</button>' +
+        '<button data-act="view" data-arg="design" title="設計檢視" class="' + (S.open.k === 'qdesign' ? 'on' : '') + '">' + I.viewDesign + '</button>';
     }
     $('#viewbtns').innerHTML = vb;
     var t = curT();
     $('#tt').textContent = S.phase === 'backstage' ? 'Access' :
-      (S.open.k === 'form' ? curF().name : t ? tName(t) : S.db) + ' : 資料庫- ' + (C.path || 'C:\\Users\\Student\\Documents\\') + S.db + '.accdb （Access 2007 - 2016 檔案格式） - Access';
+      docLabel() + ' : 資料庫- ' + (C.path || 'C:\\Users\\Student\\Documents\\') + S.db + '.accdb （Access 2007 - 2016 檔案格式） - Access';
     $('#win').classList.toggle('locked', !!locked());
   }
 
@@ -1156,6 +1399,13 @@ AX.boot = function (C) {
   /* ================= 開啟 / 儲存 / 關閉 ================= */
   function closeDoc(after, opt) {
     var o = S.open;
+    if (isQ() && S.qdraft && S.qdraft.dirty) {
+      dlg('Microsoft Access', '<div class="warnic">?</div>是否要儲存對查詢「' + E(docLabel()) + '」的設計所做的變更？', [
+        { l: '是(Y)', pri: 1, fn: function () { saveQuery(function () { closeNow(); if (after) after(); }); } },
+        { l: '否(N)', fn: function () { log('放棄未儲存的查詢變更'); closeNow(); if (after) after(); } },
+        { l: '取消' }]);
+      return;
+    }
     if (o.k === 'design') {
       var t = curT();
       if (t.dirty || t.name == null) {
@@ -1173,15 +1423,17 @@ AX.boot = function (C) {
   function revert(t) {
     if (t.name == null) { discardNew(); return; }
     t.rows = t.fields.map(function (f) { return { name: f.name, type: f.type, size: f.size, desc: '', orig: f.name }; });
-    t.pk = t.savedPk ? t.fields.map(function (f) { return f.name; }).indexOf(t.savedPk) : null; if (t.pk < 0) t.pk = null;
+    var fn = t.fields.map(function (f) { return f.name; }), ix = AX.savedPks(t).map(function (n) { return fn.indexOf(n); }).filter(function (x) { return x >= 0; });
+    t.pk = ix.length ? ix[0] : null; t.pkx = ix.length > 1 ? ix : null;
     t.dirty = false; log('放棄未儲存的設計變更');
   }
-  function closeNow() { if (S.open.k === 'none') return; log('關閉「' + (S.open.k === 'form' ? curF().name : tName(curT())) + '」'); S.open = { k: 'none', t: -1, f: -1 }; render(); }
+  function closeNow() { if (S.open.k === 'none') return; log('關閉「' + docLabel() + '」'); S.open = { k: 'none', t: -1, f: -1 }; S.qdraft = null; U.selRel = null; U.selBox = null; render(); }
   function openDesign(ti, via) {
     var go = function () {
       var t = S.tables[ti];
       S.open = { k: 'design', t: ti, f: -1 }; S.ui.tab = 'design'; S.ui.sel = 0;
       S.flags.designOpened = true; if (via) S.flags['via_' + via] = true;
+      if (t.name != null) { S.flags.dOpen = S.flags.dOpen || {}; S.flags.dOpen[t.name] = true; }
       if (t.records.length) S.flags.designAfterRecords = true;
       log('開啟「' + tName(t) + '」設計檢視' + (via ? '(' + ({ nav: '導覽窗格右鍵', view: '檢視按鈕', btn: '建立 → 資料表設計' })[via] + ')' : ''));
       setStatus('設計檢視。F6 = 切換窗格。F1 = 說明。'); render();
@@ -1224,6 +1476,8 @@ AX.boot = function (C) {
     if (S.phase !== 'db') { err('save-none', '現在沒有可以儲存的物件。'); return; }
     var o = S.open;
     if (o.k === 'none') { err('save-none', '現在沒有開啟任何物件，沒有東西可以儲存。'); return; }
+    if (o.k === 'rel') { S.flags.relSaved = true; log('儲存關聯圖版面配置'); toast('已儲存「關聯」的版面配置。', 'ok'); if (after) after(); return; }
+    if (isQ()) { saveQuery(after); return; }
     if (o.k === 'ds' || o.k === 'form') { setStatus('記錄已儲存。'); toast('Access 會自動儲存記錄，不需要另外儲存。', 'warn'); if (after) after(); return; }
     var t = curT(), rows = AX.namedRows(t);
     if (!rows.length) { msg('必須至少定義一個欄位，才能儲存資料表。'); return; }
@@ -1242,7 +1496,7 @@ AX.boot = function (C) {
   }
   function addAutoPK(t) {
     t.rows.unshift({ name: '識別碼', type: '自動編號', size: '長整數', desc: '', orig: '' });
-    t.pk = 0; t.autoPK = true; S.ui.sel = 0; log('Access 自動加入「識別碼」欄位作主索引鍵');
+    t.pk = 0; t.pkx = null; t.autoPK = true; S.ui.sel = 0; S.ui.selx = null; log('Access 自動加入「識別碼」欄位作主索引鍵');
   }
   function applySave(t, name) {
     var rows = AX.namedRows(t);
@@ -1261,7 +1515,7 @@ AX.boot = function (C) {
     });
     rows.forEach(function (r) { r.orig = AX.nm(r.name); r.name = AX.nm(r.name); });
     t.fields = rows.map(function (r) { return { name: r.name, type: r.type, size: String(r.size || AX.defSize(r.type)) }; });
-    t.savedPk = AX.pkName(t) || null; t.name = name; t.dirty = false;
+    var pkn = AX.pkNames(t); t.savedPk = pkn.length === 1 ? pkn[0] : null; t.savedPks = pkn.length > 1 ? pkn : null; t.name = name; t.dirty = false;
     S.flags.saves = (S.flags.saves || 0) + 1;
     log('儲存資料表「' + name + '」：' + t.fields.map(function (f) { return f.name + '(' + f.type + (f.size ? ' ' + f.size : '') + ')'; }).join('、'));
     setStatus('已儲存資料表「' + name + '」'); render();
@@ -1270,6 +1524,14 @@ AX.boot = function (C) {
     var o = S.open;
     if (o.k === 'none') { toast('請先開啟一個資料表或表單。', 'warn'); setStatus('「檢視」需要先開啟物件。'); return; }
     if (o.k === 'form') { if (target === 'form' || !target) return; msg('本練習不需要修改表單的版面配置或設計。請在「表單檢視」中輸入資料。'); return; }
+    if (o.k === 'rel') { toast('「關聯」視窗沒有其他檢視。', 'warn'); return; }
+    if (isQ()) {
+      if (target === 'sql') { msg('本練習不需要使用「SQL 檢視」。請在「設計檢視」中建立查詢。'); return; }
+      var w = target || (o.k === 'qdesign' ? 'ds' : 'design');
+      if (w === 'ds' && o.k === 'qdesign') runQueryView('view');
+      else if (w === 'design' && o.k === 'qres') { S.open.k = 'qdesign'; S.ui.tab = 'qtools'; log('切換到查詢設計檢視'); render(); }
+      return;
+    }
     var want = target || (o.k === 'design' ? 'ds' : 'design');
     if (want === o.k) return;
     if (want === 'design') openDesign(o.t, 'view'); else openDatasheet(o.t);
@@ -1284,23 +1546,32 @@ AX.boot = function (C) {
       case 'formwiz': startWizard(); return;
       case 'pk': {
         if (S.open.k !== 'design') { err('pk', '要在「設計檢視」才可以設定主索引鍵。'); return; }
-        var t = curT(), r = t.rows[S.ui.sel];
-        if (!r || !AX.nm(r.name)) { err('pk', '請先按列選取器選取一個已輸入名稱的欄位，才可以設定主索引鍵。'); return; }
-        if (t.pk === S.ui.sel) { t.pk = null; log('取消主索引鍵'); setStatus('已取消主索引鍵'); }
-        else { t.pk = S.ui.sel; log('設定主索引鍵：' + AX.nm(r.name)); setStatus('已將「' + AX.nm(r.name) + '」設為主索引鍵'); }
+        var t = curT(), sel = (S.ui.selx && S.ui.selx.length > 1 ? S.ui.selx.slice() : [S.ui.sel]).sort(function (a, b) { return a - b; });
+        if (sel.some(function (i) { return !t.rows[i] || !AX.nm(t.rows[i].name); })) { err('pk', '請先按列選取器選取已輸入名稱的欄位，才可以設定主索引鍵。'); return; }
+        var nms = sel.map(function (i) { return AX.nm(t.rows[i].name); }), multiNow = !!(t.pkx && t.pkx.length > 1);
+        var same = sel.length === 1 ? (!multiNow && t.pk === sel[0]) : (multiNow && t.pkx.length === sel.length && sel.every(function (v, k) { return t.pkx[k] === v; }));
+        if (same) { t.pk = null; t.pkx = null; log('取消主索引鍵'); setStatus('已取消主索引鍵'); }
+        else {
+          t.pk = sel[0]; t.pkx = sel.length > 1 ? sel : null;
+          log('設定主索引鍵' + (sel.length > 1 ? '（組合）' : '') + '：' + nms.join(' + ')); setStatus('已將「' + nms.join('」+「') + '」設為主索引鍵');
+        }
         t.dirty = true; render(); return;
       }
       case 'insrow': {
         if (S.open.k !== 'design') { err('insrow', '要在「設計檢視」才可以插入列。'); return; }
         var t2 = curT(); t2.rows.splice(S.ui.sel, 0, { name: '', type: '', size: '', desc: '', orig: '' });
-        if (t2.pk != null && t2.pk >= S.ui.sel) t2.pk++; t2.dirty = true; log('插入列'); render(); return;
+        if (t2.pk != null && t2.pk >= S.ui.sel) t2.pk++; if (t2.pkx) t2.pkx = t2.pkx.map(function (x) { return x >= S.ui.sel ? x + 1 : x; }); S.ui.selx = null; t2.dirty = true; log('插入列'); render(); return;
       }
       case 'delrow': {
         if (S.open.k !== 'design') { err('delrow', '要在「設計檢視」才可以刪除列。'); return; }
         var t3 = curT(), rr = t3.rows[S.ui.sel];
         var doDel = function () {
           t3.rows.splice(S.ui.sel, 1);
-          if (t3.pk === S.ui.sel) t3.pk = null; else if (t3.pk != null && t3.pk > S.ui.sel) t3.pk--;
+          if (t3.pkx) {
+            t3.pkx = t3.pkx.filter(function (x) { return x !== S.ui.sel; }).map(function (x) { return x > S.ui.sel ? x - 1 : x; });
+            t3.pk = t3.pkx.length ? t3.pkx[0] : null; if (t3.pkx.length < 2) t3.pkx = null;
+          } else if (t3.pk === S.ui.sel) t3.pk = null; else if (t3.pk != null && t3.pk > S.ui.sel) t3.pk--;
+          S.ui.selx = null;
           t3.dirty = true; log('刪除列' + (rr && rr.name ? ':' + rr.name : '')); render();
         };
         if (rr && AX.nm(rr.name)) dlg('Microsoft Access', '<div class="warnic">?</div>是否要永久刪除選取的欄位及其中的所有資料？', [{ l: '是(Y)', pri: 1, fn: doDel }, { l: '否(N)' }]);
@@ -1315,6 +1586,23 @@ AX.boot = function (C) {
         if (S.open.k === 'form' || S.open.k === 'ds') { toast('記錄已儲存。', 'ok'); return; }
         err('recsave', '「記錄 → 儲存」是用來儲存記錄的。要儲存資料表設計，請按左上角 💾 或 Ctrl+S。'); return;
       case 'recdel': delRecord(); return;
+      case 'rel': if (!feat('rel')) break; openRel(); return;
+      case 'qdesign': if (!feat('query')) break; openQueryDesign(); return;
+      case 'qwiz': if (!feat('query')) break; S.flags.qwizTried = true; log('按「查詢精靈」');
+        msg('「查詢精靈」只能逐步選取欄位，<b>不能</b>設定準則及排序。<br>本練習請改用<b>「建立 → 查詢設計」</b>。'); return;
+      case 'showtbl': if (S.open.k === 'rel') { showTableDlg('rel'); return; } if (S.open.k === 'qdesign') { showTableDlg('q'); return; } break;
+      case 'hidetbl': hideBox(); return;
+      case 'reledit': editSelRel(); return;
+      case 'relclear': if (S.open.k !== 'rel') break;
+        dlg('Microsoft Access', '<div class="warnic">?</div>是否確定要清除版面配置？<br><span style="font-size:12.5px;color:#555">（只會把資料表從關聯圖移走，已建立的關聯不會刪除。按「所有關聯」可以再顯示。）</span>',
+          [{ l: '是(Y)', pri: 1, fn: function () { S.relLayout = []; U.selRel = null; U.selBox = null; log('清除關聯圖版面配置'); render(); } }, { l: '否(N)' }]); return;
+      case 'reldirect': if (S.open.k !== 'rel') break; toast('已顯示與選取資料表直接相關的關聯。', 'ok'); return;
+      case 'relall': if (S.open.k !== 'rel') break; relAll(); return;
+      case 'relclose': closeDoc(); return;
+      case 'qrun': runQueryView('run'); return;
+      case 'qselect': toast('這個查詢已經是「選取」查詢。', 'ok'); return;
+      case 'qinscol': qColOp('ins'); return;
+      case 'qdelcol': qColOp('del'); return;
     }
     err(id, '本練習不需要使用「' + (LABEL[id] || id) + '」。請按右方指示操作。');
   }
@@ -1453,6 +1741,516 @@ AX.boot = function (C) {
   }
   function msgInWiz(t) { toast(t, 'warn'); }
 
+  /* ================= 關聯圖 / 查詢設計 / 列印 ================= */
+  function feat(k) { return !!(C.features && C.features[k]); }
+  function isQ() { return S.open.k === 'qdesign' || S.open.k === 'qres'; }
+  function docLabel() {
+    var o = S.open;
+    if (o.k === 'rel') return '關聯';
+    if (o.k === 'qdesign' || o.k === 'qres') return (S.qdraft && S.qdraft.name) || '查詢1';
+    if (o.k === 'form') return curF().name;
+    var t = curT(); return t ? tName(t) : S.db;
+  }
+  function docTabHTML() {
+    var o = S.open; if (o.k === 'none') return '';
+    var t = curT(), ic = o.k === 'form' ? I.navForm : o.k === 'rel' ? I.rel : isQ() ? I.navQuery : I.navTable;
+    var dirty = (o.k === 'design' && t && t.dirty) || (isQ() && S.qdraft && S.qdraft.dirty);
+    return '<div class="dt"><span class="i">' + ic + '</span>' + E(docLabel()) + (dirty ? ' *' : '') + '<button class="x" data-act="close" title="關閉">✕</button></div>';
+  }
+  function renderDocTab() { var dt = $('#doctabs'); if (dt) dt.innerHTML = docTabHTML(); }
+  function savedTables() { return S.tables.filter(function (t) { return t.name != null && t.fields.length; }); }
+  function relType(t1, f1, t2, f2) {
+    var a = AX.table(S, t1), b = AX.table(S, t2), pa = !!a && a.savedPk === f1, pb = !!b && b.savedPk === f2;
+    return pa && pb ? '一對一' : (pa || pb) ? '一對多' : '未定';
+  }
+  function boxList() { return S.open.k === 'rel' ? S.relLayout : (S.qdraft ? S.qdraft.tables : []); }
+
+  function canvasHTML(list, mode) {
+    var h = '<div class="relcv" id="relcv" data-mode="' + mode + '"><div class="relin"><svg id="rlines" class="rlines"></svg>';
+    list.forEach(function (b, i) {
+      var t = AX.table(S, b.n); if (!t) return;
+      h += '<div class="tbox' + (U.selBox === b.n ? ' sel' : '') + '" data-box="' + i + '" style="left:' + b.x + 'px;top:' + b.y + 'px"><div class="th" data-mv="' + i + '">' + E(b.n) + '</div><div class="fl">';
+      if (mode === 'q') h += '<div class="fld star" data-tb="' + E(b.n) + '" data-fd="*"><span class="i"></span>*</div>';
+      t.fields.forEach(function (f) {
+        h += '<div class="fld" data-tb="' + E(b.n) + '" data-fd="' + E(f.name) + '"><span class="i">' + (AX.savedPks(t).indexOf(f.name) >= 0 ? I.pk : '') + '</span>' + E(f.name) + '</div>';
+      });
+      h += '</div></div>';
+    });
+    if (!list.length) h += '<div class="relempty">按功能區的「顯示資料表」加入資料表</div>';
+    return h + '</div></div>';
+  }
+  function drawLines(tmp) {
+    var cv = $('#relcv'); if (!cv) return;
+    var inn = $('.relin', cv), svg = $('#rlines', cv), mode = cv.getAttribute('data-mode'), R = inn.getBoundingClientRect();
+    var names = boxList().map(function (b) { return b.n; }), h = '';
+    var flds = $$('.fld', cv);
+    var fEl = function (tb, fd) { return flds.filter(function (x) { return x.getAttribute('data-tb') === tb && x.getAttribute('data-fd') === fd; })[0]; };
+    var pt = function (el) { var b = el.closest('.tbox').getBoundingClientRect(), r = el.getBoundingClientRect(); return { l: b.left - R.left, r: b.right - R.left, y: r.top + r.height / 2 - R.top, cx: (b.left + b.right) / 2 - R.left }; };
+    (S.rels || []).forEach(function (rl, i) {
+      if (rl.t1 === rl.t2 || names.indexOf(rl.t1) < 0 || names.indexOf(rl.t2) < 0) return;
+      var a = fEl(rl.t1, rl.f1), b = fEl(rl.t2, rl.f2); if (!a || !b) return;
+      var A = pt(a), B = pt(b), x1, x2, d1, d2;
+      if (A.cx <= B.cx) { x1 = A.r; x2 = B.l; d1 = 1; d2 = -1; } else { x1 = A.l; x2 = B.r; d1 = -1; d2 = 1; }
+      var p = 'M' + x1 + ' ' + A.y + 'h' + (14 * d1) + 'L' + (x2 + 14 * d2) + ' ' + B.y + 'H' + x2;
+      h += '<path class="rl' + (mode === 'rel' && U.selRel === i ? ' sel' : '') + '" d="' + p + '"/>';
+      if (rl.ri) h += '<text class="rm" x="' + (x1 + 7 * d1) + '" y="' + (A.y - 4) + '">1</text><text class="rm" x="' + (x2 + 7 * d2) + '" y="' + (B.y - 4) + '">' + (rl.type === '一對一' ? '1' : '∞') + '</text>';
+      if (mode === 'rel') h += '<path class="rhit" data-rel="' + i + '" d="' + p + '"/>';
+    });
+    if (tmp) h += '<line class="rtmp" x1="' + tmp.x1 + '" y1="' + tmp.y1 + '" x2="' + tmp.x2 + '" y2="' + tmp.y2 + '"/>';
+    svg.innerHTML = h;
+  }
+  function ghost(e, txt) {
+    var g = $('#axghost'); if (!g) { g = document.createElement('div'); g.id = 'axghost'; document.body.appendChild(g); }
+    g.textContent = txt; g.style.display = 'block'; g.style.left = (e.clientX + 14) + 'px'; g.style.top = (e.clientY + 10) + 'px';
+  }
+  function hideGhost() { var g = $('#axghost'); if (g) g.style.display = 'none'; }
+  function ctxMenu(items, x, y) {
+    var c = $('#ctx');
+    c.innerHTML = items.map(function (it, k) { return it.sep ? '<div class="sepx"></div>' : '<div data-ci="' + k + '" class="' + (it.b ? 'b' : '') + '">' + it.l + '</div>'; }).join('');
+    c.style.display = 'block'; c.style.left = Math.min(x, innerWidth - 200) + 'px'; c.style.top = Math.min(y, innerHeight - 220) + 'px';
+    $$('[data-ci]', c).forEach(function (d) { d.onclick = function (ev) { ev.stopPropagation(); c.style.display = 'none'; items[+d.getAttribute('data-ci')].fn(); }; });
+  }
+
+  /* ---------- 資料庫關聯圖 ---------- */
+  function openRel() {
+    if (S.phase !== 'db') { err('rel', '要先建立資料庫。'); return; }
+    if (S.open.k === 'rel') return;
+    closeDoc(function () {
+      S.open = { k: 'rel', t: -1, f: -1 }; S.ui.tab = 'reltools'; S.flags.relOpened = true; U.selRel = null; U.selBox = null;
+      log('開啟「資料庫關聯圖」'); setStatus('關聯：從一個資料表的欄位拖曳到另一個資料表的相關欄位，便可建立關聯。');
+      render();
+      if (!S.relLayout.length) showTableDlg('rel');
+    });
+  }
+  function showTableDlg(ctx) {
+    var tabs = savedTables().map(function (t) { return t.name; }).sort(function (a, b) { return a < b ? -1 : a > b ? 1 : 0; });
+    var qs = (S.queries || []).map(function (q) { return q.name; });
+    U.stTab = 't';
+    var list = function () {
+      var arr = U.stTab === 't' ? tabs : U.stTab === 'q' ? qs : tabs.concat(qs);
+      return arr.map(function (n) { return '<option value="' + E(n) + '">' + E(n) + '</option>'; }).join('');
+    };
+    dlg('顯示資料表', '<div class="sttabs">' + [['t', '資料表'], ['q', '查詢'], ['b', '兩者']].map(function (x) { return '<span data-st="' + x[0] + '" class="' + (x[0] === 't' ? 'on' : '') + '">' + x[1] + '</span>'; }).join('') + '</div>' +
+      '<select class="lst stl" id="stl" multiple>' + list() + '</select><div class="sthint">按住 Shift（或 Ctrl）可以一次選取多個資料表，然後按「新增」。也可以逐個選取後按「新增」。</div>',
+      [{ l: '新增(A)', pri: 1, check: function () { stAdd(ctx); return false; } }, { l: '關閉(C)', fn: function () { log('關閉「顯示資料表」'); } }], { w: 'min(380px,96vw)' });
+    $$('[data-st]', layer()).forEach(function (sp) {
+      sp.onclick = function () { U.stTab = sp.getAttribute('data-st'); $$('[data-st]', layer()).forEach(function (x) { x.classList.toggle('on', x === sp); }); $('#stl').innerHTML = list(); };
+    });
+    $('#stl').ondblclick = function (e) { if (e.target.tagName === 'OPTION') { Array.prototype.forEach.call(this.options, function (o) { o.selected = o === e.target; }); stAdd(ctx); } };
+    log('開啟「顯示資料表」');
+  }
+  function stAdd(ctx) {
+    var el = $('#stl'), sel = el ? Array.prototype.map.call(el.selectedOptions, function (o) { return o.value; }) : [];
+    if (!sel.length) { toast('請先在清單中選取資料表（按住 Shift 或 Ctrl 可以多選）。', 'warn'); return; }
+    if (sel.some(function (n) { return !AX.table(S, n); })) toast('本練習只需要加入資料表。', 'warn');
+    addBoxes(sel.filter(function (n) { return !!AX.table(S, n); }), ctx);
+  }
+  function addBoxes(names, ctx) {
+    var list = ctx === 'rel' ? S.relLayout : S.qdraft.tables, added = [];
+    names.forEach(function (n) {
+      if (list.some(function (b) { return b.n === n; })) { toast('「' + n + '」已經加入了。', 'warn'); return; }
+      var k = list.length; list.push({ n: n, x: 20 + k * 215, y: 16 + (k % 2) * 22 });
+      added.push(n);
+      if (ctx === 'rel') { S.flags.relAdded = S.flags.relAdded || {}; S.flags.relAdded[n] = true; }
+    });
+    if (!added.length) return;
+    if (ctx !== 'rel') S.qdraft.dirty = true;
+    log('加入資料表到' + (ctx === 'rel' ? '關聯圖' : '查詢') + '：' + added.join('、'));
+    render();
+  }
+  function hideBox() {
+    if (S.open.k !== 'rel' && S.open.k !== 'qdesign') { err('hidetbl', '要先開啟「關聯」視窗。'); return; }
+    if (!U.selBox) { toast('請先按一下要隱藏的資料表的標題列。', 'warn'); return; }
+    var n = U.selBox;
+    if (S.open.k === 'rel') S.relLayout = S.relLayout.filter(function (b) { return b.n !== n; });
+    else {
+      S.qdraft.tables = S.qdraft.tables.filter(function (b) { return b.n !== n; });
+      S.qdraft.cols = S.qdraft.cols.map(function (c) { return c && c.t === n ? blankCol() : c; }); S.qdraft.dirty = true;
+    }
+    U.selBox = null; log((S.open.k === 'rel' ? '隱藏' : '移除') + '資料表「' + n + '」'); render();
+  }
+  function relAll() {
+    var add = [];
+    (S.rels || []).forEach(function (r) { [r.t1, r.t2].forEach(function (n) { if (add.indexOf(n) < 0 && !S.relLayout.some(function (b) { return b.n === n; })) add.push(n); }); });
+    if (add.length) addBoxes(add, 'rel'); else toast('所有關聯都已經顯示。', 'ok');
+  }
+  function findRel(t1, f1, t2, f2) {
+    for (var i = 0; i < S.rels.length; i++) {
+      var r = S.rels[i];
+      if ((r.t1 === t1 && r.f1 === f1 && r.t2 === t2 && r.f2 === f2) || (r.t1 === t2 && r.f1 === f2 && r.t2 === t1 && r.f2 === f1)) return i;
+    }
+    return -1;
+  }
+  function baseType(t) { return t === '自動編號' ? '數字' : t; }
+  function editRelDlg(t1, f1, t2, f2, idx) {
+    var ex = idx >= 0 ? S.rels[idx] : null;
+    if (idx < 0) {
+      var dup = findRel(t1, f1, t2, f2);
+      if (dup >= 0) { toast('這兩個欄位之間已經有關聯，現在開啟該關聯。', 'warn'); idx = dup; ex = S.rels[dup]; }
+      else if (relType(t1, f1, t2, f2) === '一對多' && AX.table(S, t1).savedPk !== f1) { var a = t1, b = f1; t1 = t2; f1 = f2; t2 = a; f2 = b; }
+    }
+    if (ex) { t1 = ex.t1; f1 = ex.f1; t2 = ex.t2; f2 = ex.f2; }
+    var A = AX.table(S, t1), B = AX.table(S, t2);
+    var opts = function (t, v) { return '<option></option>' + t.fields.map(function (f) { return '<option' + (f.name === v ? ' selected' : '') + '>' + E(f.name) + '</option>'; }).join(''); };
+    var body = '<div class="erel"><table class="ergrid"><tr><th>資料表/查詢(T):</th><th>關聯資料表/查詢(R):</th></tr><tr><td class="tn">' + E(t1) + '</td><td class="tn">' + E(t2) + '</td></tr>' +
+      '<tr><td><select id="erf1">' + opts(A, f1) + '</select></td><td><select id="erf2">' + opts(B, f2) + '</select></td></tr></table>' +
+      '<label class="erck"><input type="checkbox" id="erRI"' + (ex && ex.ri ? ' checked' : '') + '> 強迫參考完整性(E)</label>' +
+      '<label class="erck sub"><input type="checkbox" id="erCU"' + (ex && ex.cu ? ' checked' : '') + '> 串聯更新關聯欄位(U)</label>' +
+      '<label class="erck sub"><input type="checkbox" id="erCD"' + (ex && ex.cd ? ' checked' : '') + '> 串聯刪除關聯記錄(D)</label>' +
+      '<div class="ertype">關聯類型： <b id="ertype"></b></div><div class="ererr" id="ererr"></div></div>';
+    dlg('編輯關聯', body, [
+      { l: ex ? '確定' : '建立(C)', pri: 1, check: function () { return relCommit(t1, t2, ex ? idx : -1); } },
+      { l: '取消', fn: function () { log('取消「編輯關聯」'); } },
+      { l: '連接類型(J)...', check: function () { toast('「連接類型」決定查詢時怎樣配對記錄。本練習使用預設值，不需要修改。', 'warn'); return false; } },
+      { l: '新建(N)...', check: function () { toast('本練習不需要「新建」。請直接按「建立」。', 'warn'); return false; } }
+    ], { w: 'min(540px,96vw)' });
+    var upd = function () {
+      $('#ertype').textContent = relType(t1, $('#erf1').value, t2, $('#erf2').value);
+      var on = $('#erRI').checked; $('#erCU').disabled = !on; $('#erCD').disabled = !on;
+      if (!on) { $('#erCU').checked = false; $('#erCD').checked = false; }
+      $('#ererr').textContent = '';
+    };
+    ['#erf1', '#erf2', '#erRI'].forEach(function (s) { $(s).onchange = upd; }); upd();
+    log((ex ? '開啟「編輯關聯」：' : '拖曳欄位，開啟「編輯關聯」：') + t1 + '.' + f1 + ' — ' + t2 + '.' + f2);
+  }
+  function relCommit(t1, t2, idx) {
+    var f1 = $('#erf1').value, f2 = $('#erf2').value, ri = $('#erRI').checked, ee = $('#ererr');
+    if (!f1 || !f2) { ee.textContent = '請在兩邊都選取關聯欄位。'; return false; }
+    var A = AX.savedField(AX.table(S, t1), f1), B = AX.savedField(AX.table(S, t2), f2), ty = relType(t1, f1, t2, f2);
+    if (baseType(A.type) !== baseType(B.type)) { ee.textContent = '關聯欄位的資料類型必須相同。「' + f1 + '」是「' + A.type + '」，「' + f2 + '」是「' + B.type + '」。'; return false; }
+    if (ri && ty === '未定') { ee.textContent = '找不到主要資料表的唯一索引。要「強迫參考完整性」，其中一邊必須是主索引鍵。'; return false; }
+    var d = findRel(t1, f1, t2, f2);
+    if (d >= 0 && d !== idx) { ee.textContent = '這兩個欄位之間已經有關聯。'; return false; }
+    var r = { t1: t1, f1: f1, t2: t2, f2: f2, ri: ri, cu: ri && $('#erCU').checked, cd: ri && $('#erCD').checked, type: ty };
+    if (ty === '一對多' && AX.table(S, t1).savedPk !== f1) r = { t1: t2, f1: f2, t2: t1, f2: f1, ri: r.ri, cu: r.cu, cd: r.cd, type: ty };
+    if (idx >= 0) S.rels[idx] = r; else S.rels.push(r);
+    S.flags.relCreated = (S.flags.relCreated || 0) + 1;
+    log((idx >= 0 ? '修改關聯：' : '建立關聯：') + r.t1 + '.' + r.f1 + ' — ' + r.t2 + '.' + r.f2 + '（' + ty + (ri ? '，強迫參考完整性' : '') + '）');
+    setStatus('已' + (idx >= 0 ? '修改' : '建立') + '關聯：' + r.t1 + '.' + r.f1 + ' — ' + r.t2 + '.' + r.f2);
+    U.selRel = null; render(); return true;
+  }
+  function editSelRel() {
+    if (S.open.k !== 'rel') { err('reledit', '要先開啟「資料庫關聯圖」。'); return; }
+    if (U.selRel == null || !S.rels[U.selRel]) { toast('請先按一下要編輯的關聯線。要建立新關聯，請把欄位拖曳到另一個資料表的相關欄位上。', 'warn'); return; }
+    var r = S.rels[U.selRel]; editRelDlg(r.t1, r.f1, r.t2, r.f2, U.selRel);
+  }
+  function delRelAsk(i) {
+    var r = S.rels[i]; if (!r) return;
+    dlg('Microsoft Access', '<div class="warnic">?</div>是否確定要從資料庫中永久刪除選取的關聯？<br><span style="font-size:12.5px;color:#555">' + E(r.t1 + '.' + r.f1 + ' — ' + r.t2 + '.' + r.f2) + '</span>', [
+      { l: '是(Y)', pri: 1, fn: function () { S.rels.splice(i, 1); U.selRel = null; S.flags.relDeleted = (S.flags.relDeleted || 0) + 1; log('刪除關聯：' + r.t1 + '.' + r.f1 + ' — ' + r.t2 + '.' + r.f2); render(); } },
+      { l: '否(N)' }]);
+  }
+  function relMenu(i, x, y) {
+    U.selRel = i; drawLines();
+    ctxMenu([{ l: '編輯關聯(R)...', b: 1, fn: function () { var r = S.rels[i]; editRelDlg(r.t1, r.f1, r.t2, r.f2, i); } }, { l: '刪除(D)', fn: function () { delRelAsk(i); } }], x, y);
+  }
+
+  /* ---------- 查詢設計 ---------- */
+  function blankCol() { return { t: '', f: '', sort: '', show: true, crit: '', or: '' }; }
+  function openQueryDesign(qi) {
+    if (S.phase !== 'db') { err('qdesign', '要先建立資料庫。'); return; }
+    closeDoc(function () {
+      var src = qi != null && qi >= 0 ? S.queries[qi] : null;
+      S.qdraft = src ? AX.clone(src) : { name: null, tables: [], cols: [] };
+      S.qdraft.idx = src ? qi : -1; S.qdraft.dirty = false;
+      S.open = { k: 'qdesign', t: -1, f: -1 }; S.ui.tab = 'qtools'; S.flags.qdesignOpened = (S.flags.qdesignOpened || 0) + 1; U.qsel = 0; U.selBox = null;
+      log(src ? '開啟查詢「' + src.name + '」的設計檢視' : '按「建立 → 查詢設計」'); setStatus('查詢設計檢視：在下方設計格線的「欄位」列選取欄位。');
+      render();
+      if (!src) showTableDlg('q');
+    });
+  }
+  function openQueryResult(qi) {
+    closeDoc(function () {
+      var src = S.queries[qi]; if (!src) return;
+      S.qdraft = AX.clone(src); S.qdraft.idx = qi; S.qdraft.dirty = false;
+      S.open = { k: 'qres', t: -1, f: -1 }; S.ui.tab = 'home'; S.flags.queryOpened = (S.flags.queryOpened || 0) + 1;
+      log('開啟查詢「' + src.name + '」'); setStatus('資料工作表檢視'); render();
+    });
+  }
+  function qOpts(q, c) {
+    var cur = c && c.f ? c.t + '.' + c.f : '', h = '<option value=""></option>', found = false;
+    AX.qTables(q).forEach(function (n) {
+      var t = AX.table(S, n); if (!t) return;
+      ['*'].concat(t.fields.map(function (f) { return f.name; })).forEach(function (fn) {
+        var v = n + '.' + fn, on = v === cur; if (on) found = true;
+        h += '<option value="' + E(v) + '"' + (on ? ' selected' : '') + '>' + E(on && fn !== '*' ? fn : v) + '</option>';
+      });
+    });
+    if (cur && !found) h += '<option value="' + E(cur) + '" selected>' + E(c.f) + '</option>';
+    return h;
+  }
+  function qdHTML(q) {
+    var n = Math.max(8, AX.qCols(q).length + 2);
+    while (q.cols.length < n) q.cols.push(blankCol());
+    n = q.cols.length;
+    var td = function (i, extra, inner, attr) { return '<td class="' + (extra || '') + (U.qsel === i ? ' qs' : '') + '"' + (attr || '') + '>' + inner + '</td>'; };
+    var row = function (lab, fn, cls) { var h = '<tr' + (cls ? ' class="' + cls + '"' : '') + '><th>' + lab + '</th>'; for (var i = 0; i < n; i++) h += fn(q.cols[i], i); return h + '</tr>'; };
+    var h = '<div class="qdv"><div class="qtop">' + canvasHTML(q.tables, 'q') + '</div><div class="qbot"><table class="qg">';
+    h += row('', function (c, i) { return '<td class="qcs' + (U.qsel === i ? ' on' : '') + '" data-act="qcolsel" data-arg="' + i + '" title="選取這一欄"></td>'; }, 'qcsr');
+    h += row('欄位:', function (c, i) { return td(i, 'qfc', '<select data-in="qf" data-c="' + i + '" data-fk="qf' + i + '">' + qOpts(q, c) + '</select>', ' data-qc="' + i + '"'); });
+    h += row('資料表:', function (c, i) { return td(i, 'qtc', '<span class="qt">' + E(c.f ? c.t : '') + '</span>', ' data-qc="' + i + '"'); });
+    h += row('排序:', function (c, i) {
+      return td(i, '', '<select data-in="qsort" data-c="' + i + '" data-fk="qs' + i + '">' + ['', '遞增', '遞減', '（未排序）'].map(function (o) { return '<option value="' + o + '"' + ((c.sort || '') === o ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>');
+    });
+    h += row('顯示:', function (c, i) { return td(i, 'ck', '<input type="checkbox" data-in="qshow" data-c="' + i + '" data-fk="qh' + i + '"' + (c.f && c.show !== false ? ' checked' : '') + (c.f ? '' : ' disabled') + '>'); });
+    h += row('準則:', function (c, i) { return td(i, '', '<input type="text" data-in="qcrit" data-c="' + i + '" data-fk="qc' + i + '" value="' + E(c.crit || '') + '" autocomplete="off">'); });
+    h += row('或:', function (c, i) { return td(i, '', '<input type="text" data-in="qor" data-c="' + i + '" data-fk="qo' + i + '" value="' + E(c.or || '') + '" autocomplete="off">'); });
+    return h + '</table></div></div>';
+  }
+  function qresHTML(q) {
+    var r = AX.runQuery(S, q);
+    var h = '<div class="dsv"><div class="top"><table class="ds qr"><thead><tr><th style="min-width:24px;width:24px"></th>' + r.heads.map(function (x) { return '<th>' + E(x) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    r.rows.forEach(function (row, i) { h += '<tr><td class="rs">' + (i === 0 ? '▶' : '') + '</td>' + row.map(function (v) { return '<td>' + E(v === true ? '✔' : v === false ? '' : v) + '</td>'; }).join('') + '</tr>'; });
+    h += '<tr class="nr"><td class="rs">✳</td>' + r.heads.map(function () { return '<td></td>'; }).join('') + '</tr></tbody></table>';
+    if (r.cross) h += '<div class="dsnote">⚠ 查詢中有資料表之間沒有關聯（沒有連接線），結果會出現重複的組合。</div>';
+    return h + '</div>' + recnav(r.rows.length ? 1 : 0, r.rows.length, false) + '</div>';
+  }
+  function autoQuote(c, v) {
+    v = String(v == null ? '' : v).trim(); if (!v || !c || !c.f || c.f === '*') return v;
+    var t = AX.table(S, c.t), fd = t && AX.savedField(t, c.f); if (!fd) return v;
+    var m = v.match(/^(<>|<=|>=|=|<|>|like\s+|not\s+)?\s*([\s\S]*)$/i), op = m[1] || '', rest = m[2];
+    if (!rest || /^(is|between|in)\b/i.test(rest)) return v;
+    if ((fd.type === '簡短文字' || fd.type === '長文字') && !/^"[\s\S]*"$/.test(rest) && !/^'[\s\S]*'$/.test(rest)) rest = '"' + rest + '"';
+    if (fd.type === '日期/時間' && !/^#[\s\S]*#$/.test(rest)) rest = '#' + rest + '#';
+    if (/^like/i.test(op)) op = 'Like '; else if (/^not/i.test(op)) op = 'Not ';
+    return op + rest;
+  }
+  function qGridChange(el, k) {
+    var q = S.qdraft; if (!q) return;
+    var i = +el.getAttribute('data-c'), c = q.cols[i]; U.qsel = i;
+    if (k === 'qf') {
+      var v = el.value, p = v.indexOf('.');
+      if (!v) { q.cols[i] = blankCol(); log('清除查詢第 ' + (i + 1) + ' 欄'); }
+      else { var was = c.f; c.t = v.slice(0, p); c.f = v.slice(p + 1); if (!was) c.show = true; log('查詢第 ' + (i + 1) + ' 欄：' + v); }
+    } else if (k === 'qsort') { c.sort = el.value === '（未排序）' ? '' : el.value; log('「' + (c.f || '（空白欄）') + '」排序：' + (c.sort || '未排序')); }
+    else if (k === 'qshow') { c.show = el.checked; log('「' + (c.f || '（空白欄）') + '」顯示：' + (el.checked ? '是' : '否')); }
+    else {
+      var key = k === 'qcrit' ? 'crit' : 'or', nv = autoQuote(c, el.value);
+      c[key] = nv; if (nv !== el.value) el.value = nv;
+      if (nv) log('「' + (c.f || '（空白欄）') + '」' + (key === 'crit' ? '準則' : '或') + '：' + nv);
+    }
+    q.dirty = true;
+    if (k === 'qf') render(); else { renderDocTab(); lightRefresh(); }
+  }
+  function qSetCol(i, tb, fd, via) {
+    var q = S.qdraft; while (q.cols.length <= i) q.cols.push(blankCol());
+    var c = q.cols[i], was = c.f; c.t = tb; c.f = fd; if (!was) c.show = true;
+    q.dirty = true; U.qsel = i; log((via || '拖曳') + '「' + tb + '.' + fd + '」到查詢第 ' + (i + 1) + ' 欄'); render();
+  }
+  function qAddField(tb, fd) { var q = S.qdraft, i = 0; while (i < q.cols.length && q.cols[i].f) i++; qSetCol(i, tb, fd, '按兩下加入'); }
+  function qColOp(a) {
+    if (S.open.k !== 'qdesign') { err('q' + a + 'col', '要在查詢的「設計檢視」才可以' + (a === 'ins' ? '插入' : '刪除') + '欄。'); return; }
+    var q = S.qdraft, i = U.qsel || 0;
+    if (a === 'ins') q.cols.splice(i, 0, blankCol()); else q.cols.splice(i, 1);
+    q.dirty = true; log((a === 'ins' ? '插入欄' : '刪除欄') + '（第 ' + (i + 1) + ' 欄）'); render();
+  }
+  function runQueryView(via) {
+    var q = S.qdraft;
+    if (!q || !isQ()) { err('qrun', '要先開啟查詢的設計檢視，才可以「執行」。'); return; }
+    if (S.open.k === 'qres') { render(); return; }
+    var cols = AX.qCols(q);
+    if (!cols.length || !cols.some(function (c) { return c.show !== false; })) { msg('查詢必須至少有一個目的欄位。<br><span style="font-size:12.5px;color:#555">請先在下方設計格線的「欄位」列選取欄位，並剔選「顯示」。</span>'); return; }
+    var r = AX.runQuery(S, q);
+    S.flags.queryRun = (S.flags.queryRun || 0) + 1;
+    S.flags.runs = (S.flags.runs || []).concat([{ name: q.name || null, tables: AX.qTables(q), cols: AX.clone(cols), n: r.rows.length, via: via }]).slice(-12);
+    S.flags.lastRun = S.flags.runs[S.flags.runs.length - 1];
+    S.open.k = 'qres'; S.ui.tab = 'home';
+    log((via === 'run' ? '按「執行」' : '切換到資料工作表檢視') + '：結果有 ' + r.rows.length + ' 筆記錄'); setStatus('查詢結果：' + r.rows.length + ' 筆記錄'); render();
+  }
+  function saveQuery(after) {
+    var q = S.qdraft; if (!q) return;
+    var store = function (name, idx) {
+      var o = { name: name, tables: AX.clone(q.tables), cols: AX.clone(AX.qCols(q)) };
+      if (idx >= 0) S.queries[idx] = o; else { S.queries.push(o); idx = S.queries.length - 1; }
+      q.name = name; q.idx = idx; q.dirty = false;
+      S.flags.qSaves = (S.flags.qSaves || 0) + 1;
+      log('儲存查詢「' + name + '」：' + AX.qCols(q).map(function (c) { return c.t + '.' + c.f + (c.sort ? '(' + c.sort + ')' : '') + (c.crit ? '[' + c.crit + ']' : '') + (c.show === false ? '(不顯示)' : ''); }).join('、'));
+      setStatus('已儲存查詢「' + name + '」');
+      if (after) after(); else { toast('已儲存查詢「' + name + '」', 'ok'); render(); }
+    };
+    if (q.idx >= 0 && S.queries[q.idx]) { store(q.name, q.idx); return; }
+    inputbox('另存新檔', '查詢名稱(N):', '查詢1', function (v) {
+      v = String(v || '').trim(); if (!v) return;
+      if (AX.table(S, v) || AX.query(S, v)) { msg('已經有名為「' + E(v) + '」的物件。請使用其他名稱。'); return; }
+      store(v, -1);
+    });
+  }
+  function delQuery(i) {
+    var q = S.queries[i]; if (!q) return;
+    dlg('Microsoft Access', '<div class="warnic">?</div>是否要刪除查詢「' + E(q.name) + '」？', [{ l: '是(Y)', pri: 1, fn: function () {
+      if (S.qdraft && S.qdraft.idx === i) { S.open = { k: 'none', t: -1, f: -1 }; S.qdraft = null; }
+      else if (S.qdraft && S.qdraft.idx > i) S.qdraft.idx--;
+      S.queries.splice(i, 1); S.ui.navSel = null; log('刪除查詢「' + q.name + '」'); render();
+    } }, { l: '否(N)' }]);
+  }
+  function renameQuery(i) {
+    var q = S.queries[i]; if (!q) return;
+    if (S.qdraft && S.qdraft.idx === i) { msg('請先關閉查詢「' + E(q.name) + '」，才可以重新命名。'); return; }
+    inputbox('重新命名', '查詢名稱(N):', q.name, function (v) {
+      v = String(v || '').trim(); if (!v || v === q.name) return;
+      if (AX.table(S, v) || AX.query(S, v)) { msg('已經有名為「' + E(v) + '」的物件。請使用其他名稱。'); return; }
+      log('查詢「' + q.name + '」重新命名為「' + v + '」'); q.name = v; render();
+    });
+  }
+
+  /* ---------- 檔案 → 列印 ---------- */
+  function printTarget() {
+    var o = S.open;
+    if (o.k === 'qres') return { k: 'q', name: docLabel(), q: S.qdraft };
+    if (o.k === 'qdesign') return { bad: '在「設計檢視」列印只會印出查詢的設計。要列印查詢的<b>結果</b>，請先按「執行」或在導覽窗格按兩下開啟查詢。' };
+    if (o.k === 'ds') return { k: 't', name: tName(curT()), t: curT() };
+    if (o.k === 'none' && S.ui.navSel) {
+      var i = +S.ui.navSel.slice(1);
+      if (S.ui.navSel[0] === 'q' && S.queries[i]) return { k: 'q', name: S.queries[i].name, q: S.queries[i] };
+      if (S.ui.navSel[0] === 't' && S.tables[i]) return { k: 't', name: S.tables[i].name, t: S.tables[i] };
+    }
+    if (o.k === 'none') return { bad: '請先開啟要列印的查詢（或在導覽窗格按一下選取它）。' };
+    return { bad: '本練習只需要列印查詢的結果。' };
+  }
+  function printOut(tg) {
+    if (tg.k === 'q') return AX.runQuery(S, tg.q);
+    var t = tg.t; return { heads: t.fields.map(function (f) { return f.name; }), rows: t.records.map(function (r) { return t.fields.map(function (f) { return r.f[f.name]; }); }) };
+  }
+  function pageHTML(tg) {
+    var r = printOut(tg), d = new Date();
+    return '<div class="ppage"><div class="phd"><span>' + E(tg.name) + '</span><span>' + d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + '</span></div><table><tr>' + r.heads.map(function (x) { return '<th>' + E(x) + '</th>'; }).join('') + '</tr>' +
+      r.rows.map(function (row) { return '<tr>' + row.map(function (v) { return '<td>' + E(v === true ? '✔' : v === false ? '' : v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table><div class="pft">第 1 頁</div></div>';
+  }
+  function doPrint(tg, via, prev) {
+    var r = printOut(tg);
+    S.flags.prints = (S.flags.prints || []).concat([{ name: tg.name, k: tg.k, heads: r.heads, rows: r.rows.slice(0, 40), via: via, prev: !!prev, at: nowStr() }]).slice(-10);
+    log('列印「' + tg.name + '」（' + r.rows.length + ' 筆記錄，' + via + '）');
+    toast('🖨 已送出列印：「' + tg.name + '」（1 頁）', 'ok'); setStatus('已列印「' + tg.name + '」'); lightRefresh();
+  }
+  function printDlg(tg, prev) {
+    dlg('列印', '<div class="prd"><fieldset><legend>印表機</legend>名稱(N): <select id="prn"><option>School-Printer（課室打印機）</option><option>Microsoft Print to PDF</option></select><div class="prs">狀態：就緒</div></fieldset>' +
+      '<div class="prrow"><fieldset><legend>列印範圍</legend><label><input type="radio" name="prr" checked> 全部(A)</label><label style="color:#999"><input type="radio" name="prr" disabled> 頁(G)</label></fieldset>' +
+      '<fieldset><legend>份數</legend>列印份數(C): <input type="number" id="prc" value="1" min="1" max="9" style="width:56px"></fieldset></div>' +
+      '<div class="prwhat">要列印的物件：<b>' + E(tg.name) + '</b></div></div>',
+      [{ l: '確定', pri: 1, fn: function () { doPrint(tg, prev ? '預覽列印 → 列印' : '列印對話方塊', prev); } }, { l: '取消', fn: function () { log('取消列印'); } }], { w: 'min(480px,96vw)' });
+  }
+  function previewDlg(tg) {
+    log('預覽列印「' + tg.name + '」'); S.flags.previews = S.flags.previews || {}; S.flags.previews[tg.name] = true;
+    dlg('預覽列印 — ' + tg.name, '<div class="pprev">' + pageHTML(tg) + '</div>',
+      [{ l: '列印(P)...', pri: 1, fn: function () { printDlg(tg, true); } }, { l: '關閉預覽列印', fn: function () { log('關閉預覽列印'); } }], { w: 'min(760px,96vw)' });
+  }
+  function startPrint(kind) {
+    var tg = printTarget();
+    if (tg.bad) { closeFile(); msg(tg.bad); return; }
+    closeFile();
+    if (kind === 'quick') doPrint(tg, '快速列印'); else if (kind === 'preview') previewDlg(tg); else printDlg(tg);
+  }
+  function showFile(page) {
+    var bs = $('#bstage'); U.filePage = page || 'print';
+    var items = [['info', '資訊'], ['new', '新增'], ['open', '開啟'], ['save', '儲存'], ['saveas', '另存新檔'], ['print', '列印'], ['close', '關閉'], ['acct', '帳戶'], ['opt', '選項']];
+    var main = '<h3>列印</h3><div class="ptiles">' +
+      [['quick', '快速列印', '直接把物件傳送到預設印表機，不作任何變更。'], ['dialog', '列印', '列印前選取印表機、份數及其他列印選項。'], ['preview', '預覽列印', '列印前預覽頁面，並可以從預覽畫面列印。']].map(function (p) {
+        return '<div class="ptile" data-act="fprint" data-arg="' + p[0] + '"><span class="i">' + I.printer + '</span><div><b>' + p[1] + '</b><div>' + p[2] + '</div></div></div>';
+      }).join('') + '</div>';
+    bs.innerHTML = '<div class="bs"><div class="side"><div class="back" data-act="fback">⟵</div>' + items.map(function (x) { return '<div class="' + (x[0] === U.filePage ? 'on' : '') + '" data-act="fitem" data-arg="' + x[0] + '">' + x[1] + '</div>'; }).join('') + '</div>' +
+      '<div class="main">' + (U.filePage === 'print' ? main : '<h3>' + E(items.filter(function (x) { return x[0] === U.filePage; })[0][1]) + '</h3><p style="color:#666">本練習不需要使用這個選項。按左上角 ⟵ 返回。</p>') + '</div></div>';
+    bs.style.display = 'block';
+    if (!page) log('按「檔案」索引標籤');
+  }
+  function closeFile() { var bs = $('#bstage'); if (bs) { bs.style.display = 'none'; bs.innerHTML = ''; } }
+  function fileItem(g) {
+    if (g === 'print') { showFile('print'); return; }
+    if (g === 'save') { closeFile(); doSave(); return; }
+    if (g === 'close' || g === 'new' || g === 'open' || g === 'saveas') { err('file-' + g, '本練習不需要使用「檔案 → ' + ({ close: '關閉', new: '新增', open: '開啟', saveas: '另存新檔' })[g] + '」。'); return; }
+    showFile(g);
+  }
+
+  /* ---------- 拖曳（關聯圖、查詢設計） ---------- */
+  document.addEventListener('pointerdown', function (e) {
+    if (!S || !S.info || locked() || e.button > 0) return;
+    var rsel = e.target.closest('table.dg td.rs');
+    if (rsel && S.open.k === 'design') { var ra = +rsel.getAttribute('data-arg'); U.drag = { kind: 'rs', a: ra, last: ra, x0: e.clientX, y0: e.clientY, moved: false }; return; }
+    var nav = e.target.closest('[data-act="navitem"]');
+    if (nav && e.pointerType === 'mouse' && nav.getAttribute('data-arg')[0] === 't' && (S.open.k === 'rel' || S.open.k === 'qdesign')) {
+      var nt = S.tables[+nav.getAttribute('data-arg').slice(1)];
+      if (nt && nt.name != null) U.drag = { kind: 'nav', name: nt.name, x0: e.clientX, y0: e.clientY, moved: false };
+      return;
+    }
+    var cv = e.target.closest('#relcv'); if (!cv) return;
+    var hit = e.target.closest('.rhit');
+    if (hit) {
+      var ri = +hit.getAttribute('data-rel'), now = Date.now(); U.selRel = ri; U.selBox = null;
+      $$('.tbox.sel', cv).forEach(function (x) { x.classList.remove('sel'); }); drawLines();
+      if (U.lastTap && U.lastTap.k === 'rel' + ri && now - U.lastTap.t < 450) { U.lastTap = null; var r = S.rels[ri]; editRelDlg(r.t1, r.f1, r.t2, r.f2, ri); return; }
+      U.lastTap = { k: 'rel' + ri, t: now };
+      if (e.pointerType !== 'mouse') { var x = e.clientX, y = e.clientY; clearTimeout(lp); lp = setTimeout(function () { U.suppress = Date.now(); relMenu(ri, x, y); }, 550); }
+      return;
+    }
+    var fld = e.target.closest('.fld'), th = e.target.closest('.th');
+    if (fld) {
+      e.preventDefault();
+      U.drag = { kind: 'fld', tb: fld.getAttribute('data-tb'), fd: fld.getAttribute('data-fd'), el: fld, x0: e.clientX, y0: e.clientY, moved: false };
+      try { fld.setPointerCapture(e.pointerId); } catch (x1) { }
+      return;
+    }
+    if (th) {
+      e.preventDefault();
+      var i = +th.getAttribute('data-mv'), b = boxList()[i]; if (!b) return;
+      U.selBox = b.n; U.selRel = null;
+      $$('.tbox', cv).forEach(function (x) { x.classList.toggle('sel', x === th.parentNode); }); drawLines();
+      U.drag = { kind: 'mv', i: i, x0: e.clientX, y0: e.clientY, bx: b.x, by: b.y, moved: false };
+      try { th.setPointerCapture(e.pointerId); } catch (x2) { }
+      return;
+    }
+    if (U.selRel != null || U.selBox) { U.selRel = null; U.selBox = null; $$('.tbox.sel', cv).forEach(function (x) { x.classList.remove('sel'); }); drawLines(); }
+  });
+  document.addEventListener('pointermove', function (e) {
+    var d = U.drag; if (!d) return;
+    var dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+    if (!d.moved && Math.abs(dx) + Math.abs(dy) < 6) return;
+    d.moved = true;
+    if (d.kind === 'rs') {
+      var ov = document.elementFromPoint(e.clientX, e.clientY), cell = ov && ov.closest('table.dg tr[data-row]');
+      if (cell) { var j = +cell.getAttribute('data-row'); if (j !== d.last) { d.last = j; U.anchor = d.a; selectRow(j, 'range'); } }
+      return;
+    }
+    if (d.kind === 'mv') {
+      var b = boxList()[d.i]; if (!b) return;
+      b.x = Math.max(0, Math.round(d.bx + dx)); b.y = Math.max(0, Math.round(d.by + dy));
+      var el = $('.tbox[data-box="' + d.i + '"]'); if (el) { el.style.left = b.x + 'px'; el.style.top = b.y + 'px'; }
+      drawLines(); return;
+    }
+    if (d.kind === 'fld') {
+      var inn = $('#relcv .relin');
+      if (inn && S.open.k === 'rel') { var R = inn.getBoundingClientRect(), r = d.el.getBoundingClientRect(); drawLines({ x1: r.left + r.width / 2 - R.left, y1: r.top + r.height / 2 - R.top, x2: e.clientX - R.left, y2: e.clientY - R.top }); }
+      ghost(e, d.tb + '.' + d.fd); return;
+    }
+    if (d.kind === 'nav') ghost(e, d.name);
+  });
+  document.addEventListener('pointerup', function (e) {
+    var d = U.drag; if (!d) return; U.drag = null; hideGhost();
+    if (d.kind === 'rs') { if (d.last !== d.a) { U.rsDragEnd = Date.now(); log('選取多列：' + (S.ui.selx || []).map(function (i) { return AX.nm((curT().rows[i] || {}).name) || '（空白列）'; }).join('、')); } return; }
+    if (d.kind === 'mv') { if (d.moved) { if (isQ() && S.qdraft) S.qdraft.dirty = true; saveLater(); } return; }
+    var tgt = document.elementFromPoint(e.clientX, e.clientY);
+    if (d.kind === 'nav') { if (d.moved && tgt && tgt.closest('#relcv')) addBoxes([d.name], S.open.k === 'rel' ? 'rel' : 'q'); return; }
+    if (d.kind !== 'fld') return;
+    var mode = S.open.k === 'rel' ? 'rel' : 'q';
+    if (!d.moved) {
+      var key = d.tb + '.' + d.fd, now = Date.now();
+      if (U.lastTap && U.lastTap.k === key && now - U.lastTap.t < 450) { U.lastTap = null; if (mode === 'q') qAddField(d.tb, d.fd); }
+      else U.lastTap = { k: key, t: now };
+      return;
+    }
+    drawLines();
+    var f2 = tgt && tgt.closest('.fld');
+    if (mode === 'rel') {
+      if (!f2) { setStatus('要把欄位放在另一個資料表的相關欄位上，才可以建立關聯。'); return; }
+      var t2 = f2.getAttribute('data-tb'), fd2 = f2.getAttribute('data-fd');
+      if (t2 === d.tb) { toast('要把欄位拖曳到「另一個」資料表的相關欄位上。', 'warn'); return; }
+      editRelDlg(d.tb, d.fd, t2, fd2, -1); return;
+    }
+    var qc = tgt && tgt.closest('[data-qc]');
+    if (qc) { qSetCol(+qc.getAttribute('data-qc'), d.tb, d.fd); return; }
+    if (f2 && f2.getAttribute('data-tb') !== d.tb) toast('本練習不需要在查詢中另外建立聯結；資料表之間的關聯已經在「資料庫關聯圖」建立。', 'warn');
+  });
+  document.addEventListener('pointercancel', function () { if (U.drag) { U.drag = null; hideGhost(); drawLines(); } });
+  window.addEventListener('resize', function () { if (S && (S.open.k === 'rel' || S.open.k === 'qdesign')) drawLines(); });
+
   /* ================= 資料輸入 ================= */
   function coerce(fd, v) {
     if (!fd) return v;
@@ -1473,6 +2271,7 @@ AX.boot = function (C) {
   function onInput(el) {
     if (!S || locked()) return;
     var k = el.getAttribute('data-in'); if (!k) return;
+    if (k === 'qcrit' || k === 'qor') { var qc = S.qdraft && S.qdraft.cols[+el.getAttribute('data-c')]; if (!qc) return; qc[k === 'qcrit' ? 'crit' : 'or'] = el.value; S.qdraft.dirty = true; renderDocTab(); lightRefresh(); return; }
     var t = curT();
     if (k === 'dg-name') {
       var r = +el.getAttribute('data-r'), row = t.rows[r]; row.name = el.value; t.dirty = true;
@@ -1530,12 +2329,24 @@ AX.boot = function (C) {
       lightRefresh(); return;
     }
   }
-  function selectRow(i) {
-    var t = curT(); if (!t || S.ui.sel === i) return;
+  function selectRow(i, how) {
+    var t = curT(); if (!t) return;
+    var multi = S.ui.selx && S.ui.selx.length > 1;
+    if (how === 'range') {
+      var a = U.anchor != null ? U.anchor : S.ui.sel, lo = Math.min(a, i), hi = Math.max(a, i); S.ui.selx = [];
+      for (var k = lo; k <= hi; k++) S.ui.selx.push(k);
+    } else if (how === 'toggle') {
+      var cur = multi ? S.ui.selx.slice() : [S.ui.sel], p = cur.indexOf(i);
+      if (p >= 0 && cur.length > 1) cur.splice(p, 1); else if (p < 0) cur.push(i);
+      S.ui.selx = cur; U.anchor = i;
+    } else {
+      if (S.ui.sel === i && !multi) return;
+      S.ui.selx = null; U.anchor = i;
+    }
     S.ui.sel = i;
     $$('table.dg tbody tr').forEach(function (tr) {
-      var r = +tr.getAttribute('data-row'); tr.classList.toggle('sel', r === i);
-      $('td.rs', tr).innerHTML = t.pk === r ? '<span class="i">' + I.pk + '</span>' : (r === i ? '▶' : '');
+      var r = +tr.getAttribute('data-row'); tr.classList.toggle('sel', rowSel(r));
+      $('td.rs', tr).innerHTML = AX.isPk(t, r) ? '<span class="i">' + I.pk + '</span>' : (r === i ? '▶' : '');
     });
     var p = $('.props'); if (p) p.outerHTML = propsHTML(t);
     if (S.ui.tab === 'design') renderTabs();
@@ -1559,6 +2370,7 @@ AX.boot = function (C) {
   });
   document.addEventListener('change', function (e) {
     var el = e.target, k = el.getAttribute && el.getAttribute('data-in'); if (!k || !S || locked()) return;
+    if (/^q(f|sort|show|crit|or)$/.test(k)) { qGridChange(el, k); return; }
     if (el.type === 'checkbox') { onInput(el); return; }
     var t = curT();
     if (k === 'dg-type') {
@@ -1572,6 +2384,7 @@ AX.boot = function (C) {
     var el = e.target, k = el.getAttribute && el.getAttribute('data-in'); if (!k || !S) return;
     if (/^dg-/.test(k)) selectRow(+el.getAttribute('data-r'));
     if (k === 'cell') selectRec(+el.getAttribute('data-r'));
+    if (/^q/.test(k) && el.hasAttribute('data-c')) { var qi = +el.getAttribute('data-c'); if (U.qsel !== qi) { U.qsel = qi; $$('table.qg td.qs').forEach(function (x) { x.classList.remove('qs'); }); $$('table.qg tr').forEach(function (tr, r) { var c = tr.children[qi + 1]; if (c && r > 0) c.classList.add('qs'); }); $$('table.qg td.qcs').forEach(function (x, j) { x.classList.toggle('on', j === qi); }); } }
   });
   document.addEventListener('click', function (e) {
     var c = $('#ctx'), recent = U.suppress && Date.now() - U.suppress < 700; if (c.style.display === 'block' && !e.target.closest('#ctx') && !recent) c.style.display = 'none';
@@ -1584,6 +2397,8 @@ AX.boot = function (C) {
     openNavItem(t.getAttribute('data-arg'));
   });
   document.addEventListener('contextmenu', function (e) {
+    var rh = e.target.closest && e.target.closest('.rhit');
+    if (rh && S && S.info) { e.preventDefault(); if (!locked()) relMenu(+rh.getAttribute('data-rel'), e.clientX, e.clientY); return; }
     var t = e.target.closest('[data-act="navitem"]'); if (!t) return;
     e.preventDefault(); if (locked()) return; navMenu(t.getAttribute('data-arg'), e.clientX, e.clientY);
   });
@@ -1599,7 +2414,15 @@ AX.boot = function (C) {
     if (e.ctrlKey && e.altKey && (e.key === 'd' || e.key === 'D')) { e.preventDefault(); demoPrompt(); return; }
     if (!S || !S.info) return;
     if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); if (layer().style.display !== 'flex' && !locked()) { log('按 Ctrl+S'); doSave(); } return; }
-    if (e.key === 'Escape') { $('#ctx').style.display = 'none'; $('#vmenu').style.display = 'none'; }
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P') && feat('print')) { e.preventDefault(); if (layer().style.display !== 'flex' && !locked()) { log('按 Ctrl+P'); startPrint('dialog'); } return; }
+    if (e.key === 'Escape') { $('#ctx').style.display = 'none'; $('#vmenu').style.display = 'none'; closeFile(); }
+    if ((e.key === 'Delete' || e.key === 'Backspace') && layer().style.display !== 'flex' && !locked()) {
+      var fa = document.activeElement;
+      if (!(fa && /^(INPUT|SELECT|TEXTAREA)$/.test(fa.tagName))) {
+        if (S.open.k === 'rel' && U.selRel != null) { e.preventDefault(); delRelAsk(U.selRel); return; }
+        if ((S.open.k === 'rel' || S.open.k === 'qdesign') && U.selBox) { e.preventDefault(); hideBox(); return; }
+      }
+    }
     if (e.key === 'Enter' && !e.isComposing && e.keyCode !== 229) {
       var el = document.activeElement, k = el && el.getAttribute && el.getAttribute('data-in'); if (!k) return;
       if (/^(cell|new|fcell|fnew|dg-name|dg-type|dg-desc)$/.test(k)) {
@@ -1616,6 +2439,7 @@ AX.boot = function (C) {
   function openNavItem(arg) {
     var i = +arg.slice(1);
     if (arg[0] === 't') { S.ui.navSel = arg; openDatasheet(i); }
+    else if (arg[0] === 'q') { S.ui.navSel = arg; openQueryResult(i); }
     else { S.ui.navSel = arg; openForm(i); }
   }
   function navMenu(arg, x, y) {
@@ -1629,6 +2453,13 @@ AX.boot = function (C) {
       { l: '匯出(E)', fn: function () { err('export', '本練習不需要「匯出」。'); } },
       { l: '重新命名(M)', fn: function () { err('rename', '請不要更改資料表名稱。'); } },
       { l: '刪除(L)', fn: function () { err('delobj', '請不要刪除資料表。'); } }];
+    else if (arg[0] === 'q') items = [
+      { l: '開啟(O)', b: 1, fn: function () { openQueryResult(i); } },
+      { l: '設計檢視(D)', fn: function () { openQueryDesign(i); } },
+      { sep: 1 },
+      { l: '列印(P)...', fn: function () { if (feat('print')) startPrint('dialog'); else err('print', '本練習不需要列印。'); } },
+      { l: '重新命名(M)', fn: function () { renameQuery(i); } },
+      { l: '刪除(L)', fn: function () { delQuery(i); } }];
     else items = [
       { l: '開啟(O)', b: 1, fn: function () { openForm(i); } },
       { l: '版面配置檢視(Y)', fn: function () { msg('本練習不需要修改表單的版面配置。'); } },
@@ -1644,6 +2475,8 @@ AX.boot = function (C) {
     var vm = $('#vmenu'), o = S.open, items;
     if (o.k === 'form') items = [['form', I.viewForm, '表單檢視(F)'], ['layout', I.formDesign, '版面配置檢視(Y)'], ['fdesign', I.viewDesign, '設計檢視(D)']];
     else if (o.k === 'none') { toast('請先開啟一個資料表或表單。', 'warn'); return; }
+    else if (o.k === 'rel') { toast('「關聯」視窗沒有其他檢視。', 'warn'); return; }
+    else if (isQ()) items = [['ds', I.viewDs, '資料工作表檢視(H)'], ['sql', '<b style="font-size:9px">SQL</b>', 'SQL 檢視(Q)'], ['design', I.viewDesign, '設計檢視(D)']];
     else items = [['ds', I.viewDs, '資料工作表檢視(H)'], ['design', I.viewDesign, '設計檢視(D)']];
     vm.innerHTML = items.map(function (it) { return '<div data-act="view" data-arg="' + it[0] + '"><span class="i">' + it[1] + '</span>' + it[2] + '</div>'; }).join('');
     var r = anchor.getBoundingClientRect(); vm.style.left = r.left + 'px'; vm.style.top = (r.bottom + 2) + 'px'; vm.style.display = 'block';
@@ -1666,7 +2499,7 @@ AX.boot = function (C) {
     if (U.suppress && Date.now() - U.suppress < 600) return;
     switch (a) {
       case 'tab':
-        if (g === 'file') { msg('本練習不需要使用「檔案」索引標籤。'); return; }
+        if (g === 'file') { if (feat('print')) showFile(); else msg('本練習不需要使用「檔案」索引標籤。'); return; }
         S.ui.tab = g; S.flags['tab_' + g] = true; if (g === 'create') S.flags.visitedCreate = true;
         log('切換索引標籤：' + RB[g].label); render(); return;
       case 'btn': $('#vmenu').style.display = 'none'; btn(g); return;
@@ -1675,10 +2508,19 @@ AX.boot = function (C) {
       case 'qsave': log('按 💾 儲存'); doSave(); return;
       case 'undo': toast('這個模擬練習不支援復原。打錯了可以直接修改。', 'warn'); return;
       case 'close': closeDoc(); return;
-      case 'drow': selectRow(+g); var ni = $('input[data-fk="dgn' + g + '"]'); if (ni) ni.focus(); return;
+      case 'drow': {
+        if (U.rsDragEnd && Date.now() - U.rsDragEnd < 350) return;
+        var how = e && e.shiftKey ? 'range' : e && (e.ctrlKey || e.metaKey) ? 'toggle' : null;
+        selectRow(+g, how); if (how) return;
+        var ni = $('input[data-fk="dgn' + g + '"]'); if (ni) ni.focus(); return;
+      }
       case 'drec': selectRec(+g); return;
       case 'rnav': rnav(g); return;
-      case 'navitem': S.ui.navSel = g; renderNav(); setStatus(g[0] === 't' ? '已選取資料表。按兩下開啟；按右鍵可選「設計檢視」。' : '已選取表單。按兩下開啟。'); return;
+      case 'navitem': S.ui.navSel = g; $$('#nav .it').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-arg') === g); }); setStatus(g[0] === 't' ? '已選取資料表。按兩下開啟；按右鍵可選「設計檢視」。' : g[0] === 'q' ? '已選取查詢。按兩下執行；按右鍵可選「設計檢視」。' : '已選取表單。按兩下開啟。'); return;
+      case 'fback': closeFile(); log('離開「檔案」'); return;
+      case 'fitem': fileItem(g); return;
+      case 'fprint': startPrint(g); return;
+      case 'qcolsel': U.qsel = +g; renderDoc(); return;
       case 'blankdb':
         S.flags.blankDbClicked = true; log('按「空白桌面資料庫」');
         dlg('空白桌面資料庫', '<div style="display:flex;gap:14px"><span class="i" style="width:56px;height:56px;flex:none">' + I.db + '</span><div style="flex:1">檔案名稱<input type="text" id="dbn" value="資料庫1" style="margin-top:4px">' +
@@ -1763,6 +2605,8 @@ AX.boot = function (C) {
   function resumeRun() {
     var sv = loadSaved(); if (!sv) { showCover(); return; }
     S = sv; U.acc = S.elapsed || 0; U.sess = Date.now(); U.prevDone = null;
+    S.rels = S.rels || []; S.relLayout = S.relLayout || []; S.queries = S.queries || [];
+    if ((S.open.k === 'qdesign' || S.open.k === 'qres') && !S.qdraft) S.open = { k: 'none', t: -1, f: -1 };
     if (S.open.k !== 'none' && ((S.open.t >= 0 && !S.tables[S.open.t]) || (S.open.k === 'form' && !S.forms[S.open.f]))) S.open = { k: 'none', t: -1, f: -1 };
     $('#cover').style.display = 'none';
     if (!S.done) log('繼續上次的進度');
@@ -1867,7 +2711,11 @@ AX.boot = function (C) {
     setRow: function (i, name, type, size) {
       var t = curT(); padRows(t); var r = t.rows[i]; r.name = name; r.type = type; r.size = size != null ? String(size) : AX.defSize(type); t.dirty = true; S.ui.sel = i; render();
     },
-    setPK: function (i) { S.ui.sel = i; var t = curT(); t.pk = i; t.dirty = true; render(); },
+    delRow: function (i) { var t = curT(); t.rows.splice(i, 1); if (t.pk === i) t.pk = null; else if (t.pk != null && t.pk > i) t.pk--; t.dirty = true; render(); },
+    setPK: function (i) {
+      var t = curT(), arr = [].concat(i); S.ui.sel = arr[0]; S.ui.selx = arr.length > 1 ? arr.slice() : null;
+      t.pk = arr[0]; t.pkx = arr.length > 1 ? arr.slice() : null; t.dirty = true; render();
+    },
     saveAs: function (name) { var t = curT(); applySave(t, t.name == null ? name : t.name); },
     datasheet: function () { openDatasheet(S.open.t); },
     addRecord: function (vals, by) {
@@ -1876,6 +2724,17 @@ AX.boot = function (C) {
       if (S.open.k === 'form') { S.ui.fRec = idx; S.ui.fNew = false; } render();
     },
     setField: function (ri, field, val, by) { var t = curT(); t.records[ri].f[field] = val; t.records[ri].src[field] = by; if (S.open.k === 'form') { S.ui.fRec = ri; S.ui.fNew = false; } render(); },
+    openRel: function () { openRel(); },
+    relAdd: function (names) { closeLayer(); addBoxes(names, 'rel'); },
+    relCreate: function (t1, f1, t2, f2, ri) { closeLayer(); editRelDlg(t1, f1, t2, f2, -1); if (ri) { $('#erRI').checked = true; } $('.df button.pri', layer()).click(); },
+    openQuery: function () { openQueryDesign(); },
+    qAdd: function (names) { closeLayer(); addBoxes(names, 'q'); },
+    qCol: function (i, tf, sort, crit, show) { var p = tf.indexOf('.'); qSetCol(i, tf.slice(0, p), tf.slice(p + 1)); var c = S.qdraft.cols[i]; if (sort) c.sort = sort; if (crit) c.crit = autoQuote(c, crit); if (show === false) c.show = false; render(); },
+    qRun: function () { runQueryView('run'); },
+    qSaveAs: function (name) { saveQuery(); var inp = $('#dlgin'); if (inp) { inp.value = name; $('.df button.pri', layer()).click(); } },
+    close: function () { closeDoc(); },
+    openQueryByName: function (name) { for (var i = 0; i < S.queries.length; i++) if (S.queries[i].name === name) { S.ui.navSel = 'q' + i; openQueryResult(i); return; } },
+    print: function () { var tg = printTarget(); if (!tg.bad) doPrint(tg, '示範', true); },
     wizard: function (tname, fields, layout, title) {
       S.ui.tab = 'create'; S.flags.wizOpened = true; var t = S.tables[tIndex(tname)];
       var sel = fields === 'all' ? t.fields.map(function (f) { return f.name; }) : fields;
@@ -1895,7 +2754,7 @@ AX.boot = function (C) {
   function runDemo() {
     clearInterval(U.demoTimer);
     S = newState(); S.info = { cls: 'DEMO', sid: '0', name: '老師示範' }; S.demo = true; S.startISO = new Date().toISOString();
-    U.acc = 0; U.sess = Date.now(); U.prevDone = null; $('#cover').style.display = 'none'; $('#rptOverlay').style.display = 'none';
+    U.acc = 0; U.sess = Date.now(); U.prevDone = null; $('#cover').style.display = 'none'; $('#rptOverlay').style.display = 'none'; closeFile();
     render();
     var k = 0;
     U.demoTimer = setInterval(function () {

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access 自學練習(一):建立資料表</title>
+<title>Access 自學練習(三):建立資料表及資料庫關聯圖</title>
 <!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
 <style>
 /* =====================================================================
@@ -2782,121 +2782,221 @@ if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
 AX.TEACHER_PIN = '0000';
 
 /* =====================================================================
-   練習一：建立資料表「學生個人資料」
-   老師可修改：資料(DATA)、配分(M)、扣分(penalty)、步驟文字
+   練習三：修改資料表、建立兩個新資料表及資料庫關聯圖
+   由練習二完成時的狀態開始。
    ===================================================================== */
 (function () {
-  var TBL = '學生個人資料';
-  var FIELDS = [
-    { name: '學生編號', type: '簡短文字', size: '3', why: { type: '學生編號只用來識別學生，不會用來計算，所以用「簡短文字」。', size: '學生編號最多 3 位，欄位大小設為 3 可以防止輸入過長的資料。' } },
-    { name: '姓名', type: '簡短文字', size: '20', why: { type: '姓名是文字資料，用「簡短文字」。', size: '姓名不會超過 20 個字，欄位大小設為 20 可節省空間及防止錯誤輸入。' } },
-    { name: '身高', type: '數字', size: '整數', why: { type: '身高是需要比較或計算的數值，所以用「數字」。', size: '身高沒有小數，「整數」（−32,768 至 32,767）已足夠。' } },
-    { name: '體重', type: '數字', size: '整數', why: { type: '體重是需要比較或計算的數值，所以用「數字」。', size: '體重沒有小數，「整數」已足夠。' } }
-  ];
-  var DATA = [
-    ['1', '王一全', '168', '59'], ['2', '陳明', '163', '60'], ['3', '張恩芳', '155', '48'],
-    ['4', '李霞', '152', '45'], ['5', '吳金鳳', '166', '50'], ['6', '何明坤', '180', '68']
-  ];
-  var M = { enter: 4, fname: 3, ftype: 3, fsize: 3, pk: 8, save: 4, cell: 2 };   /* 合共 100 */
+  var STU = '學生個人資料', ACT = '課外活動', REC = '學生課外活動記錄';
+  var OLD = [
+    { name: '學生編號', type: '簡短文字', size: '3' }, { name: '學生姓名', type: '簡短文字', size: '20' },
+    { name: '身高', type: '數字', size: '整數' }, { name: '體重', type: '數字', size: '整數' },
+    { name: '班別', type: '簡短文字', size: '2' }, { name: '班號', type: '簡短文字', size: '2' }];
+  var OLDDATA = [['1', '王一全', '168', '59', '3A', '30'], ['2', '陳明', '163', '60', '3A', '01'], ['3', '張恩芳', '155', '48', '3B', '05'], ['4', '李霞', '152', '45', '3B', '15'],
+    ['5', '吳金鳳', '166', '50', '3C', '24'], ['6', '何明坤', '180', '68', '3D', '09'], ['7', '李快樂', '164', '56', '3A', '22']];
+  var SEX = { name: '性別', type: '簡短文字', size: '1' };
+  var STUF = OLD.map(function (f) { return f.name; }).concat([SEX.name]);
+  /* 學生編號 1–7 的性別 */
+  var ADD = ['男', '男', '女', '女', '女', '男', '男'];
+  var ACTF = [{ name: '課外活動編號', type: '簡短文字', size: '3' }, { name: '課外活動名稱', type: '簡短文字', size: '20' }];
+  var ACTDATA = [['1', '電腦學會'], ['2', '音樂學會'], ['3', '足球學會'], ['4', '美術學會'], ['5', '籃球學會']];
+  var RECF = [{ name: '學生編號', type: '簡短文字', size: '3' }, { name: '課外活動編號', type: '簡短文字', size: '3' }];
+  var RECDATA = [['1', '1'], ['1', '3'], ['2', '1'], ['3', '5'], ['4', '4'], ['5', '2'], ['6', '1'], ['7', '4']];
+  var RELS = [{ a: ACT, af: '課外活動編號', b: REC, bf: '課外活動編號' }, { a: STU, af: '學生編號', b: REC, bf: '學生編號' }];
 
-  function T(S) { return AX.mainTable(S, TBL); }
-  function rowsOf(S) { return AX.namedRows(T(S)); }
-  function namesOk(S) { var fs = rowsOf(S); return FIELDS.every(function (e, i) { return fs[i] && AX.nm(fs[i].name) === e.name; }); }
-  function typesOk(S) { var fs = rowsOf(S); return FIELDS.every(function (e, i) { return fs[i] && fs[i].type === e.type; }); }
-  function sizesOk(S) { var fs = rowsOf(S); return FIELDS.every(function (e, i) { return fs[i] && String(fs[i].size).trim() === e.size; }); }
-  function recOk(S, i) { var t = T(S), r = t && t.records[i]; return !!r && FIELDS.every(function (f, c) { return AX.same(f.type, r.f[f.name], DATA[i][c]); }); }
+  function T(S) { return AX.mainTable(S, STU); }
+  /* 找新資料表：已用正確名稱儲存 → 未命名（設計中）→ 用了其他名稱 */
+  function findT(S, name, sig) {
+    var t = AX.table(S, name); if (t) return t;
+    var c = S.tables.filter(function (x) { return x.name !== STU && x.name !== ACT && x.name !== REC && AX.field(x, sig); });
+    return c.filter(function (x) { return x.name == null; })[0] || c[0] || null;
+  }
+  function tA(S) { return findT(S, ACT, '課外活動名稱'); }
+  function tR(S) {
+    var t = AX.table(S, REC); if (t) return t;
+    var c = S.tables.filter(function (x) { return x.name !== STU && x.name !== ACT && AX.field(x, '學生編號') && AX.field(x, '課外活動編號') && !AX.field(x, '課外活動名稱'); });
+    return c.filter(function (x) { return x.name == null; })[0] || c[0] || null;
+  }
+  function fOk(t, e) { var r = t && AX.field(t, e.name); return !!r && r.type === e.type && (e.type !== '簡短文字' || String(r.size).trim() === e.size); }
+  function sOk(t, e) { var f = t && AX.savedField(t, e.name); return !!f && f.type === e.type && (e.type !== '簡短文字' || String(f.size) === e.size); }
+  function stuSaved(S) { var t = T(S); return !!t && sOk(t, SEX); }
+  function recBySid(t, sid) { return t ? t.records.filter(function (r) { return AX.nm(r.f['學生編號']) === sid; })[0] : null; }
+  function stuRecOk(S, i) { var r = recBySid(T(S), String(i + 1)); return !!r && AX.same('簡短文字', r.f['性別'], ADD[i]); }
+  function pkSet(t) { return AX.savedPks(t).slice().sort().join('+'); }
+  var RPK = ['學生編號', '課外活動編號'].sort().join('+');
+  function countPairs(t, f1, f2, data) {
+    if (!t) return 0;
+    var pool = t.records.map(function (r) { return AX.nm(r.f[f1]) + '|' + AX.nm(r.f[f2]); }), n = 0;
+    data.forEach(function (d) { var k = d[0] + '|' + d[1], i = pool.indexOf(k); if (i >= 0) { n++; pool.splice(i, 1); } });
+    return n;
+  }
+  function relIdx(S, R) {
+    var rs = S.rels || [];
+    for (var i = 0; i < rs.length; i++) {
+      var r = rs[i];
+      if ((r.t1 === R.a && r.f1 === R.af && r.t2 === R.b && r.f2 === R.bf) || (r.t1 === R.b && r.f1 === R.bf && r.t2 === R.a && r.f2 === R.af)) return i;
+    }
+    return -1;
+  }
+  function relNear(S, R) { return (S.rels || []).some(function (r) { return (r.t1 === R.a && r.t2 === R.b) || (r.t1 === R.b && r.t2 === R.a); }); }
+  function relAdded(S, n) { return !!((S.flags.relAdded && S.flags.relAdded[n]) || (S.relLayout || []).some(function (b) { return b.n === n; })); }
+  function relStr(r) { return r.t1 + '.' + r.f1 + ' — ' + r.t2 + '.' + r.f2; }
 
-  var X = AX.register({
-    id: 'EX1', code: 'ACC1', mode: 'practice', full: 100, fileTag: 'Access練習一',
-    title: '練習一：建立資料表「學生個人資料」',
-    subtitle: '中三 電腦科 · Microsoft Access 自學練習',
-    time: '20 分鐘',
-    objectives: ['用「資料表設計」建立新的資料表', '為欄位選擇合適的資料類型及欄位大小', '設定主索引鍵', '儲存資料表，並在資料工作表檢視輸入記錄'],
-    intro: ['資料庫「學生資料.accdb」已經開啟，但還沒有資料表。', '建立資料表「學生個人資料」（4 個欄位），設定主索引鍵，然後輸入 6 筆學生資料。', '右方會逐步顯示指示；做完一步會自動打 ✔。'],
+  /* 配分（合共 100）：學生個人資料 26、課外活動 20、學生課外活動記錄 25、關聯 29 */
+  var M = { open: 2, sex: 6, save: 4, stuRec: 2, aF: 3, aPk: 4, aName: 5, aRec: 1, rF: 3, rPk: 6, rName: 5, rRec: 1, relOpen: 4, relAdd: 1, rel: 11, relNear: 4 };
+
+  AX.register({
+    id: 'EX4', code: 'ACC4', mode: 'practice', full: 100, fileTag: 'Access練習三',
+    title: '練習三：建立資料表及資料庫關聯圖',
+    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接練習二）',
+    time: '40 分鐘',
+    features: { rel: true },
+    objectives: ['在現有資料表加入欄位並輸入資料', '用「資料表設計」建立新資料表並設定主索引鍵', '明白甚麼時候要用「組合主索引鍵」', '用「資料庫關聯圖」以拖曳方式建立資料表之間的關聯'],
+    intro: ['資料庫中已有練習二完成的「' + STU + '」（7 筆記錄；「姓名」已改名為「學生姓名」）。',
+      '先為「' + STU + '」加入「性別」並輸入資料 → 建立「' + ACT + '」及「' + REC + '」兩個資料表並輸入記錄 → 在「資料庫關聯圖」建立兩個關聯。'],
     penalty: { hint1: 1, hint2: 1, hintMax: 10, err: 1, errMax: 10 },
-    start: { phase: 'db', db: '學生資料', tables: [], forms: [] },
-    startMsg: '請按功能區的「建立」索引標籤。',
-    emptyMsg: function () { return '資料庫 <b>學生資料.accdb</b> 已開啟，目前還沒有任何資料表。<br>請依右方指示，到「<b>建立</b>」索引標籤建立新的資料表。'; },
+    start: { phase: 'db', db: '學生資料', tables: [{ name: STU, fields: OLD, pk: '學生編號', records: OLDDATA }], forms: [] },
+    startMsg: '請在左邊導覽窗格用滑鼠右鍵按「' + STU + '」→ 設計檢視。',
+    emptyMsg: function (S) {
+      return '資料庫 <b>學生資料.accdb</b> 已開啟。<br>請依右方指示操作。' + (S.tables.length > 1 ? '' : '<br>左邊導覽窗格有練習二完成的資料表 <b>' + STU + '</b>。');
+    },
     wrong: {
-      tblnew: '「資料表」按鈕會直接以資料工作表檢視建立資料表。本練習要按旁邊的「資料表設計」。',
-      formauto: '本練習不需要建立表單。', formwiz: '本練習不需要建立表單。'
+      tblnew: '「資料表」按鈕會用資料工作表建立資料表，不能先設定欄位大小。本練習請用「建立 → 資料表設計」。',
+      formwiz: '本練習不需要建立表單。請在「資料工作表」輸入資料。',
+      formauto: '本練習不需要建立表單。請在「資料工作表」輸入資料。'
     },
     steps: [
-      { title: '切換到「建立」索引標籤', detail: '功能區最上面一行是<b>索引標籤</b>。請按「<b>建立</b>」。',
-        h1: '索引標籤在紅色標題列下面，由左至右是：檔案、常用、<b>建立</b>……',
-        h2: '直接按紅色橫條上「建立」兩個字。下面的按鈕會變成「範本、資料表、查詢、表單、報表」等群組。',
-        check: function (S) { return !!(S.flags.visitedCreate || S.flags.designOpened); } },
-      { title: '按「資料表設計」進入設計檢視', detail: '在「資料表」群組按「<b>資料表設計</b>」。畫面會出現「欄位名稱 / 資料類型 / 描述」的表格。',
-        h1: '「資料表」群組在「建立」索引標籤的左邊。',
-        h2: '要按有<b>鉛筆</b>圖示的「資料表設計」；不要按旁邊的「資料表」（會直接進入資料工作表檢視，算誤操作）。',
-        check: function (S) { return !!S.flags.viaTableDesign; } },
-      { title: '輸入 4 個欄位名稱及資料類型',
-        detail: '<table><tr><th>欄位名稱</th><th>資料類型</th></tr><tr><td>學生編號</td><td>簡短文字</td></tr><tr><td>姓名</td><td>簡短文字</td></tr><tr><td>身高</td><td><b>數字</b></td></tr><tr><td>體重</td><td><b>數字</b></td></tr></table>',
-        h1: '在「欄位名稱」欄輸入名稱後，資料類型會自動變成「簡短文字」，需要時才改。',
-        h2: '由第 1 列開始，一列一個欄位。「身高」和「體重」兩列：按「資料類型」下拉選單，選「數字」。',
-        check: function (S) { return namesOk(S) && typesOk(S); } },
-      { title: '設定 4 個欄位的欄位大小', detail: '學生編號 = <b>3</b>、姓名 = <b>20</b>、身高 = <b>整數</b>、體重 = <b>整數</b>。',
-        h1: '「欄位大小」在畫面下方「欄位屬性」的第一行。',
-        h2: '先按該欄位那一列（左邊出現 ▶），下方「欄位屬性 → 欄位大小」便會顯示那個欄位的設定：文字欄位直接輸入數字；數字欄位在下拉選單選「整數」。',
-        check: function (S) { return namesOk(S) && sizesOk(S); } },
-      { title: '把「學生編號」設為主索引鍵', detail: '選取「學生編號」這一列，再按「資料表工具 · 設計」→ <b>主索引鍵</b>。',
-        h1: '「主索引鍵」按鈕在黃色「資料表工具」下面的「設計」索引標籤。',
-        h2: '按「學生編號」左邊的灰色列選取器（出現 ▶），再按功能區的「主索引鍵」。成功後列選取器會出現鎖匙圖示。',
-        check: function (S) { return AX.pkName(T(S)) === '學生編號'; } },
-      { title: '儲存資料表，命名為「' + TBL + '」', detail: '按左上角 💾（或 Ctrl+S），資料表名稱輸入「<b>' + TBL + '</b>」，按「確定」。',
-        h1: '💾 在紅色標題列的最左邊。',
-        h2: '對話框原本寫着「資料表1」，要全部刪去再輸入「' + TBL + '」。如果 Access 問「是否要立即建立主索引鍵」，表示你未設定主索引鍵——請按「取消」，先完成上一步。',
-        check: function (S) { return !!AX.table(S, TBL); } },
-      { title: '切換到資料工作表檢視', detail: '按「常用 → <b>檢視</b>」，或狀態列右下角的資料工作表圖示。',
-        h1: '「檢視」按鈕在功能區最左邊。',
-        h2: '按「檢視」按鈕上半部的圖示會直接切換；按下半部「檢視 ▾」可以選「資料工作表檢視」。',
-        check: function (S) { return !!S.flags.visitedDatasheet; } },
-      { title: '輸入 6 筆學生資料', detail: '依下方「需要輸入的資料」逐格輸入。最底有 ✳ 的一行是新記錄，在那一行打字便會新增一筆。',
-        h1: '按 Enter 或 Tab 可以跳到下一格。',
-        h2: '身高、體重只可以輸入數字；姓名不要多打空格。多了一筆記錄：按記錄左邊灰色方格選取，再按「常用 → 刪除」。',
-        check: function (S) { return DATA.every(function (r, i) { return recOk(S, i); }); } }
+      { title: '開啟「' + STU + '」的設計檢視', detail: '在導覽窗格用<b>滑鼠右鍵</b>按「' + STU + '」，選「設計檢視」。',
+        h1: '也可以先按兩下開啟資料表，再按「常用 → 檢視」切換。', h2: '把滑鼠移到導覽窗格的「' + STU + '」，按右鍵 → 「設計檢視(D)」。平板：長按約半秒。',
+        check: function (S) { return !!(S.flags.dOpen && S.flags.dOpen[STU]); } },
+      { title: '加入欄位「性別」：簡短文字，欄位大小 1', detail: '在「班號」下面的空白列輸入「<b>性別</b>」，資料類型「簡短文字」，再在下方「欄位屬性」把欄位大小改為 <b>1</b>。',
+        h1: '性別只會輸入「男」或「女」一個字，所以欄位大小設為 1。', h2: '按第 7 列的「欄位名稱」格輸入「性別」，資料類型會自動變成「簡短文字」；在下方「欄位大小」把 255 改為 1。',
+        check: function (S) { return fOk(T(S), SEX); } },
+      { title: '儲存資料表', detail: '按 Ctrl+S 或左上角 💾 儲存設計變更。',
+        h1: '一定要儲存，新欄位才會生效，也才可以在資料工作表輸入性別。', h2: '按紅色標題列最左邊的 💾。成功後文件索引標籤上的「*」會消失。',
+        check: stuSaved },
+      { title: '在資料工作表輸入 7 位學生的性別', detail: '切換到<b>資料工作表檢視</b>（常用 → 檢視），對照右方「要輸入的性別」逐格輸入。',
+        h1: '「性別」欄在最右邊；可以按 Enter 或 ↓ 移到下一筆。', h2: '按「常用 → 檢視」切換到資料工作表，在「性別」欄第 1 筆（王一全）輸入「男」，如此類推。',
+        check: function (S) { return ADD.every(function (a, i) { return stuRecOk(S, i); }); } },
+      { title: '用「資料表設計」建立「課外活動」的欄位', detail: '按「建立 → <b>資料表設計</b>」，輸入：<br>課外活動編號：簡短文字，欄位大小 <b>3</b><br>課外活動名稱：簡短文字，欄位大小 <b>20</b>',
+        h1: '先關閉「' + STU + '」，再按「建立」索引標籤。', h2: '「建立 → 資料表設計」會開啟一個空白的設計檢視。第 1 列輸入「課外活動編號」，第 2 列輸入「課外活動名稱」，再在下方改欄位大小。',
+        check: function (S) { var t = tA(S); return ACTF.every(function (e) { return fOk(t, e); }); } },
+      { title: '設定主索引鍵，儲存為「課外活動」', detail: '選取「課外活動編號」，按「<b>主索引鍵</b>」；然後按 💾，資料表名稱輸入「<b>課外活動</b>」。',
+        h1: '每個活動的編號都不相同，所以用「課外活動編號」作主索引鍵。', h2: '按「課外活動編號」左邊的列選取器 → 功能區「主索引鍵」（出現鑰匙圖示）→ 💾 → 輸入「課外活動」→ 確定。',
+        check: function (S) { var t = AX.table(S, ACT); return !!t && t.savedPk === '課外活動編號' && ACTF.every(function (e) { return sOk(t, e); }); } },
+      { title: '輸入 5 個課外活動', detail: '切換到資料工作表檢視，輸入右方「' + ACT + '」的 5 筆記錄。',
+        h1: '在最下面標有 ✳ 的一列輸入，便會新增記錄。', h2: '常用 → 檢視 → 資料工作表檢視。第 1 筆：1、電腦學會；第 2 筆：2、音樂學會……',
+        check: function (S) { return countPairs(AX.table(S, ACT), '課外活動編號', '課外活動名稱', ACTDATA) === ACTDATA.length; } },
+      { title: '用「資料表設計」建立「' + REC + '」的欄位', detail: '再按「建立 → 資料表設計」，輸入：<br>學生編號：簡短文字，欄位大小 <b>3</b><br>課外活動編號：簡短文字，欄位大小 <b>3</b>',
+        h1: '欄位名稱及類型要和另外兩個資料表中的相同欄位一樣，否則之後不能建立關聯。', h2: '先關閉「' + ACT + '」，再按「建立 → 資料表設計」。第 1 列「學生編號」，第 2 列「課外活動編號」，兩個欄位大小都改為 3。',
+        check: function (S) { var t = tR(S); return RECF.every(function (e) { return fOk(t, e); }); } },
+      { title: '設定組合主索引鍵，儲存為「' + REC + '」', detail: '<b>同時選取兩列</b>，按「主索引鍵」，兩列都會出現鑰匙；然後按 💾，名稱輸入「<b>' + REC + '</b>」。',
+        h1: '同一位學生可以參加多個活動，同一個活動也有多位學生，所以單一欄位都會重複；兩個欄位<b>合起來</b>才不會重複，這叫「組合主索引鍵」。',
+        h2: '按住第 1 列左邊的列選取器（灰色小方格），<b>向下拖曳</b>到第 2 列才放開（或先按第 1 列，再按住 <b>Shift</b> 按第 2 列）→ 功能區「主索引鍵」→ 💾 → 輸入「' + REC + '」→ 確定。',
+        check: function (S) { var t = AX.table(S, REC); return !!t && RECF.every(function (e) { return sOk(t, e); }) && pkSet(t) === RPK; } },
+      { title: '輸入 8 筆學生課外活動記錄', detail: '在「' + REC + '」的資料工作表輸入右方的 8 筆記錄。',
+        h1: '每一筆記錄代表「某位學生參加了某個活動」。', h2: '第 1 筆：1、1；第 2 筆：1、3；第 3 筆：2、1……共 8 筆。',
+        check: function (S) { return countPairs(AX.table(S, REC), '學生編號', '課外活動編號', RECDATA) === RECDATA.length; } },
+      { title: '開啟資料庫關聯圖，加入 3 個資料表', detail: '先關閉所有資料表，按「<b>資料庫工具 → 資料庫關聯圖</b>」。在「顯示資料表」選取全部 3 個資料表，按「<b>新增</b>」，再按「關閉」。',
+        h1: '按住 Shift 鍵，先按第一個、再按最後一個資料表，便可以一次選取全部。', h2: '如果「顯示資料表」沒有出現，按「關聯工具 → 設計 → 顯示資料表」。',
+        check: function (S) { return !!S.flags.relOpened && [STU, ACT, REC].every(function (n) { return relAdded(S, n); }); } },
+      { title: '建立關聯：課外活動.課外活動編號 — ' + REC + '.課外活動編號', detail: '把「' + ACT + '」中的「<b>課外活動編號</b>」<b>拖曳</b>到「' + REC + '」的「<b>課外活動編號</b>」上，在「編輯關聯」對話方塊按「<b>建立</b>」。',
+        h1: '要從一個欄位拖到另一個資料表中「意思相同」的欄位上，放開滑鼠後便會出現「編輯關聯」。', h2: '按住「課外活動」方塊內的「課外活動編號」不放，移到「' + REC + '」方塊內的「課外活動編號」上才放開 → 按「建立(C)」。平板：用手指按住拖曳。',
+        check: function (S) { return relIdx(S, RELS[0]) >= 0; } },
+      { title: '建立關聯：' + REC + '.學生編號 — 學生個人資料.學生編號', detail: '把「' + REC + '」中的「<b>學生編號</b>」拖曳到「' + STU + '」的「<b>學生編號</b>」上，按「<b>建立</b>」。',
+        h1: '完成後兩條關聯線會把 3 個資料表連起來。', h2: '按住「' + REC + '」內的「學生編號」，拖到「' + STU + '」內的「學生編號」上放開 → 「建立(C)」。',
+        check: function (S) { return relIdx(S, RELS[1]) >= 0; } }
     ],
-    ref: function (S) {
-      return '<h4>📑 需要輸入的資料</h4><table class="reft"><tr>' + FIELDS.map(function (f) { return '<th>' + f.name + '</th>'; }).join('') + '</tr>' +
-        DATA.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + AX.esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table>';
+    ref: function () {
+      var h = '<h4>📑 ' + STU + '：要輸入的性別</h4><table class="reft"><tr><th>學生編號</th><th>學生姓名</th><th>性別</th></tr>' +
+        ADD.map(function (a, i) { return '<tr><td>' + (i + 1) + '</td><td>' + OLDDATA[i][1] + '</td><td>' + a + '</td></tr>'; }).join('') + '</table>';
+      h += '<h4 style="margin-top:10px">🗂 ' + ACT + '</h4><table class="reft"><tr><th>課外活動編號 🔑</th><th>課外活動名稱</th></tr>' + ACTDATA.map(function (a) { return '<tr><td>' + a[0] + '</td><td>' + a[1] + '</td></tr>'; }).join('') + '</table>';
+      h += '<h4 style="margin-top:10px">🗂 ' + REC + '</h4><table class="reft"><tr><th>學生編號 🔑</th><th>課外活動編號 🔑</th></tr>' + RECDATA.map(function (a) { return '<tr><td>' + a[0] + '</td><td>' + a[1] + '</td></tr>'; }).join('') + '</table>';
+      h += '<h4 style="margin-top:10px">🔗 要建立的關聯</h4><table class="reft"><tr><th>資料表.欄位</th><th>關聯資料表.欄位</th></tr>' + RELS.map(function (r) { return '<tr><td>' + r.a + '.' + r.af + '</td><td>' + r.b + '.' + r.bf + '</td></tr>'; }).join('') + '</table>';
+      return h;
     },
     grade: function (S) {
-      var t = T(S), fs = rowsOf(S), F = S.flags, items = [], notes = [];
-      items.push({ l: '以「建立 → 資料表設計」建立資料表', y: F.viaTableDesign ? '資料表設計' : (F.designOpened ? '以其他方法進入' : '未建立'), c: '建立 → 資料表設計',
-        g: F.viaTableDesign ? M.enter : (F.designOpened ? M.enter / 2 : 0), f: M.enter,
-        why: '「資料表設計」可以先定義欄位名稱、資料類型和欄位大小；「資料表」按鈕會直接進入資料工作表檢視。' });
-      FIELDS.forEach(function (e, i) {
-        var f = fs[i] || { name: '', type: '', size: '' };
-        items.push({ l: '欄位 ' + (i + 1) + ' 名稱', y: f.name || '（空白）', c: e.name, g: AX.nm(f.name) === e.name ? M.fname : 0, f: M.fname, why: '欄位名稱要與題目完全相同，次序也要一致，不要多打空格。' });
-        items.push({ l: '「' + e.name + '」資料類型', y: f.type || '（未選）', c: e.type, g: f.type === e.type ? M.ftype : 0, f: M.ftype, why: e.why.type });
-        items.push({ l: '「' + e.name + '」欄位大小', y: String(f.size || '（空白）'), c: e.size, g: String(f.size).trim() === e.size ? M.fsize : 0, f: M.fsize, why: e.why.size });
+      var t = T(S), F = S.flags, items = [], notes = [];
+      /* A. 學生個人資料（26） */
+      items.push({ l: '開啟「' + STU + '」的設計檢視', y: F.dOpen && F.dOpen[STU] ? '已開啟' : '未開啟', c: '設計檢視', g: F.dOpen && F.dOpen[STU] ? M.open : 0, f: M.open, why: '要加入欄位，必須在設計檢視中進行。' });
+      var rs = AX.field(t, SEX.name);
+      items.push({ l: '新增欄位「性別」', y: rs ? rs.type + (rs.type === '簡短文字' ? ' ' + rs.size : '') : '找不到此欄位', c: '簡短文字 1', g: fOk(t, SEX) ? M.sex : (rs ? 2 : 0), f: M.sex,
+        why: '性別只有「男」或「女」一個字，用「簡短文字」並把欄位大小設為 1，可以防止輸入過長的內容。' });
+      var sv = stuSaved(S);
+      items.push({ l: '儲存「' + STU + '」的設計變更', y: sv ? '已儲存' : (t && t.dirty ? '有未儲存的變更' : '未儲存 / 儲存的設定不正確'), c: '已儲存（' + STUF.join('、') + '）', g: sv ? M.save : 0, f: M.save, why: '改動設計後要儲存，新欄位才會生效。' });
+      ADD.forEach(function (a, i) {
+        var r = recBySid(t, String(i + 1));
+        items.push({ l: '學生 ' + (i + 1) + '（' + OLDDATA[i][1] + '）的性別', y: r ? AX.show(r.f['性別']) : '—', c: a, g: stuRecOk(S, i) ? M.stuRec : 0, f: M.stuRec, why: '請在資料工作表的「性別」欄輸入，並核對右方資料。' });
       });
-      var pk = AX.pkName(t);
-      items.push({ l: '主索引鍵', y: pk || '（未設定）', c: '學生編號', g: pk === '學生編號' ? M.pk : 0, f: M.pk, why: '主索引鍵用來識別每一筆記錄，不可以重複。每位學生的學生編號都不同，所以設為主索引鍵。' });
-      var nm = t && t.name;
-      items.push({ l: '資料表名稱', y: nm || '（未儲存）', c: TBL, g: nm === TBL ? M.save : (nm ? M.save / 2 : 0), f: M.save, why: '資料表要用題目指定的名稱儲存，日後建立表單或查詢時才找得到它。' });
-      DATA.forEach(function (row, i) {
-        var r = t && t.records[i], g = 0;
-        var y = FIELDS.map(function (f, c) { var v = r ? r.f[f.name] : ''; if (r && AX.same(f.type, v, row[c])) g += M.cell; return AX.show(v); });
-        items.push({ l: '第 ' + (i + 1) + ' 筆記錄', y: y.join(' / '), c: row.join(' / '), g: g, f: M.cell * FIELDS.length, why: '請逐格核對；數字欄位不要輸入單位，文字不要多打空格。' });
+      /* B. 課外活動（20） */
+      var ta = tA(S);
+      ACTF.forEach(function (e) {
+        var r = AX.field(ta, e.name);
+        items.push({ l: ACT + '：欄位「' + e.name + '」', y: r ? r.type + ' ' + r.size : '找不到此欄位', c: e.type + ' ' + e.size, g: fOk(ta, e) ? M.aF : (r ? 1 : 0), f: M.aF,
+          why: e.name === '課外活動編號' ? '編號是代號，不會拿來計算，所以用「簡短文字」（和「學生編號」一樣）。' : '活動名稱最多 20 個字已足夠。' });
       });
-      if (fs.length > FIELDS.length) notes.push('資料表有 ' + fs.length + ' 個欄位(' + fs.map(function (f) { return f.name; }).join('、') + ')，應該只有 4 個。');
-      if (t && t.autoPK) notes.push('儲存時 Access 自動加入了「識別碼」欄位作主索引鍵 → 表示儲存前未自行設定主索引鍵。應先設定主索引鍵才儲存。');
-      if (t && t.records.length > DATA.length) notes.push('記錄有 ' + t.records.length + ' 筆，多於要求的 6 筆（可能多打了一行）。');
-      if (!F.visitedDatasheet) notes.push('未曾切換到資料工作表檢視。');
-      if (t && t.dirty) notes.push('完成時資料表仍有未儲存的設計變更（關閉 Access 時這些變更會遺失）。');
+      items.push({ l: ACT + '：主索引鍵', y: ta ? (AX.pkName(ta) || '（沒有）') : '—', c: '課外活動編號', g: ta && AX.pkName(ta) === '課外活動編號' && ta.savedPk === '課外活動編號' ? M.aPk : 0, f: M.aPk,
+        why: '每個課外活動都有不同的編號，用它作主索引鍵可以避免重複，也是建立「一對多」關聯的一方。' });
+      items.push({ l: ACT + '：資料表名稱', y: ta ? (ta.name == null ? '未儲存' : ta.name) : '未建立', c: ACT, g: ta && ta.name === ACT ? M.aName : 0, f: M.aName, why: '資料表名稱要與題目完全相同，之後的練習才可以使用。' });
+      var na = countPairs(AX.table(S, ACT) || ta, '課外活動編號', '課外活動名稱', ACTDATA);
+      items.push({ l: ACT + '：5 筆記錄', y: '正確 ' + na + ' 筆', c: '5 筆', g: na * M.aRec, f: ACTDATA.length * M.aRec, why: '在資料工作表最後標有 ✳ 的一列輸入新記錄。' });
+      /* C. 學生課外活動記錄（25） */
+      var tr = tR(S);
+      RECF.forEach(function (e) {
+        var r = AX.field(tr, e.name);
+        items.push({ l: REC + '：欄位「' + e.name + '」', y: r ? r.type + ' ' + r.size : '找不到此欄位', c: e.type + ' ' + e.size, g: fOk(tr, e) ? M.rF : (r ? 1 : 0), f: M.rF,
+          why: '這個欄位要和「' + (e.name === '學生編號' ? STU : ACT) + '」中的「' + e.name + '」資料類型相同，才可以建立關聯。' });
+      });
+      var pks = AX.savedPks(tr), pkOk = pkSet(tr) === RPK, pkHalf = !pkOk && pks.length === 1 && (pks[0] === '學生編號' || pks[0] === '課外活動編號');
+      items.push({ l: REC + '：組合主索引鍵', y: tr ? (pks.join(' + ') || (tr.name == null ? '未儲存' : '（沒有）')) : '—', c: '學生編號 + 課外活動編號', g: pkOk ? M.rPk : pkHalf ? 2 : 0, f: M.rPk,
+        why: '同一位學生可以參加多個活動、同一個活動也有多位學生，單一欄位都會重複；兩個欄位合起來才不會重複，所以要同時選取兩列再按「主索引鍵」。' });
+      items.push({ l: REC + '：資料表名稱', y: tr ? (tr.name == null ? '未儲存' : tr.name) : '未建立', c: REC, g: tr && tr.name === REC ? M.rName : 0, f: M.rName, why: '資料表名稱要與題目完全相同。' });
+      var nr = countPairs(AX.table(S, REC) || tr, '學生編號', '課外活動編號', RECDATA);
+      items.push({ l: REC + '：8 筆記錄', y: '正確 ' + nr + ' 筆', c: '8 筆', g: nr * M.rRec, f: RECDATA.length * M.rRec, why: '每筆記錄代表一位學生參加一個活動；學生 1 參加了兩個活動，所以有兩筆。' });
+      /* D. 關聯（31） */
+      items.push({ l: '開啟資料庫關聯圖', y: F.relOpened ? '已開啟' : '未開啟', c: '資料庫工具 → 資料庫關聯圖', g: F.relOpened ? M.relOpen : 0, f: M.relOpen, why: '資料表之間的關聯要在「資料庫關聯圖」中建立。' });
+      [STU, ACT, REC].forEach(function (n) {
+        items.push({ l: '加入「' + n + '」到關聯圖', y: relAdded(S, n) ? '已加入' : '未加入', c: '已加入', g: relAdded(S, n) ? M.relAdd : 0, f: M.relAdd, why: '用「顯示資料表」選取資料表後按「新增」。' });
+      });
+      RELS.forEach(function (R, k) {
+        var i = relIdx(S, R), near = i < 0 && relNear(S, R);
+        items.push({ l: '關聯 ' + (k + 1) + '：' + R.a + ' — ' + R.b, y: i >= 0 ? relStr(S.rels[i]) : near ? '欄位不正確' : '未建立', c: R.a + '.' + R.af + ' — ' + R.b + '.' + R.bf, g: i >= 0 ? M.rel : near ? M.relNear : 0, f: M.rel,
+          why: '關聯要連接兩個資料表中意思相同的欄位（' + R.af + '），查詢時 Access 才知道怎樣把記錄配對起來。' });
+      });
+      /* 備註 */
+      var wrongRel = (S.rels || []).filter(function (r) { return !RELS.some(function (R) { return (r.t1 === R.a && r.f1 === R.af && r.t2 === R.b && r.f2 === R.bf) || (r.t1 === R.b && r.f1 === R.bf && r.t2 === R.a && r.f2 === R.af); }); });
+      if (wrongRel.length) notes.push('多餘或錯誤的關聯：' + wrongRel.map(relStr).join('；') + '。');
+      if (t && t.dirty) notes.push('「' + STU + '」的設計檢視仍有未儲存的變更。');
+      if (t && t.records.length !== 7) notes.push('「' + STU + '」有 ' + t.records.length + ' 筆記錄，應為 7 筆。');
+      var trs = AX.table(S, REC); if (trs && AX.field(trs, '識別碼')) notes.push('「' + REC + '」多了 Access 自動加入的「識別碼」欄位（儲存時 Access 問是否建立主索引鍵，按了「是」）。應先設定組合主索引鍵才儲存。');
+      if (t && t.fields.length > STUF.length) notes.push('「' + STU + '」共有 ' + t.fields.length + ' 個欄位，多於要求的 ' + STUF.length + ' 個。');
+      var tas = AX.table(S, ACT); if (tas && tas.records.length > 5) notes.push('「' + ACT + '」有 ' + tas.records.length + ' 筆記錄，多於 5 筆。');
+      if (trs && trs.records.length > 8) notes.push('「' + REC + '」有 ' + trs.records.length + ' 筆記錄，多於 8 筆。');
+      if ((S.rels || []).some(function (r) { return r.ri; })) notes.push('有剔選「強迫參考完整性」：做得好，Access 會防止輸入不存在的學生或活動編號。');
       return { items: items, notes: notes };
     },
+    reportExtra: function (st) {
+      var E = AX.esc, h = '<h2>三、建立的關聯</h2>';
+      h += (st.rels || []).length ? '<p style="margin:2px 0 6px">' + st.rels.map(function (r) { return E(relStr(r)) + '（' + E(r.type) + (r.ri ? '，強迫參考完整性' : '') + '）'; }).join('<br>') + '</p>' : '<p>（沒有）</p>';
+      return h;
+    },
     demo: [
-      function (A) { A.tab('create'); }, function (A) { A.newTableDesign(); },
-      function (A) { A.setRow(0, '學生編號', '簡短文字', '3'); }, function (A) { A.setRow(1, '姓名', '簡短文字', '20'); },
-      function (A) { A.setRow(2, '身高', '數字', '整數'); }, function (A) { A.setRow(3, '體重', '數字', '整數'); },
-      function (A) { A.setPK(0); }, function (A) { A.saveAs(TBL); }, function (A) { A.datasheet(); }
-    ].concat(DATA.map(function (r) { return function (A) { var o = {}; FIELDS.forEach(function (f, c) { o[f.name] = r[c]; }); A.addRecord(o, 'ds'); }; }))
+      function (A) { A.openDesign(STU); }, function (A) { A.setRow(6, SEX.name, SEX.type, SEX.size); },
+      function (A) { A.saveAs(STU); }, function (A) { A.datasheet(); }
+    ].concat([function (A) { ADD.forEach(function (a, i) { A.setField(i, '性別', a, 'ds'); }); }])
+      .concat([
+        function (A) { A.newTableDesign(); }, function (A) { A.setRow(0, ACTF[0].name, ACTF[0].type, ACTF[0].size); A.setRow(1, ACTF[1].name, ACTF[1].type, ACTF[1].size); },
+        function (A) { A.setPK(0); A.saveAs(ACT); }, function (A) { A.datasheet(); },
+        function (A) { ACTDATA.forEach(function (d) { A.addRecord({ '課外活動編號': d[0], '課外活動名稱': d[1] }, 'ds'); }); },
+        function (A) { A.newTableDesign(); }, function (A) { A.setRow(0, RECF[0].name, RECF[0].type, RECF[0].size); A.setRow(1, RECF[1].name, RECF[1].type, RECF[1].size); },
+        function (A) { A.setPK([0, 1]); }, function (A) { A.saveAs(REC); },
+        function (A) { A.datasheet(); }, function (A) { RECDATA.forEach(function (d) { A.addRecord({ '學生編號': d[0], '課外活動編號': d[1] }, 'ds'); }); },
+        function (A) { A.close(); }, function (A) { A.openRel(); }, function (A) { A.relAdd([STU, REC, ACT]); },
+        function (A) { A.relCreate(ACT, '課外活動編號', REC, '課外活動編號'); }, function (A) { A.relCreate(REC, '學生編號', STU, '學生編號'); }
+      ])
   });
 })();
 
-AX.boot(AX.CFG['EX1']);
+AX.boot(AX.CFG['EX4']);
 </script>
 </body>
 </html>

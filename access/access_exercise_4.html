@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access 自學練習(一):建立資料表</title>
+<title>Access 自學練習(四):查詢及列印</title>
 <!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
 <style>
 /* =====================================================================
@@ -2782,121 +2782,222 @@ if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
 AX.TEACHER_PIN = '0000';
 
 /* =====================================================================
-   練習一：建立資料表「學生個人資料」
-   老師可修改：資料(DATA)、配分(M)、扣分(penalty)、步驟文字
+   練習四：查詢（男同學、女同學、電腦學會）及列印
+   由練習三完成時的狀態開始。
    ===================================================================== */
 (function () {
-  var TBL = '學生個人資料';
-  var FIELDS = [
-    { name: '學生編號', type: '簡短文字', size: '3', why: { type: '學生編號只用來識別學生，不會用來計算，所以用「簡短文字」。', size: '學生編號最多 3 位，欄位大小設為 3 可以防止輸入過長的資料。' } },
-    { name: '姓名', type: '簡短文字', size: '20', why: { type: '姓名是文字資料，用「簡短文字」。', size: '姓名不會超過 20 個字，欄位大小設為 20 可節省空間及防止錯誤輸入。' } },
-    { name: '身高', type: '數字', size: '整數', why: { type: '身高是需要比較或計算的數值，所以用「數字」。', size: '身高沒有小數，「整數」（−32,768 至 32,767）已足夠。' } },
-    { name: '體重', type: '數字', size: '整數', why: { type: '體重是需要比較或計算的數值，所以用「數字」。', size: '體重沒有小數，「整數」已足夠。' } }
-  ];
-  var DATA = [
-    ['1', '王一全', '168', '59'], ['2', '陳明', '163', '60'], ['3', '張恩芳', '155', '48'],
-    ['4', '李霞', '152', '45'], ['5', '吳金鳳', '166', '50'], ['6', '何明坤', '180', '68']
-  ];
-  var M = { enter: 4, fname: 3, ftype: 3, fsize: 3, pk: 8, save: 4, cell: 2 };   /* 合共 100 */
+  var STU = '學生個人資料', ACT = '課外活動', REC = '學生課外活動記錄';
+  var STUF = [{ name: '學生編號', type: '簡短文字', size: '3' }, { name: '學生姓名', type: '簡短文字', size: '20' }, { name: '身高', type: '數字', size: '整數' }, { name: '體重', type: '數字', size: '整數' },
+    { name: '班別', type: '簡短文字', size: '2' }, { name: '班號', type: '簡短文字', size: '2' }, { name: '性別', type: '簡短文字', size: '1' }];
+  var STUDATA = [['1', '王一全', '168', '59', '3A', '30', '男'], ['2', '陳明', '163', '60', '3A', '01', '男'], ['3', '張恩芳', '155', '48', '3B', '05', '女'], ['4', '李霞', '152', '45', '3B', '15', '女'],
+    ['5', '吳金鳳', '166', '50', '3C', '24', '女'], ['6', '何明坤', '180', '68', '3D', '09', '男'], ['7', '李快樂', '164', '56', '3A', '22', '男']];
+  var ACTF = [{ name: '課外活動編號', type: '簡短文字', size: '3' }, { name: '課外活動名稱', type: '簡短文字', size: '20' }];
+  var ACTDATA = [['1', '電腦學會'], ['2', '音樂學會'], ['3', '足球學會'], ['4', '美術學會'], ['5', '籃球學會']];
+  var RECF = [{ name: '學生編號', type: '簡短文字', size: '3' }, { name: '課外活動編號', type: '簡短文字', size: '3' }];
+  var RECDATA = [['1', '1'], ['1', '3'], ['2', '1'], ['3', '5'], ['4', '4'], ['5', '2'], ['6', '1'], ['7', '4']];
+  var RELS = [{ t1: ACT, f1: '課外活動編號', t2: REC, f2: '課外活動編號', ri: false, cu: false, cd: false, type: '一對多' },
+    { t1: STU, f1: '學生編號', t2: REC, f2: '學生編號', ri: false, cu: false, cd: false, type: '一對多' }];
+  var LAYOUT = [{ n: STU, x: 20, y: 16 }, { n: REC, x: 235, y: 38 }, { n: ACT, x: 450, y: 16 }];
 
-  function T(S) { return AX.mainTable(S, TBL); }
-  function rowsOf(S) { return AX.namedRows(T(S)); }
-  function namesOk(S) { var fs = rowsOf(S); return FIELDS.every(function (e, i) { return fs[i] && AX.nm(fs[i].name) === e.name; }); }
-  function typesOk(S) { var fs = rowsOf(S); return FIELDS.every(function (e, i) { return fs[i] && fs[i].type === e.type; }); }
-  function sizesOk(S) { var fs = rowsOf(S); return FIELDS.every(function (e, i) { return fs[i] && String(fs[i].size).trim() === e.size; }); }
-  function recOk(S, i) { var t = T(S), r = t && t.records[i]; return !!r && FIELDS.every(function (f, c) { return AX.same(f.type, r.f[f.name], DATA[i][c]); }); }
+  var S5 = ['學生編號', '學生姓名', '班別', '班號', '性別'].map(function (f) { return STU + '.' + f; });
+  var QS = [
+    { k: 'M', name: '男同學課外活動記錄', show: S5.concat([ACT + '.課外活動名稱']), crit: { tf: STU + '.性別', v: '男' }, sorts: [STU + '.學生姓名'], need: [STU, REC, ACT],
+      desc: '所有男同學的學生編號、學生姓名、班別、班號、性別及課外活動名稱，按學生姓名遞增排序' },
+    { k: 'F', name: '女同學課外活動記錄', show: S5.concat([ACT + '.課外活動名稱']), crit: { tf: STU + '.性別', v: '女' }, sorts: [STU + '.班別'], need: [STU, REC, ACT],
+      desc: '所有女同學的學生編號、學生姓名、班別、班號、性別及課外活動名稱，按班別遞增排序' },
+    { k: 'C', name: '電腦學會會員名單', show: S5, crit: { tf: ACT + '.課外活動名稱', v: '電腦學會', hidden: true }, sorts: [STU + '.班別', STU + '.班號'], need: [STU, REC],
+      desc: '所有電腦學會會員的學生編號、學生姓名、班別、班號及性別，按班別及班號遞增排序' }];
+  var PRINTS = [QS[1], QS[2]];
 
-  var X = AX.register({
-    id: 'EX1', code: 'ACC1', mode: 'practice', full: 100, fileTag: 'Access練習一',
-    title: '練習一：建立資料表「學生個人資料」',
-    subtitle: '中三 電腦科 · Microsoft Access 自學練習',
-    time: '20 分鐘',
-    objectives: ['用「資料表設計」建立新的資料表', '為欄位選擇合適的資料類型及欄位大小', '設定主索引鍵', '儲存資料表，並在資料工作表檢視輸入記錄'],
-    intro: ['資料庫「學生資料.accdb」已經開啟，但還沒有資料表。', '建立資料表「學生個人資料」（4 個欄位），設定主索引鍵，然後輸入 6 筆學生資料。', '右方會逐步顯示指示；做完一步會自動打 ✔。'],
+  /* ---------- 參考答案 ---------- */
+  function mk(name, fields, data, pk) { return { name: name, fields: fields, savedPk: pk || null, records: data.map(function (a) { var o = { f: {} }; fields.forEach(function (f, i) { o.f[f.name] = a[i]; }); return o; }) }; }
+  var REF = { tables: [mk(STU, STUF, STUDATA, '學生編號'), mk(ACT, ACTF, ACTDATA, '課外活動編號'), mk(REC, RECF, RECDATA)], rels: RELS };
+  function refQuery(sp) {
+    var cols = sp.show.map(function (tf) { var p = tf.split('.'); return { t: p[0], f: p[1], sort: sp.sorts.indexOf(tf) >= 0 ? '遞增' : '', show: true, crit: tf === sp.crit.tf ? '"' + sp.crit.v + '"' : '', or: '' }; });
+    if (sp.crit.hidden) { var p = sp.crit.tf.split('.'); cols.push({ t: p[0], f: p[1], sort: '', show: false, crit: '"' + sp.crit.v + '"', or: '' }); }
+    return { name: sp.name, tables: [STU, REC, ACT].map(function (n) { return { n: n }; }), cols: cols };
+  }
+  QS.forEach(function (sp) { sp.ref = refQuery(sp); sp.out = AX.runQuery(REF, sp.ref); sp.keys = keySet(REF, sp.ref); });
+
+  /* ---------- 檢查工具 ---------- */
+  function keySet(S, q) {
+    var cols = AX.qCols(q).map(function (c) { return { t: c.t, f: c.f, sort: '', show: false, crit: c.crit || '', or: c.or || '' }; });
+    cols.push({ t: STU, f: '學生編號', show: true }, { t: REC, f: '課外活動編號', show: true });
+    var r = AX.runQuery(S, { tables: q.tables, cols: cols });
+    return r.rows.map(function (x) { return AX.nm(x[0]) + '|' + AX.nm(x[1]); }).sort().join(',');
+  }
+  function tfs(q) { return AX.qCols(q).map(function (c) { return c.t + '.' + c.f; }); }
+  function shown(S, q) { return AX.runQuery(S, q).cols.map(function (c) { return c.t + '.' + c.f; }); }
+  function fieldsOk(S, q, sp) { return !!q && shown(S, q).join(',') === sp.show.join(','); }
+  function critOk(S, q, sp) { return !!q && AX.qCols(q).length > 0 && keySet(S, q) === sp.keys; }
+  function sortList(q) { return AX.qCols(q).filter(function (c) { return c.f !== '*' && (c.sort === '遞增' || c.sort === '遞減'); }).map(function (c) { return c.t + '.' + c.f + ':' + c.sort; }); }
+  function sortOk(q, sp) { return !!q && sortList(q).join(',') === sp.sorts.map(function (x) { return x + ':遞增'; }).join(','); }
+  function tablesOk(S, q, sp) { if (!q) return false; var t = AX.qTables(q); return sp.need.every(function (n) { return t.indexOf(n) >= 0; }) && !AX.runQuery(S, q).cross; }
+  function norm(cols) { return JSON.stringify((cols || []).filter(function (c) { return c && c.f; }).map(function (c) { return [c.t, c.f, c.sort || '', c.show !== false, c.crit || '', c.or || '']; })); }
+  function runOk(S, q) { var n = norm(AX.qCols(q)); return !!q && (S.flags.runs || []).some(function (r) { return norm(r.cols) === n; }); }
+  /* 練習進度：已儲存的同名查詢；否則（前面的查詢都已儲存時）正在設計中的查詢 */
+  function cur(S, k) {
+    var i = QS.map(function (x) { return x.k; }).indexOf(k), sp = QS[i], q = AX.query(S, sp.name);
+    if (q) return q;
+    for (var j = 0; j < i; j++) if (!AX.query(S, QS[j].name)) return null;
+    var d = S.qdraft;
+    return d && (d.name == null || d.name === sp.name) ? d : null;
+  }
+  /* 評分：同名查詢；否則找內容相符、名稱不是其他題目的查詢 */
+  function pick(S, sp) {
+    var q = AX.query(S, sp.name); if (q) return { q: q, exact: true };
+    var names = QS.map(function (x) { return x.name; });
+    var cand = (S.queries || []).concat(S.qdraft && S.qdraft.idx < 0 ? [S.qdraft] : []).filter(function (x) { return names.indexOf(x.name) < 0 && critOk(S, x, sp); });
+    return cand.length ? { q: cand[0], exact: false } : { q: null, exact: false };
+  }
+  function outEq(heads, rows, sp) {
+    if (heads.join(',') !== sp.out.heads.join(',')) return false;
+    var a = rows.map(function (r) { return r.map(AX.nm).join('|'); }).sort().join(','), b = sp.out.rows.map(function (r) { return r.map(AX.nm).join('|'); }).sort().join(',');
+    return a === b;
+  }
+  /* 3 = 預覽列印後列印、名稱及內容正確；2 = 內容正確但沒有先預覽；1 = 印了但名稱或內容不正確；0 = 未列印 */
+  function printed(S, sp) {
+    var ps = S.flags.prints || [], best = 0;
+    ps.forEach(function (p) { var ok = outEq(p.heads, p.rows, sp) && p.name === sp.name, g = ok ? (p.prev ? 3 : 2) : ((p.name === sp.name || outEq(p.heads, p.rows, sp)) ? 1 : 0); best = Math.max(best, g); });
+    return best;
+  }
+  function qLine(q) {
+    return AX.qCols(q).map(function (c) { return c.f + (c.sort ? '（' + c.sort + '）' : '') + (c.crit ? '［準則 ' + c.crit + '］' : '') + (c.show === false ? '（不顯示）' : ''); }).join('、');
+  }
+
+  var M = { tables: 3, fields: 9, crit: 5, sort: 5, run: 3, save: 5, print: 5 };
+  var STEPQ = function (k) { return QS.filter(function (x) { return x.k === k; })[0]; };
+
+  AX.register({
+    id: 'EX5', code: 'ACC5', mode: 'practice', full: 100, fileTag: 'Access練習四',
+    title: '練習四：查詢及列印',
+    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接練習三）',
+    time: '40 分鐘',
+    features: { rel: true, query: true, print: true },
+    objectives: ['用「查詢設計」從多個有關聯的資料表選取欄位', '在設計格線設定「準則」及「排序」', '用準則篩選但不顯示該欄位（取消剔選「顯示」）', '執行、儲存及列印查詢'],
+    intro: ['資料庫中已有練習三建立的 3 個資料表及關聯。',
+      '建立 3 個查詢：「男同學課外活動記錄」「女同學課外活動記錄」「電腦學會會員名單」，每個都要執行及儲存；最後把後兩個查詢先預覽列印，再列印。'],
     penalty: { hint1: 1, hint2: 1, hintMax: 10, err: 1, errMax: 10 },
-    start: { phase: 'db', db: '學生資料', tables: [], forms: [] },
-    startMsg: '請按功能區的「建立」索引標籤。',
-    emptyMsg: function () { return '資料庫 <b>學生資料.accdb</b> 已開啟，目前還沒有任何資料表。<br>請依右方指示，到「<b>建立</b>」索引標籤建立新的資料表。'; },
+    start: {
+      phase: 'db', db: '學生資料',
+      tables: [{ name: STU, fields: STUF, pk: '學生編號', records: STUDATA }, { name: REC, fields: RECF, pk: ['學生編號', '課外活動編號'], records: RECDATA }, { name: ACT, fields: ACTF, pk: '課外活動編號', records: ACTDATA }],
+      rels: RELS, relLayout: LAYOUT, forms: [], queries: []
+    },
+    startMsg: '請按「建立 → 查詢設計」。',
+    emptyMsg: function () { return '資料庫 <b>學生資料.accdb</b> 已開啟。<br>3 個資料表已經用關聯連接好（可按「資料庫工具 → 資料庫關聯圖」查看）。<br>請依右方指示建立查詢。'; },
     wrong: {
-      tblnew: '「資料表」按鈕會直接以資料工作表檢視建立資料表。本練習要按旁邊的「資料表設計」。',
-      formauto: '本練習不需要建立表單。', formwiz: '本練習不需要建立表單。'
+      tblnew: '本練習不需要建立資料表。請用「建立 → 查詢設計」。', tbldesign: '本練習不需要建立資料表。請用「建立 → 查詢設計」。',
+      formwiz: '本練習不需要建立表單。', formauto: '本練習不需要建立表單。',
+      qmake: '「製成資料表」會把結果另存成新的資料表。本練習只需要「選取」查詢。',
+      qappend: '「新增」查詢會把記錄加到另一個資料表，會改動資料。本練習只需要「選取」查詢。',
+      qupdate: '「更新」查詢會修改資料表中的資料。本練習只需要「選取」查詢。',
+      qdelete: '「刪除」查詢會刪除資料表中的記錄！本練習只需要「選取」查詢。',
+      qcross: '本練習不需要「交叉資料表」查詢。',
+      report: '本練習要列印的是「查詢」，不需要建立報表。請開啟查詢後按「檔案 → 列印」。'
     },
     steps: [
-      { title: '切換到「建立」索引標籤', detail: '功能區最上面一行是<b>索引標籤</b>。請按「<b>建立</b>」。',
-        h1: '索引標籤在紅色標題列下面，由左至右是：檔案、常用、<b>建立</b>……',
-        h2: '直接按紅色橫條上「建立」兩個字。下面的按鈕會變成「範本、資料表、查詢、表單、報表」等群組。',
-        check: function (S) { return !!(S.flags.visitedCreate || S.flags.designOpened); } },
-      { title: '按「資料表設計」進入設計檢視', detail: '在「資料表」群組按「<b>資料表設計</b>」。畫面會出現「欄位名稱 / 資料類型 / 描述」的表格。',
-        h1: '「資料表」群組在「建立」索引標籤的左邊。',
-        h2: '要按有<b>鉛筆</b>圖示的「資料表設計」；不要按旁邊的「資料表」（會直接進入資料工作表檢視，算誤操作）。',
-        check: function (S) { return !!S.flags.viaTableDesign; } },
-      { title: '輸入 4 個欄位名稱及資料類型',
-        detail: '<table><tr><th>欄位名稱</th><th>資料類型</th></tr><tr><td>學生編號</td><td>簡短文字</td></tr><tr><td>姓名</td><td>簡短文字</td></tr><tr><td>身高</td><td><b>數字</b></td></tr><tr><td>體重</td><td><b>數字</b></td></tr></table>',
-        h1: '在「欄位名稱」欄輸入名稱後，資料類型會自動變成「簡短文字」，需要時才改。',
-        h2: '由第 1 列開始，一列一個欄位。「身高」和「體重」兩列：按「資料類型」下拉選單，選「數字」。',
-        check: function (S) { return namesOk(S) && typesOk(S); } },
-      { title: '設定 4 個欄位的欄位大小', detail: '學生編號 = <b>3</b>、姓名 = <b>20</b>、身高 = <b>整數</b>、體重 = <b>整數</b>。',
-        h1: '「欄位大小」在畫面下方「欄位屬性」的第一行。',
-        h2: '先按該欄位那一列（左邊出現 ▶），下方「欄位屬性 → 欄位大小」便會顯示那個欄位的設定：文字欄位直接輸入數字；數字欄位在下拉選單選「整數」。',
-        check: function (S) { return namesOk(S) && sizesOk(S); } },
-      { title: '把「學生編號」設為主索引鍵', detail: '選取「學生編號」這一列，再按「資料表工具 · 設計」→ <b>主索引鍵</b>。',
-        h1: '「主索引鍵」按鈕在黃色「資料表工具」下面的「設計」索引標籤。',
-        h2: '按「學生編號」左邊的灰色列選取器（出現 ▶），再按功能區的「主索引鍵」。成功後列選取器會出現鎖匙圖示。',
-        check: function (S) { return AX.pkName(T(S)) === '學生編號'; } },
-      { title: '儲存資料表，命名為「' + TBL + '」', detail: '按左上角 💾（或 Ctrl+S），資料表名稱輸入「<b>' + TBL + '</b>」，按「確定」。',
-        h1: '💾 在紅色標題列的最左邊。',
-        h2: '對話框原本寫着「資料表1」，要全部刪去再輸入「' + TBL + '」。如果 Access 問「是否要立即建立主索引鍵」，表示你未設定主索引鍵——請按「取消」，先完成上一步。',
-        check: function (S) { return !!AX.table(S, TBL); } },
-      { title: '切換到資料工作表檢視', detail: '按「常用 → <b>檢視</b>」，或狀態列右下角的資料工作表圖示。',
-        h1: '「檢視」按鈕在功能區最左邊。',
-        h2: '按「檢視」按鈕上半部的圖示會直接切換；按下半部「檢視 ▾」可以選「資料工作表檢視」。',
-        check: function (S) { return !!S.flags.visitedDatasheet; } },
-      { title: '輸入 6 筆學生資料', detail: '依下方「需要輸入的資料」逐格輸入。最底有 ✳ 的一行是新記錄，在那一行打字便會新增一筆。',
-        h1: '按 Enter 或 Tab 可以跳到下一格。',
-        h2: '身高、體重只可以輸入數字；姓名不要多打空格。多了一筆記錄：按記錄左邊灰色方格選取，再按「常用 → 刪除」。',
-        check: function (S) { return DATA.every(function (r, i) { return recOk(S, i); }); } }
+      { title: '用「查詢設計」建立查詢，加入 3 個資料表', detail: '按「建立 → <b>查詢設計</b>」，在「顯示資料表」選取全部 3 個資料表，按「新增」，再按「關閉」。',
+        h1: '按住 Shift 鍵可以一次選取全部資料表。資料表之間的連接線就是練習三建立的關聯。', h2: '「建立」索引標籤 →「查詢」群組 →「查詢設計」。不要用「查詢精靈」，它不能設定準則。',
+        check: function (S) { var q = cur(S, 'M'); return !!q && QS[0].need.every(function (n) { return AX.qTables(q).indexOf(n) >= 0; }); } },
+      { title: '加入 6 個欄位（男同學查詢）', detail: '在下方設計格線「欄位」列的第 1 欄打開清單，選「<b>學生個人資料.學生編號</b>」。同樣方法在第 2 至 6 欄加入：學生姓名、班別、班號、性別（學生個人資料）及<b>課外活動.課外活動名稱</b>。',
+        h1: '也可以在上方資料表方塊中，把欄位<b>按兩下</b>或<b>拖曳</b>到設計格線。', h2: '每一欄選好後，「資料表」列會自動顯示欄位來自哪個資料表。「顯示」要剔選。',
+        check: function (S) { return fieldsOk(S, cur(S, 'M'), QS[0]); } },
+      { title: '準則：性別 = "男"；學生姓名遞增', detail: '在「性別」欄的「<b>準則</b>」列輸入 <b>男</b>（Access 會自動加上引號變成 "男"）；在「學生姓名」欄的「<b>排序</b>」列選「<b>遞增</b>」。',
+        h1: '準則寫在哪一欄，就是用哪一個欄位來篩選。', h2: '輸入準則後按 Enter 或按其他格，便會看到 "男"。中文姓名遞增排序是按筆劃由少至多。',
+        check: function (S) { var q = cur(S, 'M'); return critOk(S, q, QS[0]) && sortOk(q, QS[0]); } },
+      { title: '執行，並儲存為「男同學課外活動記錄」', detail: '按「查詢工具 → 設計 → <b>執行</b>」看結果（應有 5 筆），然後按 💾，查詢名稱輸入「<b>男同學課外活動記錄</b>」。',
+        h1: '「執行」是紅色的感嘆號圖示。執行後可按「檢視」回到設計檢視修改。', h2: '結果應該有王一全（2 個活動）、何明坤、李快樂及陳明。儲存後關閉查詢，再建立下一個。',
+        check: function (S) { var q = AX.query(S, QS[0].name); return !!q && runOk(S, q); } },
+      { title: '建立「女同學課外活動記錄」', detail: '關閉上一個查詢，再按「查詢設計」加入 3 個資料表。欄位與男同學查詢相同；「性別」的準則是 <b>女</b>；「<b>班別</b>」排序選「遞增」。',
+        h1: '學生姓名不用排序，只有「班別」要排序。', h2: '做法和男同學查詢一樣，只是準則改為「女」，排序改在「班別」欄。',
+        check: function (S) { var q = cur(S, 'F'); return fieldsOk(S, q, QS[1]) && critOk(S, q, QS[1]) && sortOk(q, QS[1]); } },
+      { title: '執行，並儲存為「女同學課外活動記錄」', detail: '按「<b>執行</b>」（應有 3 筆），再儲存為「<b>女同學課外活動記錄</b>」。',
+        h1: '先執行看看結果是否正確，才儲存。', h2: '結果：張恩芳、李霞（3B）及吳金鳳（3C）。',
+        check: function (S) { var q = AX.query(S, QS[1].name); return !!q && runOk(S, q); } },
+      { title: '建立「電腦學會會員名單」：欄位及準則', detail: '新查詢加入 3 個資料表。顯示學生編號、學生姓名、班別、班號、性別；再加入<b>課外活動.課外活動名稱</b>，準則輸入 <b>電腦學會</b>，並<b>取消剔選</b>它的「顯示」。',
+        h1: '要用「課外活動名稱」來篩選，但名單不需要顯示它，所以取消剔選「顯示」。', h2: '第 6 欄選「課外活動.課外活動名稱」→「準則」輸入 電腦學會 →「顯示」那一格的剔號按一下取消。',
+        check: function (S) { var q = cur(S, 'C'); return fieldsOk(S, q, QS[2]) && critOk(S, q, QS[2]); } },
+      { title: '電腦學會：按班別、班號遞增排序', detail: '在「<b>班別</b>」及「<b>班號</b>」兩欄的「排序」列都選「遞增」。',
+        h1: '有多於一個排序欄位時，Access 由左至右排序：先按班別，班別相同再按班號。', h2: '「班別」要在「班號」的左邊（第 3、4 欄），兩欄都選「遞增」。',
+        check: function (S) { return sortOk(cur(S, 'C'), QS[2]); } },
+      { title: '執行，並儲存為「電腦學會會員名單」', detail: '按「<b>執行</b>」（應有 3 筆），再儲存為「<b>電腦學會會員名單</b>」。',
+        h1: '結果中不應看到「課外活動名稱」一欄。', h2: '結果：陳明（3A 01）、王一全（3A 30）、何明坤（3D 09）。',
+        check: function (S) { var q = AX.query(S, QS[2].name); return !!q && runOk(S, q); } },
+      { title: '預覽列印及列印「女同學課外活動記錄」', detail: '在導覽窗格按兩下開啟「女同學課外活動記錄」，按「<b>檔案 → 列印 → 預覽列印</b>」檢查頁面，再按「<b>列印</b>」，在「列印」對話方塊按「<b>確定</b>」。',
+        h1: '要先開啟（或在導覽窗格選取）要列印的查詢，才按「檔案」。列印前先預覽，可以避免浪費紙張。', h2: '開啟查詢 →「檔案」→ 左邊「列印」→「預覽列印」→ 預覽畫面按「列印(P)...」→「確定」。',
+        check: function (S) { return printed(S, PRINTS[0]) === 3; } },
+      { title: '預覽列印及列印「電腦學會會員名單」', detail: '同樣方法開啟「電腦學會會員名單」，先「<b>預覽列印</b>」，再「<b>列印</b>」→「確定」。',
+        h1: '預覽時應看到 3 位電腦學會會員，沒有「課外活動名稱」一欄。', h2: '關閉上一個查詢 → 按兩下開啟「電腦學會會員名單」→「檔案 → 列印 → 預覽列印」→「列印(P)...」→「確定」。',
+        check: function (S) { return printed(S, PRINTS[1]) === 3; } }
     ],
-    ref: function (S) {
-      return '<h4>📑 需要輸入的資料</h4><table class="reft"><tr>' + FIELDS.map(function (f) { return '<th>' + f.name + '</th>'; }).join('') + '</tr>' +
-        DATA.map(function (r) { return '<tr>' + r.map(function (c) { return '<td>' + AX.esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table>';
+    ref: function () {
+      var h = '<h4>🔎 要建立的查詢</h4><table class="reft" style="text-align:left"><tr><th>查詢名稱</th><th>要求</th></tr>' +
+        QS.map(function (sp) { return '<tr><td style="white-space:nowrap">' + sp.name + '</td><td style="text-align:left">' + sp.desc + '</td></tr>'; }).join('') + '</table>';
+      h += '<h4 style="margin-top:10px">🖨 要列印</h4><div style="font-size:12.5px">' + PRINTS.map(function (sp) { return '「' + sp.name + '」'; }).join('及') + '</div>';
+      h += '<h4 style="margin-top:10px">🗂 資料表欄位</h4><div style="font-size:12.5px;line-height:1.6"><b>' + STU + '</b>：' + STUF.map(function (f) { return f.name; }).join('、') +
+        '<br><b>' + REC + '</b>：學生編號、課外活動編號<br><b>' + ACT + '</b>：課外活動編號、課外活動名稱</div>';
+      return h;
     },
     grade: function (S) {
-      var t = T(S), fs = rowsOf(S), F = S.flags, items = [], notes = [];
-      items.push({ l: '以「建立 → 資料表設計」建立資料表', y: F.viaTableDesign ? '資料表設計' : (F.designOpened ? '以其他方法進入' : '未建立'), c: '建立 → 資料表設計',
-        g: F.viaTableDesign ? M.enter : (F.designOpened ? M.enter / 2 : 0), f: M.enter,
-        why: '「資料表設計」可以先定義欄位名稱、資料類型和欄位大小；「資料表」按鈕會直接進入資料工作表檢視。' });
-      FIELDS.forEach(function (e, i) {
-        var f = fs[i] || { name: '', type: '', size: '' };
-        items.push({ l: '欄位 ' + (i + 1) + ' 名稱', y: f.name || '（空白）', c: e.name, g: AX.nm(f.name) === e.name ? M.fname : 0, f: M.fname, why: '欄位名稱要與題目完全相同，次序也要一致，不要多打空格。' });
-        items.push({ l: '「' + e.name + '」資料類型', y: f.type || '（未選）', c: e.type, g: f.type === e.type ? M.ftype : 0, f: M.ftype, why: e.why.type });
-        items.push({ l: '「' + e.name + '」欄位大小', y: String(f.size || '（空白）'), c: e.size, g: String(f.size).trim() === e.size ? M.fsize : 0, f: M.fsize, why: e.why.size });
+      var items = [], notes = [];
+      QS.forEach(function (sp) {
+        var P = pick(S, sp), q = P.q, tag = '「' + sp.name + '」';
+        var sh = q ? shown(S, q) : [], got = sp.show.filter(function (x) { return sh.indexOf(x) >= 0; }).length;
+        var exact = q && sh.join(',') === sp.show.join(',');
+        var lab = function (a) { return a.map(function (x) { return x.split('.')[1]; }).join('、'); };
+        items.push({ l: tag + '：加入資料表', y: q ? AX.qTables(q).join('、') || '（無）' : '未建立', c: sp.need.join('、'), g: tablesOk(S, q, sp) ? M.tables : 0, f: M.tables,
+          why: '欄位來自哪些資料表，就要加入哪些資料表；中間的「' + REC + '」把學生和活動連接起來，不可以缺少。' });
+        items.push({ l: tag + '：顯示的欄位', y: q ? lab(sh) || '（無）' : '—', c: lab(sp.show), g: exact ? M.fields : Math.round((M.fields - 2) * got / sp.show.length), f: M.fields,
+          why: sp.crit.hidden ? '「課外活動名稱」只用來篩選，不需要顯示，所以要取消剔選它的「顯示」。' : '欄位要按題目的次序加入，並剔選「顯示」。' });
+        var co = critOk(S, q, sp), cq = q ? AX.qCols(q).filter(function (c) { return c.crit || c.or; }).map(function (c) { return c.f + ' ' + (c.crit || '') + (c.or ? ' 或 ' + c.or : ''); }).join('；') : '';
+        items.push({ l: tag + '：準則', y: q ? cq || '（沒有準則）' : '—', c: sp.crit.tf.split('.')[1] + ' "' + sp.crit.v + '"', g: co ? M.crit : 0, f: M.crit,
+          why: '準則要寫在「' + sp.crit.tf.split('.')[1] + '」那一欄的「準則」列；文字準則要有引號，例如 "' + sp.crit.v + '"。' });
+        var sl = q ? sortList(q) : [], so = sortOk(q, sp), first = sl.length && sl[0] === sp.sorts[0] + ':遞增';
+        items.push({ l: tag + '：排序', y: q ? (sl.map(function (x) { return x.split('.')[1].replace(':', ' '); }).join('、') || '（沒有排序）') : '—', c: sp.sorts.map(function (x) { return x.split('.')[1] + ' 遞增'; }).join('、'), g: so ? M.sort : first ? 2 : 0, f: M.sort,
+          why: sp.sorts.length > 1 ? '多於一個排序欄位時，Access 由左至右排序，所以「班別」要在「班號」左邊。' : '只需在「' + sp.sorts[0].split('.')[1] + '」欄設定遞增，其他欄不要排序。' });
+        var ro = q && runOk(S, q);
+        items.push({ l: tag + '：執行', y: ro ? '已執行' : (S.flags.queryRun ? '儲存的設計未執行過' : '未執行'), c: '按「執行」', g: ro ? M.run : 0, f: M.run, why: '按「執行」才看到查詢結果，可以檢查設計是否正確。' });
+        items.push({ l: tag + '：儲存', y: q ? (P.exact ? sp.name : (q.name ? '名稱為「' + q.name + '」' : '未儲存')) : '未建立', c: sp.name, g: P.exact ? M.save : (q && q.name ? 2 : 0), f: M.save, why: '查詢名稱要與題目完全相同。' });
       });
-      var pk = AX.pkName(t);
-      items.push({ l: '主索引鍵', y: pk || '（未設定）', c: '學生編號', g: pk === '學生編號' ? M.pk : 0, f: M.pk, why: '主索引鍵用來識別每一筆記錄，不可以重複。每位學生的學生編號都不同，所以設為主索引鍵。' });
-      var nm = t && t.name;
-      items.push({ l: '資料表名稱', y: nm || '（未儲存）', c: TBL, g: nm === TBL ? M.save : (nm ? M.save / 2 : 0), f: M.save, why: '資料表要用題目指定的名稱儲存，日後建立表單或查詢時才找得到它。' });
-      DATA.forEach(function (row, i) {
-        var r = t && t.records[i], g = 0;
-        var y = FIELDS.map(function (f, c) { var v = r ? r.f[f.name] : ''; if (r && AX.same(f.type, v, row[c])) g += M.cell; return AX.show(v); });
-        items.push({ l: '第 ' + (i + 1) + ' 筆記錄', y: y.join(' / '), c: row.join(' / '), g: g, f: M.cell * FIELDS.length, why: '請逐格核對；數字欄位不要輸入單位，文字不要多打空格。' });
+      PRINTS.forEach(function (sp) {
+        var p = printed(S, sp);
+        items.push({ l: '預覽列印及列印「' + sp.name + '」', y: p === 3 ? '已預覽並列印' : p === 2 ? '已列印，但沒有先預覽列印' : p === 1 ? '列印的查詢或內容不正確' : '未列印', c: '預覽列印 → 列印 → 確定', g: p === 3 ? M.print : p === 2 ? 3 : p === 1 ? 2 : 0, f: M.print,
+          why: '先開啟查詢，按「檔案 → 列印 → 預覽列印」檢查頁面，再按「列印」→「確定」；列印的是查詢的結果。' });
       });
-      if (fs.length > FIELDS.length) notes.push('資料表有 ' + fs.length + ' 個欄位(' + fs.map(function (f) { return f.name; }).join('、') + ')，應該只有 4 個。');
-      if (t && t.autoPK) notes.push('儲存時 Access 自動加入了「識別碼」欄位作主索引鍵 → 表示儲存前未自行設定主索引鍵。應先設定主索引鍵才儲存。');
-      if (t && t.records.length > DATA.length) notes.push('記錄有 ' + t.records.length + ' 筆，多於要求的 6 筆（可能多打了一行）。');
-      if (!F.visitedDatasheet) notes.push('未曾切換到資料工作表檢視。');
-      if (t && t.dirty) notes.push('完成時資料表仍有未儲存的設計變更（關閉 Access 時這些變更會遺失）。');
+      var names = QS.map(function (x) { return x.name; });
+      (S.queries || []).forEach(function (q) { if (names.indexOf(q.name) < 0) notes.push('另外儲存了查詢「' + q.name + '」。'); });
+      if (S.qdraft && S.qdraft.dirty) notes.push('完成時仍有未儲存的查詢設計。');
+      if (S.flags.qwizTried) notes.push('曾按「查詢精靈」；精靈不能設定準則及排序，要用「查詢設計」。');
+      QS.forEach(function (sp) { var q = AX.query(S, sp.name); if (q && AX.runQuery(S, q).cross) notes.push('「' + sp.name + '」中有資料表沒有關聯，結果會出現重複組合。'); });
       return { items: items, notes: notes };
     },
-    demo: [
-      function (A) { A.tab('create'); }, function (A) { A.newTableDesign(); },
-      function (A) { A.setRow(0, '學生編號', '簡短文字', '3'); }, function (A) { A.setRow(1, '姓名', '簡短文字', '20'); },
-      function (A) { A.setRow(2, '身高', '數字', '整數'); }, function (A) { A.setRow(3, '體重', '數字', '整數'); },
-      function (A) { A.setPK(0); }, function (A) { A.saveAs(TBL); }, function (A) { A.datasheet(); }
-    ].concat(DATA.map(function (r) { return function (A) { var o = {}; FIELDS.forEach(function (f, c) { o[f.name] = r[c]; }); A.addRecord(o, 'ds'); }; }))
+    reportExtra: function (st) {
+      var E = AX.esc, h = '<h2>三、儲存的查詢</h2><p style="margin:2px 0 6px;font-size:12px">';
+      h += (st.queries || []).length ? st.queries.map(function (q) { return '<b>' + E(q.name) + '</b>：' + E(qLine(q)); }).join('<br>') : '（沒有）';
+      h += '</p>';
+      var ps = (st.flags && st.flags.prints) || [];
+      h += '<h2>四、列印結果</h2><div style="display:flex;gap:10px;flex-wrap:wrap">';
+      PRINTS.forEach(function (sp) {
+        var p = ps.filter(function (x) { return x.name === sp.name; }).slice(-1)[0];
+        h += '<div style="flex:1;min-width:240px"><div style="font-size:12px;font-weight:700;margin:2px 0">' + E(sp.name) + (p ? '<span style="font-weight:400;color:#666">（' + E(p.via) + '，' + E(p.at) + '）</span>' : '') + '</div>';
+        h += p ? '<table class="rp-mini"><tr>' + p.heads.map(function (x) { return '<th>' + E(x) + '</th>'; }).join('') + '</tr>' +
+          p.rows.map(function (r) { return '<tr>' + r.map(function (v) { return '<td>' + E(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table>' : '<div style="font-size:12px;color:#b00">（未列印）</div>';
+        h += '</div>';
+      });
+      return h + '</div>';
+    },
+    demo: [].concat.apply([], QS.map(function (sp) {
+      return [
+        function (A) { A.openQuery(); }, function (A) { A.qAdd([STU, REC, ACT]); },
+        function (A) { sp.show.forEach(function (tf) { A.qCol(sp.show.indexOf(tf), tf, sp.sorts.indexOf(tf) >= 0 ? '遞增' : '', tf === sp.crit.tf ? sp.crit.v : ''); }); },
+        function (A) { if (sp.crit.hidden) A.qCol(sp.show.length, sp.crit.tf, '', sp.crit.v, false); },
+        function (A) { A.qRun(); }, function (A) { A.qSaveAs(sp.name); }, function (A) { A.close(); }
+      ];
+    })).concat(PRINTS.map(function (sp) { return function (A) { A.openQueryByName(sp.name); A.print(); }; }))
   });
 })();
 
-AX.boot(AX.CFG['EX1']);
+AX.boot(AX.CFG['EX5']);
 </script>
 </body>
 </html>
