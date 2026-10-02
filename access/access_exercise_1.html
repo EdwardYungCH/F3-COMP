@@ -514,7 +514,7 @@ AX.sha256 = function (str) {
 (function () {
   var _q = [99, 21, 110, 107, 125, 86, 106, 70, 69, 66, 91, 90, 86, 93, 23, 90, 76, 17, 120, 71, 25, 113, 92, 16, 84, 27, 26, 25, 19];
   function k() { return _q.map(function (c, i) { return String.fromCharCode(c ^ (37 + i % 7)); }).join(''); }
-  AX.sign = function (data) { return AX.sha256(k() + '\u0001' + data + '\u0001' + k().split('').reverse().join('')); };
+  AX.sign = function (data) { var sep = String.fromCharCode(1); return AX.sha256(k() + sep + data + sep + k().split('').reverse().join('')); };
 })();
 AX.code = function (prefix, sig) { var s = sig.slice(0, 8).toUpperCase(); return prefix + '-' + s.slice(0, 4) + '-' + s.slice(4, 8); };
 
@@ -592,7 +592,7 @@ AX.verifyOld = function (digest, code) {
 AX.parseReportText = function (html) {
   var m = html.match(/<script type="application\/json" id="axpayload">([\s\S]*?)<\/script>/);
   if (m) {
-    try { var o = JSON.parse(m[1].replace(/\\u003c/g, '<')); return { kind: 'cur', data: o.data, sig: o.sig }; } catch (e) { return { kind: 'bad' }; }
+    try { var o = JSON.parse(m[1]); return { kind: 'cur', data: o.data, sig: o.sig }; } catch (e) { return { kind: 'bad' }; }
   }
   var dg = html.match(/class="dig">([A-Za-z0-9+\/=\s]+)</);
   var cd = html.match(/(ACC\d-[0-9A-Z]{4}-[0-9A-Z]{4})/);
@@ -1809,7 +1809,7 @@ AX.boot = function (C) {
     return '<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<title>' + E(C.fileTag + ' 報告 - ' + d.cls + ' ' + d.sid + ' ' + d.name) + '</title><style>' + AX.REPORT_CSS +
       'body{margin:24px auto;max-width:880px;padding:0 16px;background:#fff}</style></head><body>' + inner +
-      '<script type="application/json" id="axpayload">' + JSON.stringify(S.lastReport).replace(/</g, '\\u003c') + '<\/script></body></html>';
+      '<script type="application/json" id="axpayload">' + JSON.stringify(S.lastReport).replace(/</g, String.fromCharCode(92) + 'u003c') + '<\/script></body></html>';
   }
   function showReport() {
     var R = S.lastReport; if (!R) return;
