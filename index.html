@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中三 電腦科 自學練習</title>
+<style>
+:root{--navy:#1d3557;--navy2:#274a73;--acc:#a4373a;--acc-l:#fbeeee;--ok:#2e8b57;--ink:#1f2328;--mute:#5f6670;--line:#dde1e6;--bg:#eef1f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Segoe UI",sans-serif;color:var(--ink);background:var(--bg);-webkit-text-size-adjust:100%}
+a{color:inherit;text-decoration:none}
+header{background:linear-gradient(120deg,var(--navy) 0%,var(--navy2) 60%,#335d8c 100%);color:#fff;padding:44px 20px 70px;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06)}
+.wrap{max-width:1040px;margin:0 auto;position:relative;z-index:1}
+.kicker{font-size:13px;letter-spacing:2px;opacity:.75}
+h1{margin:6px 0 8px;font-size:clamp(26px,4vw,36px);letter-spacing:1px}
+header p{margin:0;opacity:.85;font-size:15px;line-height:1.7;max-width:640px}
+main{max-width:1040px;margin:-40px auto 0;padding:0 16px 40px;position:relative;z-index:2}
+.unit{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px 24px;box-shadow:0 8px 28px rgba(29,53,87,.10)}
+.uh{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.uh .logo{width:48px;height:48px;border-radius:11px;background:var(--acc);color:#fff;font-weight:900;font-size:26px;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18)}
+.uh h2{margin:0;font-size:20px}
+.uh span{font-size:13px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{display:flex;flex-direction:column;border:1.5px solid var(--line);border-radius:12px;padding:18px;background:#fff;transition:transform .15s,box-shadow .15s,border-color .15s;min-height:250px}
+.card:hover,.card:focus-visible{transform:translateY(-3px);box-shadow:0 10px 24px rgba(29,53,87,.14);border-color:#9fb4cc;outline:none}
+.tag{align-self:flex-start;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:#e8eef6;color:var(--navy)}
+.card.as .tag{background:var(--acc-l);color:var(--acc)}
+.card h3{margin:12px 0 6px;font-size:18px;line-height:1.35}
+.card p{margin:0 0 12px;font-size:13.5px;color:#3a4048;line-height:1.65}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chips i{font-style:normal;font-size:12px;background:#f3f5f8;border-radius:6px;padding:3px 8px;color:#3a4048}
+.meta{margin-top:auto;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eef0f3;padding-top:12px;font-size:13px;color:var(--mute)}
+.go{font-weight:700;color:#fff;background:var(--ok);border-radius:8px;padding:7px 14px;font-size:14px;white-space:nowrap}
+.card.as .go{background:var(--acc)}
+.how{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.step b{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;font-size:14px}
+.step div{font-size:13.5px;line-height:1.6}
+.step strong{display:block;font-size:14.5px}
+.note{margin-top:14px;font-size:13px;color:var(--mute);line-height:1.7;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+footer{text-align:center;font-size:12px;color:#8a929b;padding:10px 16px 30px}
+@media(max-width:860px){.grid,.how{grid-template-columns:1fr}.card{min-height:0}header{padding:32px 18px 64px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="kicker">F3 COMPUTER LITERACY</div>
+ <h1>中三 電腦科 自學練習</h1>
+ <p>網頁會模擬軟件的畫面，不需要安裝任何程式。跟着畫面上的指示完成實作，完成後下載報告檔交給老師。</p>
+</div></header>
+
+<main>
+ <section class="unit">
+  <div class="uh"><div class="logo">A</div><div><h2>Microsoft Access 資料庫</h2><span>上學期 · 3 項練習</span></div></div>
+  <div class="grid">
+   <a class="card" href="access/access_exercise_1.html">
+    <span class="tag">練習一</span>
+    <h3>建立資料表「學生個人資料」</h3>
+    <p>用「資料表設計」建立資料表，設定資料類型、欄位大小及主索引鍵，然後輸入 6 筆學生資料。</p>
+    <div class="chips"><i>資料表設計</i><i>資料類型</i><i>主索引鍵</i><i>資料工作表</i></div>
+    <div class="meta"><span>⏱ 20 分鐘 · 8 步</span><span class="go">開始 ›</span></div>
+   </a>
+   <a class="card" href="access/access_exercise_2.html">
+    <span class="tag">練習二</span>
+    <h3>新增欄位 + 表單精靈</h3>
+    <p>承接練習一：加入「班別」「班號」欄位，用表單精靈建立單欄式表單，並在表單中輸入資料。</p>
+    <div class="chips"><i>修改結構</i><i>表單精靈</i><i>單欄式表單</i><i>新增記錄</i></div>
+    <div class="meta"><span>⏱ 25 分鐘 · 8 步</span><span class="go">開始 ›</span></div>
+   </a>
+   <a class="card as" href="access/term_1_assessment.html">
+    <span class="tag">評測</span>
+    <h3>上學期評測（練習一 + 練習二）</h3>
+    <p>由空白資料庫開始，自行完成 18 項任務。評測期間只顯示任務目標，不會顯示對錯及分數。</p>
+    <div class="chips"><i>空白資料庫</i><i>日期 / 貨幣 / 是否</i><i>表單輸入</i></div>
+    <div class="meta"><span>⏱ 25 分鐘 · 滿分 40</span><span class="go">開始 ›</span></div>
+   </a>
+  </div>
+ </section>
+
+ <div class="how">
+  <div class="step"><b>1</b><div><strong>輸入資料</strong>打開練習，填寫班別、班號及姓名。</div></div>
+  <div class="step"><b>2</b><div><strong>跟指示實作</strong>每完成一步會自動打 ✔；需要時可看提示（會扣分）。</div></div>
+  <div class="step"><b>3</b><div><strong>交報告</strong>按「完成並產生報告」，下載 .html 報告檔，上傳給老師。</div></div>
+ </div>
+ <div class="note">💾 進度會自動保存在你使用的電腦和瀏覽器。不小心關閉網頁，重新打開便可以繼續。如果在另一部電腦打開，需要重新開始。</div>
+</main>
+<footer>中三 電腦科</footer>
+</body>
+</html>
