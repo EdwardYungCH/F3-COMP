@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access 自學練習(二):新增欄位 + 表單精靈</title>
+<title>Access 單元一下：新增欄位 + 表單精靈</title>
 <!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
 <style>
 /* =====================================================================
@@ -2844,7 +2844,7 @@ if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
 AX.TEACHER_PIN = '0000';
 
 /* =====================================================================
-   練習二：新增欄位「班別」「班號」+ 表單精靈 + 用表單輸入資料
+   單元一下：新增欄位「班別」「班號」+ 表單精靈 + 用表單輸入資料
    ===================================================================== */
 (function () {
   var TBL = '學生個人資料', FORM = '學生個人資料', LAYOUT = '單欄式';
@@ -2869,16 +2869,16 @@ AX.TEACHER_PIN = '0000';
   function rec7(S) { var t = T(S); if (!t) return null; return t.records.filter(function (r) { return AX.nm(r.f['學生編號']) === '7'; })[0] || t.records[6] || null; }
 
   AX.register({
-    id: 'EX2', code: 'ACC2', mode: 'practice', full: 100, fileTag: 'Access練習二',
-    title: '練習二：新增欄位 + 表單精靈',
-    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接練習一）',
+    id: 'EX2', code: 'ACC2', mode: 'practice', full: 100, fileTag: 'Access單元一下',
+    title: '單元一下：新增欄位 + 表單精靈',
+    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接單元一上）',
     time: '25 分鐘',
     objectives: ['開啟現有資料表的設計檢視，加入新欄位', '明白為何「班號」要用文字類型', '用「表單精靈」建立單欄式表單', '在表單中修改及新增記錄'],
-    intro: ['資料庫中已有練習一的資料表「學生個人資料」（4 個欄位、6 筆記錄）。', '加入「班別」「班號」兩個欄位 → 儲存 → 用表單精靈建立表單 → <b>在表單中</b>補上班別、班號 → 新增第 7 筆記錄。'],
+    intro: ['資料庫中已有單元一上的資料表「學生個人資料」（4 個欄位、6 筆記錄）。', '加入「班別」「班號」兩個欄位 → 儲存 → 用表單精靈建立表單 → <b>在表單中</b>補上班別、班號 → 新增第 7 筆記錄。'],
     penalty: { hint1: 1, hint2: 1, hintMax: 10, err: 1, errMax: 10 },
     start: { phase: 'db', db: '學生資料', tables: [{ name: TBL, fields: BASE, pk: '學生編號', records: BASEDATA }], forms: [] },
     startMsg: '請在左邊導覽窗格用滑鼠右鍵按「' + TBL + '」→ 設計檢視。',
-    emptyMsg: function () { return '資料庫 <b>學生資料.accdb</b> 已開啟。<br>左邊導覽窗格有練習一建立的資料表 <b>' + TBL + '</b>。<br>請依右方指示，先開啟它的<b>設計檢視</b>。'; },
+    emptyMsg: function () { return '資料庫 <b>學生資料.accdb</b> 已開啟。<br>左邊導覽窗格有單元一上建立的資料表 <b>' + TBL + '</b>。<br>請依右方指示，先開啟它的<b>設計檢視</b>。'; },
     dsNote: '本練習要求在<b>表單</b>中輸入資料；在這裏輸入只可得一半分數。',
     wrong: {
       tbldesign: '「資料表設計」會建立一個新的資料表。本練習要修改現有的資料表：請在導覽窗格用滑鼠右鍵按「' + TBL + '」→「設計檢視」。',

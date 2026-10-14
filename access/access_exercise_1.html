@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access 自學練習(一):建立資料表</title>
+<title>Access 單元一上：建立資料表</title>
 <!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
 <style>
 /* =====================================================================
@@ -2844,7 +2844,7 @@ if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
 AX.TEACHER_PIN = '0000';
 
 /* =====================================================================
-   練習一：建立資料表「學生個人資料」
+   單元一上：建立資料表「學生個人資料」
    老師可修改：資料(DATA)、配分(M)、扣分(penalty)、步驟文字
    ===================================================================== */
 (function () {
@@ -2869,8 +2869,8 @@ AX.TEACHER_PIN = '0000';
   function recOk(S, i) { var t = T(S), r = t && t.records[i]; return !!r && FIELDS.every(function (f, c) { return AX.same(f.type, r.f[f.name], DATA[i][c]); }); }
 
   var X = AX.register({
-    id: 'EX1', code: 'ACC1', mode: 'practice', full: 100, fileTag: 'Access練習一',
-    title: '練習一：建立資料表「學生個人資料」',
+    id: 'EX1', code: 'ACC1', mode: 'practice', full: 100, fileTag: 'Access單元一上',
+    title: '單元一上：建立資料表「學生個人資料」',
     subtitle: '中三 電腦科 · Microsoft Access 自學練習',
     time: '20 分鐘',
     objectives: ['用「資料表設計」建立新的資料表', '為欄位選擇合適的資料類型及欄位大小', '設定主索引鍵', '儲存資料表，並在資料工作表檢視輸入記錄'],

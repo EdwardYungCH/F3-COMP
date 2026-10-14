@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access 自學練習(四):查詢及列印</title>
+<title>Access 單元二下：查詢及列印</title>
 <!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
 <style>
 /* =====================================================================
@@ -2844,8 +2844,8 @@ if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
 AX.TEACHER_PIN = '0000';
 
 /* =====================================================================
-   練習四：查詢（男同學、女同學、電腦學會）及列印
-   由練習三完成時的狀態開始。
+   單元二下：查詢（男同學、女同學、電腦學會）及列印
+   由單元二上完成時的狀態開始。
    ===================================================================== */
 (function () {
   var STU = '學生個人資料', ACT = '課外活動', REC = '學生課外活動記錄';
@@ -2931,13 +2931,13 @@ AX.TEACHER_PIN = '0000';
   var STEPQ = function (k) { return QS.filter(function (x) { return x.k === k; })[0]; };
 
   AX.register({
-    id: 'EX5', code: 'ACC5', mode: 'practice', full: 100, fileTag: 'Access練習四',
-    title: '練習四：查詢及列印',
-    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接練習三）',
+    id: 'EX5', code: 'ACC5', mode: 'practice', full: 100, fileTag: 'Access單元二下',
+    title: '單元二下：查詢及列印',
+    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接單元二上）',
     time: '40 分鐘',
     features: { rel: true, query: true, print: true },
     objectives: ['用「查詢設計」從多個有關聯的資料表選取欄位', '在設計格線設定「準則」及「排序」', '用準則篩選但不顯示該欄位（取消剔選「顯示」）', '執行、儲存及列印查詢'],
-    intro: ['資料庫中已有練習三建立的 3 個資料表及關聯。',
+    intro: ['資料庫中已有單元二上建立的 3 個資料表及關聯。',
       '建立 3 個查詢：「男同學課外活動記錄」「女同學課外活動記錄」「電腦學會會員名單」，每個都要執行及儲存；最後把後兩個查詢先預覽列印，再列印。'],
     penalty: { hint1: 1, hint2: 1, hintMax: 10, err: 1, errMax: 10 },
     start: {
@@ -2959,7 +2959,7 @@ AX.TEACHER_PIN = '0000';
     },
     steps: [
       { title: '用「查詢設計」建立查詢，加入 3 個資料表', detail: '按「建立 → <b>查詢設計</b>」，在「顯示資料表」選取全部 3 個資料表，按「新增」，再按「關閉」。',
-        h1: '按住 Shift 鍵可以一次選取全部資料表。資料表之間的連接線就是練習三建立的關聯。', h2: '「建立」索引標籤 →「查詢」群組 →「查詢設計」。不要用「查詢精靈」，它不能設定準則。',
+        h1: '按住 Shift 鍵可以一次選取全部資料表。資料表之間的連接線就是單元二上建立的關聯。', h2: '「建立」索引標籤 →「查詢」群組 →「查詢設計」。不要用「查詢精靈」，它不能設定準則。',
         check: function (S) { var q = cur(S, 'M'); return !!q && QS[0].need.every(function (n) { return AX.qTables(q).indexOf(n) >= 0; }); } },
       { title: '加入 6 個欄位（男同學查詢）', detail: '在下方設計格線「欄位」列的第 1 欄打開清單，選「<b>學生個人資料.學生編號</b>」。同樣方法在第 2 至 6 欄加入：學生姓名、班別、班號、性別（學生個人資料）及<b>課外活動.課外活動名稱</b>。',
         h1: '也可以在上方資料表方塊中，把欄位<b>按兩下</b>或<b>拖曳</b>到設計格線。', h2: '每一欄選好後，「資料表」列會自動顯示欄位來自哪個資料表。「顯示」要剔選。',

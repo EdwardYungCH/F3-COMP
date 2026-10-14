@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access 自學練習(三):建立資料表及資料庫關聯圖</title>
+<title>Access 單元二上：建立資料表及資料庫關聯圖</title>
 <!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
 <style>
 /* =====================================================================
@@ -2844,8 +2844,8 @@ if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
 AX.TEACHER_PIN = '0000';
 
 /* =====================================================================
-   練習三：修改資料表、建立兩個新資料表及資料庫關聯圖
-   由練習二完成時的狀態開始。
+   單元二上：修改資料表、建立兩個新資料表及資料庫關聯圖
+   由單元一下完成時的狀態開始。
    ===================================================================== */
 (function () {
   var STU = '學生個人資料', ACT = '課外活動', REC = '學生課外活動記錄';
@@ -2919,19 +2919,19 @@ AX.TEACHER_PIN = '0000';
   };
 
   AX.register({
-    id: 'EX4', code: 'ACC4', mode: 'practice', full: 100, fileTag: 'Access練習三',
-    title: '練習三：建立資料表及資料庫關聯圖',
-    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接練習二）',
+    id: 'EX4', code: 'ACC4', mode: 'practice', full: 100, fileTag: 'Access單元二上',
+    title: '單元二上：建立資料表及資料庫關聯圖',
+    subtitle: '中三 電腦科 · Microsoft Access 自學練習（承接單元一下）',
     time: '40 分鐘',
     features: { rel: true },
     objectives: ['在現有資料表加入欄位並輸入資料', '用「資料表設計」建立新資料表並設定主索引鍵', '明白甚麼時候要用「組合主索引鍵」', '用「資料庫關聯圖」以拖曳方式建立資料表之間的關聯'],
-    intro: ['資料庫中已有練習二完成的「' + STU + '」（7 筆記錄；「姓名」已改名為「學生姓名」）。',
+    intro: ['資料庫中已有單元一下完成的「' + STU + '」（7 筆記錄；「姓名」已改名為「學生姓名」）。',
       '先為「' + STU + '」加入「性別」並輸入資料 → 建立「' + ACT + '」及「' + REC + '」兩個資料表並輸入記錄 → 在「資料庫關聯圖」建立兩個關聯。'],
     penalty: { hint1: 1, hint2: 1, hintMax: 10, err: 1, errMax: 10 },
     start: { phase: 'db', db: '學生資料', tables: [{ name: STU, fields: OLD, pk: '學生編號', records: OLDDATA }], forms: [] },
     startMsg: '請在左邊導覽窗格用滑鼠右鍵按「' + STU + '」→ 設計檢視。',
     emptyMsg: function (S) {
-      return '資料庫 <b>學生資料.accdb</b> 已開啟。<br>請依右方指示操作。' + (S.tables.length > 1 ? '' : '<br>左邊導覽窗格有練習二完成的資料表 <b>' + STU + '</b>。');
+      return '資料庫 <b>學生資料.accdb</b> 已開啟。<br>請依右方指示操作。' + (S.tables.length > 1 ? '' : '<br>左邊導覽窗格有單元一下完成的資料表 <b>' + STU + '</b>。');
     },
     wrong: {
       tblnew: '「資料表」按鈕會用資料工作表建立資料表，不能先設定欄位大小。本練習請用「建立 → 資料表設計」。',
