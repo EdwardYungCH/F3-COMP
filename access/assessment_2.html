@@ -308,8 +308,8 @@ select.lst{width:100%;height:170px;font-size:13px;border:1px solid #7a7a7a}
 .cover .err{color:var(--bad);font-size:12.5px;margin-top:6px;min-height:1em}
 
 /* ---------- 提示訊息 ---------- */
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:95;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none;width:max-content;max-width:92vw}
-#toast div{background:#333c46;color:#fff;padding:9px 18px;border-radius:999px;font-size:13.5px;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:tin .25s ease}
+#toast{position:fixed;left:16px;bottom:34px;z-index:95;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none;width:max-content;max-width:92vw}
+#toast div{background:#333c46;color:#fff;padding:7px 14px;border-radius:8px;font-size:12.5px;max-width:420px;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:tin .25s ease}
 #toast div.ok{background:#1e7a45}#toast div.bad{background:#b23a30}#toast div.warn{background:#8a6300}
 @keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
@@ -473,6 +473,46 @@ table.ds input[type=text]{height:22px;padding:2px 8px}
 .tbox .fl{padding:1px 0}
 .tbox .fld{padding:1px 6px;line-height:17px}
 .qtop{flex-basis:48%}
+/* ---------- 報表精靈 / 標籤精靈 / 報表檢視 ---------- */
+.rwpv{font-size:12px;line-height:1.5}
+.rwpv .rwg{color:#1d3557;border-bottom:1px solid #9fb7d4;margin:4px 0 2px;padding:1px 4px}
+.rwpv .rwd{display:flex;gap:6px;margin:3px 0}
+.rwpv .rwd span{flex:1;background:#eef2f6;border:1px solid #cfd8e2;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rwpv .rwd i{flex:1;height:10px;background:#cfd8e2;border:1px solid #b6c1cd;display:block}
+.rwsort{display:flex;align-items:center;gap:8px;margin:6px 0}
+.rwsort span{width:18px;text-align:right;color:#666}
+.rwsort select{flex:1;max-width:260px;height:26px;font-size:13px}
+.rwsort button{min-width:64px;border:1px solid #adadad;background:#e9e9e9;border-radius:2px;padding:3px 10px;font-size:12.5px}
+.rwsort button:disabled{color:#aaa}
+.rwland{width:200px;transform:scale(1);border:1px solid #ccc;padding:6px;background:#fff;margin:0 auto}
+.rwport{width:150px;border:1px solid #ccc;padding:6px;background:#fff;margin:0 auto}
+.lwt{border-collapse:collapse;width:100%;font-size:13px;border:1px solid #999}
+.lwt th{background:#f3f3f3;border-bottom:1px solid #ccc;padding:3px 8px;text-align:left;font-weight:400;color:#555}
+.lwt td{padding:4px 8px;cursor:pointer}
+.lwt tr.on td{background:#0078d7;color:#fff}
+.lwt tr:not(.on):hover td{background:#e5f1fb}
+.lwf{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:13px}
+.lwf select{margin-left:4px;height:24px}
+.lwc{display:inline-block;width:14px;height:14px;background:#000;vertical-align:middle;border:1px solid #888}
+.lwproto{border:1px solid #999;background:#fff;padding:6px 8px;display:flex;flex-direction:column;gap:2px;box-shadow:inset 0 0 0 1px #eee}
+.lwproto input{border:0;border-bottom:1px dotted #ddd;font-size:13px;padding:2px 4px;font-family:"MingLiU","PMingLiU",serif}
+.lwproto input:focus{outline:0;background:#fffbe8;border-bottom-color:#e3a33a}
+.lwproto input.cur{background:#fffdf3}
+.rpv{padding:14px;background:#e9e9e9;min-height:100%;box-sizing:border-box}
+.rpage{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25);margin:0 auto;padding:28px 34px;width:min(794px,100%);min-height:420px;box-sizing:border-box;font-size:13px}
+.rpage.land{width:min(1000px,100%)}
+.rph{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1d3557;padding-bottom:6px;margin-bottom:10px}
+.rph h1{margin:0;font-size:20px;font-weight:700;color:#1d3557}
+.rph span{font-size:12px;color:#666}
+table.rpt{border-collapse:collapse;width:100%;font-size:13px}
+table.rpt th{text-align:left;border-bottom:1px solid #1d3557;padding:3px 6px;font-weight:700;color:#1d3557;white-space:nowrap}
+table.rpt td{padding:3px 6px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+table.rpt.tier tr.g td{border-bottom:0;padding-top:6px}
+table.rpt.tier tr.g0 td{padding-top:12px}
+table.rpt.tier td.gh b{display:inline-block;background:#eef2f6;padding:1px 6px;border-radius:3px}
+.rpf{display:flex;justify-content:space-between;margin-top:18px;padding-top:6px;border-top:1px solid #ccc;font-size:11.5px;color:#666}
+.lgrid{display:grid;gap:8px 12px;justify-content:start}
+.lbl{border:1px dashed #bbb;padding:6px 10px;box-sizing:border-box;line-height:1.45;overflow:hidden;background:#fff}
 @media (max-width:560px){
   .tbox{width:150px}
   table.qg td{min-width:112px;width:112px}
@@ -803,9 +843,44 @@ AX.gradeTasks = function (cfg, S) {
   return { items: items, notes: cfg.notes ? cfg.notes(S, AX) : [] };
 };
 
+/* ---------- 報表 / 標籤 ---------- */
+  AX.LABEL_SIZES = [
+  { id: 'L1', l: '42 mm x 90 mm', n: 2, w: 90, h: 42, dir: '橫向' }, { id: 'L2', l: '42 mm x 90 mm', n: 3, w: 90, h: 42, dir: '橫向' },
+  { id: 'L3', l: '38 mm x 99 mm', n: 2, w: 99, h: 38, dir: '橫向' }, { id: 'L4', l: '52 mm x 70 mm', n: 2, w: 70, h: 52, dir: '橫向' },
+  { id: 'L5', l: '21 mm x 70 mm', n: 3, w: 70, h: 21, dir: '橫向' }];
+
+AX.report = function (S, name) { var r = S.reports || []; for (var i = 0; i < r.length; i++) if (r[i].name === name) return r[i]; return null; };
+/* 報表資料：以欄位清單（T.F）執行查詢，再按分組及排序整理
+   rp = { fields:[T.F], view: T, groups:[T.F], sorts:[{f:T.F, dir:'遞增'|'遞減'}] } */
+AX.reportRows = function (S, rp) {
+  var fields = rp.fields || [], groups = rp.groups || [], sorts = rp.sorts || [];
+  var all = fields.slice(); groups.concat(sorts.map(function (x) { return x.f; })).forEach(function (f) { if (all.indexOf(f) < 0) all.push(f); });
+  var cols = all.map(function (tf) { var p = tf.split('.'); return { t: p[0], f: p[1], show: true, sort: '', crit: '', or: '' }; });
+  var tabs = []; cols.forEach(function (c) { if (tabs.indexOf(c.t) < 0) tabs.push(c.t); });
+  /* 自動補上中間的聯結資料表（經關聯可到達者） */
+  var rels = S.rels || [], changed = true;
+  while (changed) {
+    changed = false;
+    if (tabs.length > 1 && rels.length) {
+      var linked = function (a, b) { return rels.some(function (r) { return (r.t1 === a && r.t2 === b) || (r.t1 === b && r.t2 === a); }); };
+      var ok = tabs.every(function (t) { return tabs.some(function (u) { return u !== t && linked(t, u); }); });
+      if (!ok) S.tables.forEach(function (t) { if (t.name != null && tabs.indexOf(t.name) < 0 && tabs.filter(function (u) { return linked(t.name, u); }).length >= 2) { tabs.push(t.name); changed = true; } });
+    }
+  }
+  var r = AX.runQuery(S, { tables: tabs.map(function (n) { return { n: n }; }), cols: cols });
+  var idx = function (tf) { return all.indexOf(tf); };
+  var typ = function (tf) { var p = tf.split('.'), t = AX.table(S, p[0]), f = t && AX.savedField(t, p[1]); return f ? f.type : '簡短文字'; };
+  var keys = groups.map(function (g) { return { i: idx(g), t: typ(g), d: '遞增' }; }).concat(sorts.map(function (x) { return { i: idx(x.f), t: typ(x.f), d: x.dir || '遞增' }; }));
+  var rows = r.rows.map(function (row, i) { return { row: row, i: i }; }).sort(function (a, b) {
+    for (var k = 0; k < keys.length; k++) { var d = AX.cmpVal(keys[k].t, a.row[keys[k].i], b.row[keys[k].i]); if (d) return keys[k].d === '遞減' ? -d : d; }
+    return a.i - b.i;
+  }).map(function (x) { return x.row; });
+  return { all: all, heads: all.map(function (tf) { return tf.split('.')[1]; }), rows: rows, cross: r.cross, fieldIdx: fields.map(idx), groupIdx: groups.map(idx) };
+};
+
 /* ---------- 提交資料（報告內嵌） ---------- */
 AX.stateForGrade = function (S) {
-  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags, rels: S.rels || [], relLayout: S.relLayout || [], queries: S.queries || [], qdraft: S.qdraft || null };
+  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags, rels: S.rels || [], relLayout: S.relLayout || [], queries: S.queries || [], qdraft: S.qdraft || null, reports: S.reports || [] };
 };
 AX.buildPayload = function (cfg, S, ev, endISO) {
   var d = {
@@ -1014,6 +1089,7 @@ AX.reportInner = function (cfg, d, ev, code) {
     insCol: s('<rect x="3" y="3" width="6" height="18" fill="#fff" stroke="' + K + '" stroke-width="1.1"/><rect x="11" y="3" width="6" height="18" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>' + plus(G)),
     delCol: s('<rect x="3" y="3" width="6" height="18" fill="#fff" stroke="' + K + '" stroke-width="1.1"/><rect x="11" y="3" width="6" height="18" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>' + xmark),
     printer: s('<rect x="6" y="2.5" width="12" height="6" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><rect x="2.5" y="8.5" width="19" height="9" rx="1.5" fill="#e9edf2" stroke="' + K + '" stroke-width="1.3"/><rect x="6" y="14" width="12" height="7.5" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M8.5 17h7M8.5 19.3h5" stroke="' + B + '" stroke-width="1"/><circle cx="18.3" cy="11.3" r=".9" fill="' + G + '"/>'),
+    navReport: s('<path d="M5 2.5h10l4 4V21.5H5z" fill="#fff" stroke="' + P + '" stroke-width="1.5"/><path d="M15 2.5v4h4" stroke="' + P + '" stroke-width="1.2"/><path d="M8 11h8M8 14h8M8 17h5" stroke="' + P + '" stroke-width="1.3"/><rect x="8" y="8" width="4" height="1.6" fill="' + P + '"/>'),
     navQuery: s('<rect x="3" y="5" width="18" height="14" rx="1" fill="#fff" stroke="' + O + '" stroke-width="1.6"/><rect x="3" y="5" width="18" height="4" fill="' + O + '"/><path d="M3 14h18M9 9v10M15 9v10" stroke="' + O + '" stroke-width="1.2"/>')
   };
 })();
@@ -1052,7 +1128,7 @@ AX.boot = function (C) {
     return {
       v: 2, ex: C.id, phase: st.phase || 'db', db: st.db || null,
       tables: (st.tables || []).map(mkTable), forms: AX.clone(st.forms || []),
-      rels: AX.clone(st.rels || []), relLayout: AX.clone(st.relLayout || []), queries: AX.clone(st.queries || []), qdraft: null,
+      rels: AX.clone(st.rels || []), relLayout: AX.clone(st.relLayout || []), queries: AX.clone(st.queries || []), qdraft: null, reports: AX.clone(st.reports || []),
       open: { k: 'none', t: -1, f: -1 },
       ui: { tab: 'home', sel: 0, selRec: -1, navSel: null, fRec: 0, fNew: false, viewStep: null },
       flags: {}, hints: {}, errs: 0, errList: [], log: [],
@@ -1235,6 +1311,11 @@ AX.boot = function (C) {
     h += '<div class="ng">表單 <span>⌃</span></div>';
     if (!S.forms.length) h += '<div class="none">（無）</div>';
     S.forms.forEach(function (f, i) { h += '<div class="it' + (S.ui.navSel === 'f' + i ? ' on' : '') + '" data-act="navitem" data-arg="f' + i + '"><span class="i">' + I.navForm + '</span>' + E(f.name) + '</div>'; });
+    if (feat('report') || (S.reports && S.reports.length)) {
+      h += '<div class="ng">報表 <span>⌃</span></div>';
+      if (!S.reports.length) h += '<div class="none">（無）</div>';
+      S.reports.forEach(function (r, i) { h += '<div class="it' + (S.ui.navSel === 'r' + i ? ' on' : '') + '" data-act="navitem" data-arg="r' + i + '"><span class="i">' + (r.kind === 'label' ? I.labels : I.navReport) + '</span>' + E(r.name) + '</div>'; });
+    }
     h += '<div class="navtip">按兩下：開啟物件<br>按滑鼠右鍵（平板：長按）：更多選項，例如「設計檢視」</div>';
     $('#nav').innerHTML = h;
   }
@@ -1261,6 +1342,8 @@ AX.boot = function (C) {
     else if (o.k === 'rel') da.innerHTML = '<div class="relv">' + canvasHTML(S.relLayout, 'rel') + '</div>';
     else if (o.k === 'qdesign') da.innerHTML = qdHTML(S.qdraft);
     else if (o.k === 'qres') da.innerHTML = qresHTML(S.qdraft);
+    else if (o.k === 'report') da.innerHTML = reportHTML(curR());
+    else if (o.k === 'label') da.innerHTML = labelHTML(curR());
     Object.keys(keep).forEach(function (k) { var x = $(k, da); if (x) { x.scrollLeft = keep[k][0]; x.scrollTop = keep[k][1]; } });
     if (o.k === 'rel' || o.k === 'qdesign') drawLines();
     if (fk) {
@@ -1361,6 +1444,8 @@ AX.boot = function (C) {
         '<button data-act="view" data-arg="design" title="設計檢視" class="' + (S.open.k === 'design' ? 'on' : '') + '">' + I.viewDesign + '</button>';
     } else if (S.open.k === 'form') {
       vb = '<button class="on" title="表單檢視">' + I.viewForm + '</button><button data-act="view" data-arg="layout" title="版面配置檢視">' + I.formDesign + '</button><button data-act="view" data-arg="fdesign" title="設計檢視">' + I.viewDesign + '</button>';
+    } else if (isR()) {
+      vb = '<button class="on" title="報表檢視">' + I.navReport + '</button><button data-act="view" data-arg="preview" title="預覽列印">' + I.printer + '</button><button data-act="view" data-arg="rlayout" title="版面配置檢視">' + I.formDesign + '</button><button data-act="view" data-arg="rdesign" title="設計檢視">' + I.viewDesign + '</button>';
     } else if (isQ()) {
       vb = '<button data-act="view" data-arg="ds" title="資料工作表檢視" class="' + (S.open.k === 'qres' ? 'on' : '') + '">' + I.viewDs + '</button><button data-act="view" data-arg="sql" title="SQL 檢視" class="sqlb">SQL</button>' +
         '<button data-act="view" data-arg="design" title="設計檢視" class="' + (S.open.k === 'qdesign' ? 'on' : '') + '">' + I.viewDesign + '</button>';
@@ -1587,6 +1672,7 @@ AX.boot = function (C) {
     if (o.k === 'none') { toast('請先開啟一個資料表或表單。', 'warn'); setStatus('「檢視」需要先開啟物件。'); return; }
     if (o.k === 'form') { if (target === 'form' || !target) return; msg('本練習不需要修改表單的版面配置或設計。請在「表單檢視」中輸入資料。'); return; }
     if (o.k === 'rel') { toast('「關聯」視窗沒有其他檢視。', 'warn'); return; }
+    if (isR()) { if (target === 'preview') { if (feat('print')) startPrint('preview'); else toast('本練習不需要預覽列印。', 'warn'); return; } if (!target || target === 'report') return; msg('本練習不需要修改報表的版面配置或設計。'); return; }
     if (isQ()) {
       if (target === 'sql') { msg('本練習不需要使用「SQL 檢視」。請在「設計檢視」中建立查詢。'); return; }
       var w = target || (o.k === 'qdesign' ? 'ds' : 'design');
@@ -1606,6 +1692,8 @@ AX.boot = function (C) {
       case 'view': toggleView(); return;
       case 'tbldesign': newTableDesign(); return;
       case 'formwiz': startWizard(); return;
+      case 'reportwiz': if (feat('report')) { startReportWiz(); return; } break;
+      case 'labels': if (feat('report')) { startLabelWiz(); return; } break;
       case 'pk': {
         if (S.open.k !== 'design') { err('pk', '要在「設計檢視」才可以設定主索引鍵。'); return; }
         var t = curT(), sel = (S.ui.selx && S.ui.selx.length > 1 ? S.ui.selx.slice() : [S.ui.sel]).sort(function (a, b) { return a - b; });
@@ -1803,6 +1891,307 @@ AX.boot = function (C) {
   }
   function msgInWiz(t) { toast(t, 'warn'); }
 
+  /* ================= 報表精靈 / 標籤精靈 / 報表檢視 ================= */
+  function isR() { return S.open.k === 'report' || S.open.k === 'label'; }
+  function curR() { return S.open.r >= 0 ? S.reports[S.open.r] : null; }
+  function rpFieldLabel(tf) { return tf.split('.')[1]; }
+  function allSources() { return savedTables().map(function (t) { return { k: 't', n: t.name, fields: t.fields.map(function (f) { return f.name; }) }; }).concat((S.queries || []).map(function (q) { return { k: 'q', n: q.name, fields: AX.runQuery(S, q).heads }; })); }
+  function srcLabel(s) { return (s.k === 't' ? '資料表： ' : '查詢： ') + s.n; }
+
+  /* ---------- 報表精靈 ---------- */
+  function startReportWiz() {
+    if (S.phase !== 'db') { err('reportwiz', '要先建立資料庫。'); return; }
+    if (!savedTables().length) { err('reportwiz', '資料庫中還沒有已儲存的資料表。'); return; }
+    var src = allSources()[0];
+    U.rw = { step: 1, src: src.n, sel: [], view: null, groups: [], sorts: [{ f: '', dir: '遞增' }, { f: '', dir: '遞增' }, { f: '', dir: '遞增' }, { f: '', dir: '遞增' }], layout: '分層式', orient: '直印', title: '' };
+    S.flags.rwizOpened = true; log('開啟報表精靈'); lightRefresh(); rwRender();
+  }
+  function rwTables() { var t = []; U.rw.sel.forEach(function (tf) { var n = tf.split('.')[0]; if (t.indexOf(n) < 0) t.push(n); }); return t; }
+  function rwViewOptions() {
+    /* 可用作「檢視方式」的資料表：選定欄位所屬、經關聯為「多」方者優先 */
+    var tabs = rwTables(); if (tabs.length <= 1) return tabs;
+    var rels = S.rels || [];
+    return tabs.slice().sort(function (a, b) { var ma = rels.filter(function (r) { return r.t2 === a; }).length, mb = rels.filter(function (r) { return r.t2 === b; }).length; return mb - ma; });
+  }
+  function rwPreview() {
+    var w = U.rw, g = w.groups, h = '<div class="rwpv">';
+    g.forEach(function (tf, i) { h += '<div class="rwg" style="margin-left:' + (i * 14) + 'px"><b>' + E(rpFieldLabel(tf)) + '</b></div>'; });
+    var rest = w.sel.filter(function (tf) { return g.indexOf(tf) < 0; });
+    h += '<div class="rwd" style="margin-left:' + (g.length * 14) + 'px">' + rest.map(function (tf) { return '<span>' + E(rpFieldLabel(tf)) + '</span>'; }).join('') + '</div>';
+    h += '<div class="rwd" style="margin-left:' + (g.length * 14) + 'px">' + rest.map(function () { return '<i></i>'; }).join('') + '</div>';
+    return h + '</div>';
+  }
+  function rwRender() {
+    var w = U.rw, L = layer(), body = '', tabs = rwTables();
+    var srcs = allSources(), src = srcs.filter(function (s) { return s.n === w.src; })[0] || srcs[0];
+    var avail = src.fields.map(function (f) { return src.n + '.' + f; }).filter(function (tf) { return w.sel.indexOf(tf) < 0; });
+    var optLabel = function (tf) { return E(tf.split('.')[1]) + (tabs.length > 1 || w.sel.some(function (x) { return x.split('.')[0] !== tf.split('.')[0]; }) ? '' : ''); };
+    if (w.step === 1) {
+      body = '<div class="wizhead"><span class="i">' + I.reportWiz + '</span><div><b>您要在報表上使用哪些欄位？</b><div style="font-size:12px;color:#666">您可以從多個資料表或查詢中選擇欄位。</div></div></div>' +
+        '<div style="margin-bottom:6px">資料表/查詢(T):<select id="rwT">' + srcs.map(function (s) { return '<option value="' + E(s.n) + '"' + (s.n === src.n ? ' selected' : '') + '>' + E(srcLabel(s)) + '</option>'; }).join('') + '</select></div>' +
+        '<div class="wizrow"><div style="flex:1"><div style="font-size:12px;color:#555">可用的欄位(A):</div><select class="lst" id="rwA" multiple>' + avail.map(function (tf) { return '<option value="' + E(tf) + '">' + E(rpFieldLabel(tf)) + '</option>'; }).join('') + '</select></div>' +
+        '<div class="mvb"><button data-act="rwmv" data-arg="add">&gt;</button><button data-act="rwmv" data-arg="addall">&gt;&gt;</button><button data-act="rwmv" data-arg="rem">&lt;</button><button data-act="rwmv" data-arg="remall">&lt;&lt;</button></div>' +
+        '<div style="flex:1"><div style="font-size:12px;color:#555">選定的欄位(S):</div><select class="lst" id="rwS" multiple>' + w.sel.map(function (tf) { return '<option value="' + E(tf) + '">' + E(tf) + '</option>'; }).join('') + '</select></div></div>';
+    } else if (w.step === 2) {
+      var vo = rwViewOptions();
+      body = '<div class="wizhead"><span class="i">' + I.reportWiz + '</span><b>您要如何檢視資料？</b></div><div class="wizrow"><div style="width:170px;flex:none"><div style="font-size:12px;color:#555;margin-bottom:4px">以哪個資料表檢視：</div>' +
+        '<select class="lst" id="rwV" size="6" style="height:150px">' + vo.map(function (n) { return '<option value="' + E(n) + '"' + (n === w.view ? ' selected' : '') + '>以 ' + E(n) + '</option>'; }).join('') + '</select></div><div class="prev">' + rwPreview() + '</div></div>' +
+        '<div style="font-size:12px;color:#666;margin-top:6px">「以 ' + E(w.view || '') + '」檢視：報表以這個資料表的記錄為主，其他資料表的欄位會顯示在同一行。</div>';
+    } else if (w.step === 3) {
+      var cand = w.sel.filter(function (tf) { return w.groups.indexOf(tf) < 0; });
+      body = '<div class="wizhead"><span class="i">' + I.reportWiz + '</span><b>您要加入任何分組層次嗎？</b></div><div class="wizrow"><div style="width:190px;flex:none"><select class="lst" id="rwG" size="8" style="height:150px">' +
+        cand.map(function (tf) { return '<option value="' + E(tf) + '">' + E(rpFieldLabel(tf)) + '</option>'; }).join('') + '</select></div>' +
+        '<div class="mvb"><button data-act="rwg" data-arg="add" title="加入分組層次">&gt;</button><button data-act="rwg" data-arg="rem" title="移除分組層次">&lt;</button><button data-act="rwg" data-arg="up" title="優先順序：上移">↑</button><button data-act="rwg" data-arg="down" title="優先順序：下移">↓</button></div>' +
+        '<div class="prev">' + rwPreview() + '</div></div><div style="font-size:12px;color:#666;margin-top:6px">目前分組層次：' + (w.groups.map(function (tf, i) { return (i + 1) + '. ' + E(rpFieldLabel(tf)); }).join('　') || '（無）') + '</div>';
+    } else if (w.step === 4) {
+      var sc = w.sel.filter(function (tf) { return w.groups.indexOf(tf) < 0; });
+      body = '<div class="wizhead"><span class="i">' + I.reportWiz + '</span><div><b>您要為詳細記錄使用何種排序順序？</b><div style="font-size:12px;color:#666">您最多可以依四個欄位排序記錄，可選擇遞增或遞減。</div></div></div>';
+      w.sorts.forEach(function (sx, i) {
+        body += '<div class="rwsort"><span>' + (i + 1) + '</span><select data-rws="' + i + '"><option value=""></option>' + sc.map(function (tf) { return '<option value="' + E(tf) + '"' + (sx.f === tf ? ' selected' : '') + '>' + E(rpFieldLabel(tf)) + '</option>'; }).join('') + '</select>' +
+          '<button data-act="rwdir" data-arg="' + i + '"' + (sx.f ? '' : ' disabled') + '>' + E(sx.dir) + '</button></div>';
+      });
+    } else if (w.step === 5) {
+      var LAY = w.groups.length ? ['分層式', '區塊', '大綱'] : ['單欄式', '表格式', '對齊'];
+      if (LAY.indexOf(w.layout) < 0) w.layout = LAY[0];
+      body = '<div class="wizhead"><span class="i">' + I.reportWiz + '</span><b>您想要何種的報表版面配置？</b></div><div class="wizrow"><div class="prev">' + rwLayoutPreview() + '</div>' +
+        '<div style="width:170px;flex:none"><div style="font-size:12px;color:#555">版面配置</div><div class="lay">' + LAY.map(function (l) { return '<label><input type="radio" name="rwl" value="' + l + '"' + (w.layout === l ? ' checked' : '') + '> ' + l + '</label>'; }).join('') + '</div>' +
+        '<div style="font-size:12px;color:#555;margin-top:8px">列印方向</div><div class="lay">' + ['直印', '橫印'].map(function (o) { return '<label><input type="radio" name="rwo" value="' + o + '"' + (w.orient === o ? ' checked' : '') + '> ' + o + '</label>'; }).join('') + '</div></div></div>';
+    } else {
+      body = '<div class="wizhead"><span class="i">' + I.reportWiz + '</span><b>您要為報表指定什麼標題？</b></div><input type="text" id="rwTi" value="' + E(w.title) + '">' +
+        '<div style="margin-top:14px;font-size:13px">這是精靈建立報表所需的全部資訊。<label style="display:block;margin-top:8px"><input type="radio" name="rwo2" checked> 預覽報表(P)</label><label style="display:block;color:#999"><input type="radio" name="rwo2" disabled> 修改報表設計(M)</label></div>';
+    }
+    L.innerHTML = '<div class="dlg"><div class="dh"><span>報表精靈</span><button class="x" data-act="rwiz" data-arg="cancel">✕</button></div><div class="db wizb">' + body + '</div><div class="df">' +
+      '<button data-act="rwiz" data-arg="cancel">取消</button><button data-act="rwiz" data-arg="back"' + (w.step === 1 ? ' disabled' : '') + '>&lt; 上一步(B)</button>' +
+      '<button data-act="rwiz" data-arg="next"' + (w.step === 6 ? ' disabled' : '') + ' class="pri">下一步(N) &gt;</button><button data-act="rwiz" data-arg="fin">完成(F)</button></div></div>';
+    L.style.display = 'flex';
+    if (w.step === 1) { $('#rwT').onchange = function () { w.src = this.value; rwRender(); }; $('#rwA').ondblclick = function () { rwMove('add'); }; $('#rwS').ondblclick = function () { rwMove('rem'); }; }
+    if (w.step === 2) $('#rwV').onchange = function () { w.view = this.value; log('報表精靈：以「' + w.view + '」檢視'); rwRender(); };
+    if (w.step === 3) $('#rwG').ondblclick = function () { rwGroup('add'); };
+    if (w.step === 4) $$('select[data-rws]', L).forEach(function (sel) { sel.onchange = function () { w.sorts[+sel.getAttribute('data-rws')].f = sel.value; log('報表精靈：排序 ' + (sel.value ? rpFieldLabel(sel.value) : '（無）')); rwRender(); }; });
+    if (w.step === 5) { $$('input[name=rwl]', L).forEach(function (r) { r.onchange = function () { w.layout = r.value; log('報表精靈：版面配置「' + r.value + '」'); rwRender(); }; }); $$('input[name=rwo]', L).forEach(function (r) { r.onchange = function () { w.orient = r.value; log('報表精靈：' + r.value); rwRender(); }; }); }
+  }
+  function rwLayoutPreview() {
+    var w = U.rw, row = function (n, ind) { var s = '<div class="pv-r" style="margin-left:' + (ind || 0) + 'px">'; for (var i = 0; i < n; i++) s += '<i></i>'; return s + '</div>'; };
+    var note = { '分層式': '分層式：分組欄位在上，詳細記錄逐層縮排', '區塊': '區塊：分組欄位與詳細記錄並排成區塊', '大綱': '大綱：分組欄位獨立一行，詳細記錄在下', '單欄式': '單欄式：每筆記錄的欄位由上而下', '表格式': '表格式：每筆記錄一行', '對齊': '對齊：欄位左右並排' }[w.layout];
+    var h = '<div style="font-size:11px;color:#666;margin-bottom:6px">' + note + '（' + w.orient + '）</div><div class="' + (w.orient === '橫印' ? 'rwland' : 'rwport') + '">';
+    if (w.layout === '分層式') h += '<div class="pv-r"><i class="l"></i></div>' + row(3, 14) + row(3, 28) + row(3, 28) + '<div class="pv-r"><i class="l"></i></div>' + row(3, 14) + row(3, 28);
+    else if (w.layout === '區塊') h += '<div class="pv-r"><i class="l"></i><i></i><i></i><i></i></div>' + row(3, 56) + row(3, 56) + '<div class="pv-r"><i class="l"></i><i></i><i></i><i></i></div>';
+    else if (w.layout === '大綱') h += '<div class="pv-r"><i class="l"></i></div>' + row(4) + row(4) + '<div class="pv-r"><i class="l"></i></div>' + row(4);
+    else if (w.layout === '表格式') h += row(4) + row(4) + row(4) + row(4);
+    else if (w.layout === '對齊') h += row(2) + row(3) + row(1) + row(2);
+    else h += [1, 2, 3, 4].map(function () { return '<div class="pv-r"><i class="l"></i><i></i></div>'; }).join('');
+    return h + '</div>';
+  }
+  function rwMove(a) {
+    var w = U.rw, A = $('#rwA'), Ss = $('#rwS');
+    var selA = A ? Array.prototype.map.call(A.selectedOptions, function (o) { return o.value; }) : [], selS = Ss ? Array.prototype.map.call(Ss.selectedOptions, function (o) { return o.value; }) : [];
+    if (a === 'add') { if (!selA.length) { toast('請先在左邊清單選取欄位。', 'warn'); return; } w.sel = w.sel.concat(selA); }
+    if (a === 'addall') w.sel = w.sel.concat(Array.prototype.map.call(A.options, function (o) { return o.value; }));
+    if (a === 'rem') { if (!selS.length) { toast('請先在右邊清單選取要移除的欄位。', 'warn'); return; } w.sel = w.sel.filter(function (n) { return selS.indexOf(n) < 0; }); }
+    if (a === 'remall') w.sel = [];
+    w.groups = w.groups.filter(function (g) { return w.sel.indexOf(g) >= 0; });
+    log('報表精靈：選定欄位 ' + (w.sel.join('、') || '（無）')); rwRender();
+  }
+  function rwGroup(a) {
+    var w = U.rw, G = $('#rwG'), v = G && G.value;
+    if (a === 'add') { if (!v) { toast('請先在左邊清單選取欄位。', 'warn'); return; } if (w.groups.indexOf(v) < 0) w.groups.push(v); }
+    if (a === 'rem') { if (!w.groups.length) return; w.groups.pop(); }
+    if (a === 'up' && w.groups.length > 1) { var x = w.groups.pop(); w.groups.splice(w.groups.length - 1, 0, x); }
+    if (a === 'down' && w.groups.length > 1) { var y = w.groups.splice(w.groups.length - 2, 1)[0]; w.groups.push(y); }
+    log('報表精靈：分組層次 ' + (w.groups.map(rpFieldLabel).join(' → ') || '（無）')); rwRender();
+  }
+  function rwBtn(a) {
+    var w = U.rw; if (!w) return;
+    var tEl = $('#rwTi'); if (tEl) w.title = tEl.value;
+    if (a === 'cancel') { closeLayer(); U.rw = null; log('取消報表精靈'); render(); return; }
+    if (a === 'back') { w.step = Math.max(1, w.step - 1); rwRender(); return; }
+    if (a === 'dir') { var sx = w.sorts[+arguments[1]]; sx.dir = sx.dir === '遞增' ? '遞減' : '遞增'; log('報表精靈：' + rpFieldLabel(sx.f) + ' ' + sx.dir); rwRender(); return; }
+    if (a === 'next') {
+      if (w.step === 1) { if (!w.sel.length) { toast('您必須至少選取一個欄位。', 'warn'); return; } S.flags.rwFields = w.sel.slice(); if (rwTables().length <= 1) { w.view = rwTables()[0]; w.step = 3; if (!w.title) w.title = w.view; } else { if (!w.view || rwTables().indexOf(w.view) < 0) w.view = rwViewOptions()[0]; w.step = 2; } }
+      else if (w.step === 2) { S.flags.rwView = w.view; if (!w.title) w.title = w.view; w.step = 3; }
+      else if (w.step === 3) { S.flags.rwGroups = w.groups.slice(); w.step = 4; }
+      else if (w.step === 4) { S.flags.rwSorts = w.sorts.filter(function (x) { return x.f; }); w.step = 5; }
+      else if (w.step === 5) { S.flags.rwLayout = w.layout + '/' + w.orient; w.step = 6; }
+      lightRefresh(); rwRender(); return;
+    }
+    if (a === 'fin') {
+      if (!w.sel.length) { toast('您必須至少選取一個欄位。', 'warn'); return; }
+      var title = String(w.title || w.view || rwTables()[0] || '報表1').trim(); if (!title) { toast('請輸入報表標題。', 'warn'); return; }
+      var create = function () {
+        var rp = { kind: 'report', name: title, fields: w.sel.slice(), view: w.view || rwTables()[0], groups: w.groups.slice(), sorts: w.sorts.filter(function (x) { return x.f; }).map(function (x) { return { f: x.f, dir: x.dir }; }), layout: w.layout, orient: w.orient, step: w.step };
+        var exist = -1; S.reports.forEach(function (r, i) { if (r.name === title) exist = i; });
+        if (exist >= 0) S.reports[exist] = rp; else S.reports.push(rp);
+        S.flags.reportCreated = true;
+        log('報表精靈完成：「' + title + '」，' + rp.layout + ' ' + rp.orient + '，分組 ' + (rp.groups.map(rpFieldLabel).join('/') || '無') + '，排序 ' + (rp.sorts.map(function (x) { return rpFieldLabel(x.f) + x.dir; }).join('/') || '無'));
+        closeLayer(); U.rw = null; setStatus('已建立報表「' + title + '」');
+        openReport(exist >= 0 ? exist : S.reports.length - 1);
+      };
+      if (AX.report(S, title)) { dlg('Microsoft Access', '<div class="warnic">?</div>已經有名為「' + E(title) + '」的報表。是否要取代？', [{ l: '是(Y)', pri: 1, fn: create }, { l: '否(N)', fn: rwRender }]); return; }
+      create();
+    }
+  }
+
+  /* ---------- 標籤精靈 ---------- */
+  function startLabelWiz() {
+    if (S.phase !== 'db') { err('labels', '要先建立資料庫。'); return; }
+    var pick = null;
+    if (S.ui.navSel && S.ui.navSel[0] === 't') pick = S.tables[+S.ui.navSel.slice(1)];
+    if ((!pick || pick.name == null) && S.open.k === 'ds') pick = curT();
+    if (!pick || pick.name == null) { msg('請先在導覽窗格<b>選取</b>要製作標籤的資料表（按一下它），再按「標籤」。'); return; }
+    U.lw = { step: 1, src: pick.name, size: AX.LABEL_SIZES[0].id, font: '新細明體', fsize: '8', weight: '輕', color: '黑', italic: false, underline: false, lines: ['', '', '', '', '', '', '', ''], cur: 0, sorts: [], title: '標籤 ' + pick.name };
+    S.flags.lwizOpened = true; S.flags.lwSrc = pick.name; log('開啟標籤精靈（' + pick.name + '）'); lightRefresh(); lwRender();
+  }
+  function lwRender() {
+    var w = U.lw, L = layer(), body = '', t = AX.table(S, w.src), fields = t ? t.fields.map(function (f) { return f.name; }) : [];
+    if (w.step === 1) {
+      body = '<div class="wizhead"><span class="i">' + I.labels + '</span><div><b>這個精靈會建立標準標籤或自訂標籤。</b><div style="font-size:12px;color:#666">您要使用哪種標籤大小？</div></div></div>' +
+        '<table class="lwt"><tr><th>產品編號</th><th>尺寸</th><th>標籤數目（橫向）</th></tr>' +
+        AX.LABEL_SIZES.map(function (z) { return '<tr data-lz="' + z.id + '" class="' + (w.size === z.id ? 'on' : '') + '"><td>' + z.id.replace('L', 'C21') + '0</td><td>' + z.l + '</td><td>' + z.n + '</td></tr>'; }).join('') + '</table>' +
+        '<div style="display:flex;gap:14px;margin-top:8px;font-size:12.5px"><span>度量單位：<label><input type="radio" checked> 公制</label> <label><input type="radio" disabled> 英制</label></span><span>標籤類型：<label><input type="radio" checked> 單張</label> <label><input type="radio" disabled> 連續</label></span></div>';
+    } else if (w.step === 2) {
+      body = '<div class="wizhead"><span class="i">' + I.labels + '</span><b>您要使用何種字型及色彩？</b></div><div class="lwf">' +
+        '<label>字型名稱：<select id="lwFont">' + ['新細明體', '微軟正黑體', '標楷體', 'Arial', 'Calibri'].map(function (f) { return '<option' + (f === w.font ? ' selected' : '') + '>' + f + '</option>'; }).join('') + '</select></label>' +
+        '<label>字型大小：<select id="lwSize">' + ['8', '9', '10', '11', '12', '14'].map(function (f) { return '<option' + (f === w.fsize ? ' selected' : '') + '>' + f + '</option>'; }).join('') + '</select></label>' +
+        '<label>字型粗細：<select id="lwWeight">' + ['輕', '一般', '中等', '粗體'].map(function (f) { return '<option' + (f === w.weight ? ' selected' : '') + '>' + f + '</option>'; }).join('') + '</select></label>' +
+        '<label>文字色彩：<span class="lwc"></span> 黑</label><label><input type="checkbox" id="lwI"' + (w.italic ? ' checked' : '') + '> 斜體</label><label><input type="checkbox" id="lwU"' + (w.underline ? ' checked' : '') + '> 底線</label></div>' +
+        '<div style="font-size:12px;color:#666;margin-top:8px">本練習使用預設的文字格式即可，直接按「下一步」。</div>';
+    } else if (w.step === 3) {
+      body = '<div class="wizhead"><span class="i">' + I.labels + '</span><div><b>您要在郵寄標籤上放置什麼？</b><div style="font-size:12px;color:#666">在右邊的原型標籤上建立標籤內容。可以輸入文字，也可以在左邊按兩下欄位名稱把欄位加入目前行。</div></div></div>' +
+        '<div class="wizrow"><div style="width:150px;flex:none"><div style="font-size:12px;color:#555">可用的欄位：</div><select class="lst" id="lwA" size="8" style="height:168px">' + fields.map(function (f) { return '<option>' + E(f) + '</option>'; }).join('') + '</select></div>' +
+        '<div class="mvb"><button data-act="lwadd" title="把欄位加入目前行">&gt;</button></div>' +
+        '<div style="flex:1"><div style="font-size:12px;color:#555">原型標籤：</div><div class="lwproto">' + w.lines.map(function (ln, i) { return '<input type="text" data-lwl="' + i + '" value="' + E(ln) + '" class="' + (w.cur === i ? 'cur' : '') + '" autocomplete="off" spellcheck="false">'; }).join('') + '</div>' +
+        '<div style="font-size:11.5px;color:#666;margin-top:4px">欄位以 {欄位名稱} 表示；按 Enter 移到下一行。</div></div></div>';
+    } else if (w.step === 4) {
+      var avail = fields.filter(function (f) { return w.sorts.indexOf(f) < 0; });
+      body = '<div class="wizhead"><span class="i">' + I.labels + '</span><div><b>您要依哪些欄位排序？</b><div style="font-size:12px;color:#666">可以不排序，直接按「下一步」。</div></div></div>' +
+        '<div class="wizrow"><div style="flex:1"><div style="font-size:12px;color:#555">可用的欄位：</div><select class="lst" id="lwSA" multiple>' + avail.map(function (f) { return '<option>' + E(f) + '</option>'; }).join('') + '</select></div>' +
+        '<div class="mvb"><button data-act="lwsort" data-arg="add">&gt;</button><button data-act="lwsort" data-arg="rem">&lt;</button><button data-act="lwsort" data-arg="remall">&lt;&lt;</button></div>' +
+        '<div style="flex:1"><div style="font-size:12px;color:#555">排序依據：</div><select class="lst" id="lwSS" multiple>' + w.sorts.map(function (f) { return '<option>' + E(f) + '</option>'; }).join('') + '</select></div></div>';
+    } else {
+      body = '<div class="wizhead"><span class="i">' + I.labels + '</span><b>您要為報表指定什麼名稱？</b></div><input type="text" id="lwTi" value="' + E(w.title) + '">' +
+        '<div style="margin-top:14px;font-size:13px">這是精靈建立標籤所需的全部資訊。<label style="display:block;margin-top:8px"><input type="radio" name="lwo" checked> 查看列印時標籤的外觀(S)</label><label style="display:block;color:#999"><input type="radio" name="lwo" disabled> 修改標籤的設計(M)</label></div>';
+    }
+    L.innerHTML = '<div class="dlg"><div class="dh"><span>標籤精靈</span><button class="x" data-act="lwiz" data-arg="cancel">✕</button></div><div class="db wizb">' + body + '</div><div class="df">' +
+      '<button data-act="lwiz" data-arg="cancel">取消</button><button data-act="lwiz" data-arg="back"' + (w.step === 1 ? ' disabled' : '') + '>&lt; 上一步(B)</button>' +
+      '<button data-act="lwiz" data-arg="next"' + (w.step === 5 ? ' disabled' : '') + ' class="pri">下一步(N) &gt;</button><button data-act="lwiz" data-arg="fin">完成(F)</button></div></div>';
+    L.style.display = 'flex';
+    if (w.step === 1) $$('tr[data-lz]', L).forEach(function (tr) { tr.onclick = function () { w.size = tr.getAttribute('data-lz'); var z = AX.LABEL_SIZES.filter(function (x) { return x.id === w.size; })[0]; log('標籤精靈：標籤大小 ' + z.l + '，橫向 ' + z.n + ' 個'); lwRender(); }; });
+    if (w.step === 2) { $('#lwFont').onchange = function () { w.font = this.value; }; $('#lwSize').onchange = function () { w.fsize = this.value; }; $('#lwWeight').onchange = function () { w.weight = this.value; }; $('#lwI').onchange = function () { w.italic = this.checked; }; $('#lwU').onchange = function () { w.underline = this.checked; }; }
+    if (w.step === 3) {
+      $('#lwA').ondblclick = function () { lwAddField(); };
+      $$('input[data-lwl]', L).forEach(function (inp) {
+        inp.onfocus = function () { w.cur = +inp.getAttribute('data-lwl'); $$('input[data-lwl]', L).forEach(function (x) { x.classList.toggle('cur', x === inp); }); };
+        inp.oninput = function () { w.lines[+inp.getAttribute('data-lwl')] = inp.value; };
+        inp.onkeydown = function (ev) { if (ev.key === 'Enter' && !ev.isComposing) { ev.preventDefault(); var n = $('input[data-lwl="' + (w.cur + 1) + '"]', L); if (n) n.focus(); } };
+      });
+      var c0 = $('input[data-lwl="' + w.cur + '"]', L); if (c0) c0.focus();
+    }
+    if (w.step === 4) { $('#lwSA').ondblclick = function () { lwSort('add'); }; $('#lwSS').ondblclick = function () { lwSort('rem'); }; }
+  }
+  function lwAddField() {
+    var w = U.lw, A = $('#lwA'); if (!A || !A.value) { toast('請先在左邊清單選取欄位。', 'warn'); return; }
+    var inp = $('input[data-lwl="' + w.cur + '"]'), pos = inp ? inp.selectionStart : null, v = w.lines[w.cur] || '', ins = '{' + A.value + '}';
+    if (pos == null || pos > v.length) pos = v.length;
+    w.lines[w.cur] = v.slice(0, pos) + ins + v.slice(pos);
+    log('標籤精靈：第 ' + (w.cur + 1) + ' 行加入欄位 ' + ins);
+    lwRender(); var i2 = $('input[data-lwl="' + w.cur + '"]'); if (i2) { i2.focus(); try { i2.setSelectionRange(pos + ins.length, pos + ins.length); } catch (e) { } }
+  }
+  function lwSort(a) {
+    var w = U.lw, A = $('#lwSA'), Ss = $('#lwSS');
+    var selA = A ? Array.prototype.map.call(A.selectedOptions, function (o) { return o.value; }) : [], selS = Ss ? Array.prototype.map.call(Ss.selectedOptions, function (o) { return o.value; }) : [];
+    if (a === 'add') { if (!selA.length) { toast('請先在左邊清單選取欄位。', 'warn'); return; } w.sorts = w.sorts.concat(selA); }
+    if (a === 'rem') w.sorts = w.sorts.filter(function (f) { return selS.indexOf(f) < 0; });
+    if (a === 'remall') w.sorts = [];
+    log('標籤精靈：排序 ' + (w.sorts.join('、') || '（無）')); lwRender();
+  }
+  function lwBtn(a) {
+    var w = U.lw; if (!w) return;
+    var tEl = $('#lwTi'); if (tEl) w.title = tEl.value;
+    if (a === 'cancel') { closeLayer(); U.lw = null; log('取消標籤精靈'); render(); return; }
+    if (a === 'back') { w.step = Math.max(1, w.step - 1); lwRender(); return; }
+    if (a === 'next') {
+      if (w.step === 1) S.flags.lwSize = w.size;
+      if (w.step === 2) S.flags.lwFont = w.font + '/' + w.fsize + '/' + w.weight + (w.italic ? '/斜' : '') + (w.underline ? '/底' : '');
+      if (w.step === 3) { if (!w.lines.some(function (l) { return l.trim(); })) { toast('請先在原型標籤輸入內容。', 'warn'); return; } S.flags.lwLines = w.lines.slice(); }
+      if (w.step === 4) S.flags.lwSorts = w.sorts.slice();
+      w.step++; lightRefresh(); lwRender(); return;
+    }
+    if (a === 'fin') {
+      if (!w.lines.some(function (l) { return l.trim(); })) { toast('請先在原型標籤輸入內容。', 'warn'); return; }
+      var title = String(w.title || '').trim(); if (!title) { toast('請輸入名稱。', 'warn'); return; }
+      var create = function () {
+        var rp = { kind: 'label', name: title, src: w.src, size: w.size, font: w.font, fsize: w.fsize, weight: w.weight, italic: w.italic, underline: w.underline, lines: w.lines.slice(), sorts: w.sorts.slice(), step: w.step };
+        var exist = -1; S.reports.forEach(function (r, i) { if (r.name === title) exist = i; });
+        if (exist >= 0) S.reports[exist] = rp; else S.reports.push(rp);
+        S.flags.labelCreated = true;
+        log('標籤精靈完成：「' + title + '」，內容 ' + w.lines.filter(function (l) { return l.trim(); }).join(' ｜ '));
+        closeLayer(); U.lw = null; setStatus('已建立標籤「' + title + '」');
+        openReport(exist >= 0 ? exist : S.reports.length - 1);
+      };
+      if (AX.report(S, title)) { dlg('Microsoft Access', '<div class="warnic">?</div>已經有名為「' + E(title) + '」的報表。是否要取代？', [{ l: '是(Y)', pri: 1, fn: create }, { l: '否(N)', fn: lwRender }]); return; }
+      create();
+    }
+  }
+
+  /* ---------- 報表 / 標籤檢視 ---------- */
+  function openReport(ri) {
+    closeDoc(function () {
+      var r = S.reports[ri]; if (!r) return;
+      S.open = { k: r.kind === 'label' ? 'label' : 'report', t: -1, f: -1, r: ri }; S.ui.tab = 'home'; S.flags.reportOpened = (S.flags.reportOpened || 0) + 1;
+      log('開啟報表「' + r.name + '」'); setStatus('報表檢視'); render();
+    });
+  }
+  function labelText(r, rec) {
+    return r.lines.map(function (ln) { return ln.replace(/\{([^}]+)\}/g, function (m, f) { var v = rec.f[f]; return v === undefined ? '#Name?' : (v === true ? '✔' : v === false ? '' : v); }); });
+  }
+  function labelHTML(r) {
+    var t = AX.table(S, r.src), z = AX.LABEL_SIZES.filter(function (x) { return x.id === r.size; })[0] || AX.LABEL_SIZES[0];
+    if (!t) return '<div class="empty">找不到資料表「' + E(r.src) + '」。</div>';
+    var recs = t.records.slice();
+    if (r.sorts && r.sorts.length) recs.sort(function (a, b) { for (var k = 0; k < r.sorts.length; k++) { var f = AX.savedField(t, r.sorts[k]), d = AX.cmpVal(f ? f.type : '簡短文字', a.f[r.sorts[k]], b.f[r.sorts[k]]); if (d) return d; } return 0; });
+    var last = -1; r.lines.forEach(function (l, i) { if (l.trim()) last = i; });
+    var sty = 'font-family:' + E(r.font) + ';font-size:' + (+r.fsize + 3) + 'px;font-weight:' + (r.weight === '粗體' ? 700 : r.weight === '中等' ? 600 : 400) + (r.italic ? ';font-style:italic' : '') + (r.underline ? ';text-decoration:underline' : '');
+    var h = '<div class="rpv"><div class="rpage ' + (z.dir === '橫向' ? '' : '') + '"><div class="lgrid" style="grid-template-columns:repeat(' + z.n + ',' + (z.w * 2.6) + 'px)">';
+    recs.forEach(function (rec) {
+      h += '<div class="lbl" style="height:' + (z.h * 2.6) + 'px;' + sty + '">' + labelText(r, rec).slice(0, last + 1).map(function (x) { return '<div>' + (E(x) || '&nbsp;') + '</div>'; }).join('') + '</div>';
+    });
+    return h + '</div></div></div>';
+  }
+  function reportHTML(r) {
+    var d = AX.reportRows(S, r), gi = d.groupIdx, fi = d.fieldIdx, det = fi.filter(function (i) { return gi.indexOf(i) < 0; });
+    var now = new Date(), h = '<div class="rpv"><div class="rpage ' + (r.orient === '橫印' ? 'land' : '') + '">';
+    h += '<div class="rph"><h1>' + E(r.name) + '</h1><span>' + now.getFullYear() + '年' + (now.getMonth() + 1) + '月' + now.getDate() + '日</span></div>';
+    if (d.cross) h += '<div class="dsnote">⚠ 部分資料表之間沒有關聯，結果出現重複組合。</div>';
+    var tiered = r.layout === '分層式' || r.layout === '區塊' || r.layout === '大綱';
+    if (!gi.length || !tiered) {
+      h += '<table class="rpt"><thead><tr>' + fi.map(function (i) { return '<th>' + E(d.heads[i]) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        d.rows.map(function (row) { return '<tr>' + fi.map(function (i) { return '<td>' + E(AX.show(row[i])) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+    } else {
+      var prev = gi.map(function () { return null; }), open = false;
+      h += '<table class="rpt tier"><thead><tr>' + gi.map(function (i) { return '<th>' + E(d.heads[i]) + '</th>'; }).join('') + det.map(function (i) { return '<th>' + E(d.heads[i]) + '</th>'; }).join('') + '</tr></thead><tbody>';
+      d.rows.forEach(function (row) {
+        var brk = -1; gi.forEach(function (i, k) { if (brk < 0 && String(row[i]) !== String(prev[k])) brk = k; });
+        if (brk >= 0) { for (var k = brk; k < gi.length; k++) prev[k] = row[gi[k]]; h += '<tr class="g' + (brk === 0 ? ' g0' : '') + '">' + gi.map(function (i, k) { return '<td class="gh" style="padding-left:' + (k * 14 + 6) + 'px">' + (k >= brk ? '<b>' + E(AX.show(row[i])) + '</b>' : '') + '</td>'; }).join('') + det.map(function () { return '<td></td>'; }).join('') + '</tr>'; }
+        h += '<tr>' + gi.map(function () { return '<td></td>'; }).join('') + det.map(function (i) { return '<td>' + E(AX.show(row[i])) + '</td>'; }).join('') + '</tr>';
+      });
+      h += '</tbody></table>';
+    }
+    h += '<div class="rpf"><span>' + (r.orient === '橫印' ? '橫印' : '直印') + ' · ' + E(r.layout) + '</span><span>第 1 頁，共 1 頁</span></div></div></div>';
+    return h;
+  }
+  function reportPrintOut(r) {
+    if (r.kind === 'label') { var t = AX.table(S, r.src), rows = t ? t.records.map(function (rec) { return labelText(r, rec); }) : []; return { heads: r.lines.map(function (l, i) { return '第 ' + (i + 1) + ' 行'; }), rows: rows }; }
+    var d = AX.reportRows(S, r); return { heads: d.fieldIdx.map(function (i) { return d.heads[i]; }), rows: d.rows.map(function (row) { return d.fieldIdx.map(function (i) { return row[i]; }); }) };
+  }
+  function delReport(i) {
+    var r = S.reports[i]; if (!r) return;
+    dlg('Microsoft Access', '<div class="warnic">?</div>是否要刪除報表「' + E(r.name) + '」？', [{ l: '是(Y)', pri: 1, fn: function () { if (isR() && S.open.r === i) S.open = { k: 'none', t: -1, f: -1 }; S.reports.splice(i, 1); S.ui.navSel = null; log('刪除報表「' + r.name + '」'); render(); } }, { l: '否(N)' }]);
+  }
+  function renameReport(i) {
+    var r = S.reports[i]; if (!r) return;
+    inputbox('重新命名', '報表名稱(N):', r.name, function (v) { v = String(v || '').trim(); if (!v || v === r.name) return; if (AX.report(S, v)) { msg('已經有名為「' + E(v) + '」的報表。'); return; } log('報表「' + r.name + '」改名為「' + v + '」'); r.name = v; render(); });
+  }
+
   /* ================= 關聯圖 / 查詢設計 / 列印 ================= */
   function feat(k) { return !!(C.features && C.features[k]); }
   function isQ() { return S.open.k === 'qdesign' || S.open.k === 'qres'; }
@@ -1811,11 +2200,12 @@ AX.boot = function (C) {
     if (o.k === 'rel') return '關聯';
     if (o.k === 'qdesign' || o.k === 'qres') return (S.qdraft && S.qdraft.name) || '查詢1';
     if (o.k === 'form') return curF().name;
+    if (isR()) return curR() ? curR().name : '報表';
     var t = curT(); return t ? tName(t) : S.db;
   }
   function docTabHTML() {
     var o = S.open; if (o.k === 'none') return '';
-    var t = curT(), ic = o.k === 'form' ? I.navForm : o.k === 'rel' ? I.rel : isQ() ? I.navQuery : I.navTable;
+    var t = curT(), ic = o.k === 'form' ? I.navForm : o.k === 'rel' ? I.rel : isQ() ? I.navQuery : o.k === 'label' ? I.labels : o.k === 'report' ? I.navReport : I.navTable;
     var dirty = (o.k === 'design' && t && t.dirty) || (isQ() && S.qdraft && S.qdraft.dirty);
     return '<div class="dt"><span class="i">' + ic + '</span>' + E(docLabel()) + (dirty ? ' *' : '') + '<button class="x" data-act="close" title="關閉">✕</button></div>';
   }
@@ -2159,11 +2549,13 @@ AX.boot = function (C) {
   function printTarget() {
     var o = S.open;
     if (o.k === 'qres') return { k: 'q', name: docLabel(), q: S.qdraft };
+    if (isR()) return { k: 'r', name: curR().name, r: curR() };
     if (o.k === 'qdesign') return { bad: '在「設計檢視」列印只會印出查詢的設計。要列印查詢的<b>結果</b>，請先按「執行」或在導覽窗格按兩下開啟查詢。' };
     if (o.k === 'ds') return { k: 't', name: tName(curT()), t: curT() };
     if (o.k === 'none' && S.ui.navSel) {
       var i = +S.ui.navSel.slice(1);
       if (S.ui.navSel[0] === 'q' && S.queries[i]) return { k: 'q', name: S.queries[i].name, q: S.queries[i] };
+      if (S.ui.navSel[0] === 'r' && S.reports[i]) return { k: 'r', name: S.reports[i].name, r: S.reports[i] };
       if (S.ui.navSel[0] === 't' && S.tables[i]) return { k: 't', name: S.tables[i].name, t: S.tables[i] };
     }
     if (o.k === 'none') return { bad: '請先開啟要列印的查詢（或在導覽窗格按一下選取它）。' };
@@ -2171,6 +2563,7 @@ AX.boot = function (C) {
   }
   function printOut(tg) {
     if (tg.k === 'q') return AX.runQuery(S, tg.q);
+    if (tg.k === 'r') return reportPrintOut(tg.r);
     var t = tg.t; return { heads: t.fields.map(function (f) { return f.name; }), rows: t.records.map(function (r) { return t.fields.map(function (f) { return r.f[f.name]; }); }) };
   }
   function pageHTML(tg) {
@@ -2502,6 +2895,7 @@ AX.boot = function (C) {
     var i = +arg.slice(1);
     if (arg[0] === 't') { S.ui.navSel = arg; openDatasheet(i); }
     else if (arg[0] === 'q') { S.ui.navSel = arg; openQueryResult(i); }
+    else if (arg[0] === 'r') { S.ui.navSel = arg; openReport(i); }
     else { S.ui.navSel = arg; openForm(i); }
   }
   function navMenu(arg, x, y) {
@@ -2522,6 +2916,14 @@ AX.boot = function (C) {
       { l: '列印(P)...', fn: function () { if (feat('print')) startPrint('dialog'); else err('print', '本練習不需要列印。'); } },
       { l: '重新命名(M)', fn: function () { renameQuery(i); } },
       { l: '刪除(L)', fn: function () { delQuery(i); } }];
+    else if (arg[0] === 'r') items = [
+      { l: '開啟(O)', b: 1, fn: function () { openReport(i); } },
+      { l: '版面配置檢視(Y)', fn: function () { msg('本練習不需要修改報表的版面配置。'); } },
+      { l: '設計檢視(D)', fn: function () { msg('本練習不需要修改報表的設計。'); } },
+      { sep: 1 },
+      { l: '列印(P)...', fn: function () { if (feat('print')) startPrint('dialog'); else err('print', '本練習不需要列印。'); } },
+      { l: '重新命名(M)', fn: function () { renameReport(i); } },
+      { l: '刪除(L)', fn: function () { delReport(i); } }];
     else items = [
       { l: '開啟(O)', b: 1, fn: function () { openForm(i); } },
       { l: '版面配置檢視(Y)', fn: function () { msg('本練習不需要修改表單的版面配置。'); } },
@@ -2538,6 +2940,7 @@ AX.boot = function (C) {
     if (o.k === 'form') items = [['form', I.viewForm, '表單檢視(F)'], ['layout', I.formDesign, '版面配置檢視(Y)'], ['fdesign', I.viewDesign, '設計檢視(D)']];
     else if (o.k === 'none') { toast('請先開啟一個資料表或表單。', 'warn'); return; }
     else if (o.k === 'rel') { toast('「關聯」視窗沒有其他檢視。', 'warn'); return; }
+    else if (isR()) items = [['report', I.navReport, '報表檢視(R)'], ['preview', I.printer, '預覽列印(V)'], ['rlayout', I.formDesign, '版面配置檢視(Y)'], ['rdesign', I.viewDesign, '設計檢視(D)']];
     else if (isQ()) items = [['ds', I.viewDs, '資料工作表檢視(H)'], ['sql', '<b style="font-size:9px">SQL</b>', 'SQL 檢視(Q)'], ['design', I.viewDesign, '設計檢視(D)']];
     else items = [['ds', I.viewDs, '資料工作表檢視(H)'], ['design', I.viewDesign, '設計檢視(D)']];
     vm.innerHTML = items.map(function (it) { return '<div data-act="view" data-arg="' + it[0] + '"><span class="i">' + it[1] + '</span>' + it[2] + '</div>'; }).join('');
@@ -2558,6 +2961,13 @@ AX.boot = function (C) {
     if (locked()) { toast('評測已提交，不能再修改。', 'warn'); return; }
     if (a === 'wiz') { wizBtn(g); return; }
     if (a === 'wmv') { wizMove(g); return; }
+    if (a === 'rwiz') { rwBtn(g); return; }
+    if (a === 'rwmv') { rwMove(g); return; }
+    if (a === 'rwg') { rwGroup(g); return; }
+    if (a === 'rwdir') { rwBtn('dir', g); return; }
+    if (a === 'lwiz') { lwBtn(g); return; }
+    if (a === 'lwadd') { lwAddField(); return; }
+    if (a === 'lwsort') { lwSort(g); return; }
     if (U.suppress && Date.now() - U.suppress < 600) return;
     switch (a) {
       case 'tab':
@@ -2578,7 +2988,7 @@ AX.boot = function (C) {
       }
       case 'drec': selectRec(+g); return;
       case 'rnav': rnav(g); return;
-      case 'navitem': S.ui.navSel = g; $$('#nav .it').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-arg') === g); }); setStatus(g[0] === 't' ? '已選取資料表。按兩下開啟；按右鍵可選「設計檢視」。' : g[0] === 'q' ? '已選取查詢。按兩下執行；按右鍵可選「設計檢視」。' : '已選取表單。按兩下開啟。'); return;
+      case 'navitem': S.ui.navSel = g; $$('#nav .it').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-arg') === g); }); setStatus(g[0] === 't' ? '已選取資料表。按兩下開啟；按右鍵可選「設計檢視」。' : g[0] === 'q' ? '已選取查詢。按兩下執行；按右鍵可選「設計檢視」。' : g[0] === 'r' ? '已選取報表。按兩下開啟。' : '已選取表單。按兩下開啟。'); return;
       case 'fback': closeFile(); log('離開「檔案」'); return;
       case 'fitem': fileItem(g); return;
       case 'fprint': startPrint(g); return;
@@ -2667,7 +3077,7 @@ AX.boot = function (C) {
   function resumeRun() {
     var sv = loadSaved(); if (!sv) { showCover(); return; }
     S = sv; U.acc = S.elapsed || 0; U.sess = Date.now(); U.prevDone = null;
-    S.rels = S.rels || []; S.relLayout = S.relLayout || []; S.queries = S.queries || [];
+    S.rels = S.rels || []; S.relLayout = S.relLayout || []; S.queries = S.queries || []; S.reports = S.reports || [];
     if ((S.open.k === 'qdesign' || S.open.k === 'qres') && !S.qdraft) S.open = { k: 'none', t: -1, f: -1 };
     if (S.open.k !== 'none' && ((S.open.t >= 0 && !S.tables[S.open.t]) || (S.open.k === 'form' && !S.forms[S.open.f]))) S.open = { k: 'none', t: -1, f: -1 };
     $('#cover').style.display = 'none';
@@ -2691,7 +3101,7 @@ AX.boot = function (C) {
     if (!S || !S.info) return;
     if (S.demo) { msg('示範模式不會產生成績報告。請按「重新開始」讓學生正式作答。'); return; }
     if (locked()) { showReport(); return; }
-    if (U.wiz) closeLayer();
+    if (U.wiz || U.rw || U.lw) { closeLayer(); U.rw = null; U.lw = null; }
     if (ASSESS) {
       dlg('提交評測', '提交後<b>不能再修改</b>，確定要提交嗎？<br><br><span style="color:#666;font-size:12.5px">提示：提交前可以再檢查一次資料表、表單及記錄。</span>',
         [{ l: '確定提交', pri: 1, fn: submit }, { l: '返回檢查' }]);
@@ -2795,6 +3205,18 @@ AX.boot = function (C) {
     qRun: function () { runQueryView('run'); },
     qSaveAs: function (name) { saveQuery(); var inp = $('#dlgin'); if (inp) { inp.value = name; $('.df button.pri', layer()).click(); } },
     close: function () { closeDoc(); },
+    reportWizard: function (o) {
+      S.ui.tab = 'create'; S.flags.rwizOpened = true; S.flags.rwFields = o.fields.slice(); S.flags.rwView = o.view; S.flags.rwGroups = (o.groups || []).slice(); S.flags.rwSorts = (o.sorts || []).slice(); S.flags.rwLayout = o.layout + '/' + o.orient;
+      var rp = { kind: 'report', name: o.title, fields: o.fields.slice(), view: o.view, groups: (o.groups || []).slice(), sorts: (o.sorts || []).map(function (x) { return { f: x.f, dir: x.dir || '遞增' }; }), layout: o.layout, orient: o.orient, step: 6 };
+      S.reports.push(rp); S.flags.reportCreated = true; log('報表精靈完成：「' + o.title + '」'); openReport(S.reports.length - 1);
+    },
+    labelWizard: function (o) {
+      S.ui.tab = 'create'; S.flags.lwizOpened = true; S.flags.lwSrc = o.src; S.flags.lwSize = o.size || 'L1'; S.flags.lwLines = o.lines.slice(); S.flags.lwSorts = (o.sorts || []).slice();
+      var rp = { kind: 'label', name: o.title, src: o.src, size: o.size || 'L1', font: '新細明體', fsize: '8', weight: '輕', italic: false, underline: false, lines: o.lines.concat(['', '', '', '', '', '', '', '']).slice(0, 8), sorts: (o.sorts || []).slice(), step: 5 };
+      S.reports.push(rp); S.flags.labelCreated = true; log('標籤精靈完成：「' + o.title + '」'); openReport(S.reports.length - 1);
+    },
+    selectNav: function (arg) { S.ui.navSel = arg; renderNav(); },
+    openReportByName: function (name) { for (var i = 0; i < S.reports.length; i++) if (S.reports[i].name === name) { S.ui.navSel = 'r' + i; openReport(i); return; } },
     openQueryByName: function (name) { for (var i = 0; i < S.queries.length; i++) if (S.queries[i].name === name) { S.ui.navSel = 'q' + i; openQueryResult(i); return; } },
     print: function () { var tg = printTarget(); if (!tg.bad) doPrint(tg, '示範', true); },
     wizard: function (tname, fields, layout, title) {
