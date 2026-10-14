@@ -880,7 +880,7 @@ AX.reportRows = function (S, rp) {
 
 /* ---------- 提交資料（報告內嵌） ---------- */
 AX.stateForGrade = function (S) {
-  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags, rels: S.rels || [], relLayout: S.relLayout || [], queries: S.queries || [], qdraft: S.qdraft || null, reports: S.reports || [] };
+  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags, rels: S.rels || [], relLayout: S.relLayout || [], queries: S.queries || [], qdraft: S.qdraft || null, reports: S.reports || [], lab: S.lab || null };
 };
 AX.buildPayload = function (cfg, S, ev, endISO) {
   var d = {
@@ -944,7 +944,7 @@ AX.reportInner = function (cfg, d, ev, code) {
     ['提示', (ev.hs.n1 + ev.hs.n2) + ' 次(扣 ' + ev.dh + ')'], ['誤操作', d.errs + ' 次(扣 ' + ev.de + ')'], ['提交次數', d.submits]
   ];
   h += '<div class="rp"><div class="rp-head"><div class="rp-tl">' +
-    '<div class="rp-kicker">中三 電腦科 · Microsoft Access ' + (cfg.mode === 'assess' ? '評測' : '自學練習') + '報告</div>' +
+    '<div class="rp-kicker">中三 電腦科 · ' + (cfg.subject || 'Microsoft Access') + ' ' + (cfg.mode === 'assess' ? '評測' : '自學練習') + '報告</div>' +
     '<h1>' + E(cfg.title) + '</h1><table class="rp-info">';
   for (var i = 0; i < info.length; i += 3) {
     h += '<tr>' + info.slice(i, i + 3).map(function (p) { return '<th>' + p[0] + '</th><td>' + E(p[1]) + '</td>'; }).join('') + '</tr>';

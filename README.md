@@ -11,5 +11,8 @@
 | `access/access_exercise_4.html` | Access 單元二下：查詢（準則、排序）及預覽列印 |
 | `access/assessment_2.html` | Access 第二課評測（單元二上 + 單元二下，滿分 40） |
 | `access/access_exercise_5.html` | Access 單元三：報表精靈及標籤精靈 |
+| `cs03/network_1.html` | CS03 單元二：網絡工程師（創科中心）——選用網絡設備及網線 |
+| `cs03/network_soho.html` | CS03 單元二延伸：SOHO 家居工作室——最少設備、無線中繼站 |
+| `cs03/info_1.html` | CS03 單元三：資料驗證員——檢查數位、錯誤輸入的來源、範圍 / 格式檢查、數據驗證 |
 
 每個練習都是獨立的單一 HTML 檔，不需要伺服器或網絡。學生完成後下載 .html 報告檔上傳給老師。

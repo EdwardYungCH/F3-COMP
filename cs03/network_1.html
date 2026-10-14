@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>單元二：網絡工程師（創科中心）</title>
+<!-- 本檔案由 build.py 自動產生。請修改 src/ 內的檔案,再執行 python build.py。 -->
+<style>
+/* =====================================================================
+   Access 模擬練習 — 介面樣式
+   ===================================================================== */
+:root{
+  --acc:#a4373a; --acc-d:#86292c; --acc-l:#f6e3e4; --acc-ll:#fbf2f2;
+  --hdr:#1d3557; --hdr2:#274a73; --ok:#2e8b57; --ok-l:#e7f5ec; --warn:#b07800; --warn-l:#fff6dd; --bad:#c0392b; --bad-l:#fdecea;
+  --ink:#1f2328; --mute:#5f6670; --line:#d5d9de; --bg:#e8ebef; --panel:#fff;
+  --rb:#f3f3f3; --font:"Microsoft JhengHei UI","Microsoft JhengHei","PingFang TC","Noto Sans TC","Segoe UI",sans-serif;
+}
+.assess{--hdr:#4a1d22;--hdr2:#6a2a31}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);font-size:14px;color:var(--ink);background:var(--bg);-webkit-text-size-adjust:100%}
+button{font-family:inherit;cursor:pointer;color:inherit}
+input,select,textarea{font-family:inherit}
+.ic{width:100%;height:100%;display:block}
+
+/* ---------- 頂欄 ---------- */
+#hdr{height:52px;background:linear-gradient(90deg,var(--hdr),var(--hdr2));color:#fff;display:flex;align-items:center;gap:10px;padding:0 14px;position:relative;z-index:5}
+#hdr .logo{width:30px;height:30px;border-radius:7px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);flex:none}
+#hdr .ttl{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#hdr .ttl small{display:block;font-weight:400;font-size:11.5px;opacity:.75}
+#hdr .sp{flex:1}
+.chip{font-size:12.5px;background:rgba(255,255,255,.14);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.chip b{font-weight:700}
+#hdr .hb{border:0;border-radius:6px;padding:8px 13px;font-size:13px;background:rgba(255,255,255,.16);color:#fff;white-space:nowrap}
+#hdr .hb:hover{background:rgba(255,255,255,.26)}
+#hdr .hb.pri{background:var(--ok);font-weight:700;box-shadow:0 1px 0 rgba(0,0,0,.2)}
+#hdr .hb.pri:hover{background:#277a4b}
+
+/* ---------- 版面 ---------- */
+#wrap{display:grid;grid-template-columns:minmax(0,1fr) 352px;height:calc(100vh - 52px)}
+#left{min-width:0;padding:10px;display:flex}
+#guide{background:#f6f7f9;border-left:1px solid var(--line);overflow:auto;padding:12px}
+
+/* ---------- Access 視窗 ---------- */
+#win{flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid #8d8d8d;box-shadow:0 4px 18px rgba(0,0,0,.18);min-width:0;min-height:0;border-radius:3px;overflow:hidden}
+#titlebar{background:var(--acc);color:#fff;height:32px;display:flex;align-items:center;padding:0 6px;font-size:12.5px;gap:8px;flex:none}
+.qat{display:flex;gap:1px;align-items:center}
+.qat button{width:28px;height:26px;border:0;background:none;color:#fff;padding:5px;border-radius:3px}
+.qat button:hover{background:rgba(255,255,255,.2)}
+.qat .sep{width:1px;height:16px;background:rgba(255,255,255,.35);margin:0 4px}
+#tt{flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wctl{display:flex;gap:0;font-size:13px}
+.wctl span{width:34px;text-align:center;opacity:.9}
+#tabsbar{background:var(--acc);display:flex;align-items:flex-end;padding:0 4px;flex:none;min-height:30px;overflow-x:auto}
+.tab{color:#fff;padding:6px 14px 7px;font-size:13px;cursor:pointer;border-radius:3px 3px 0 0;white-space:nowrap;user-select:none}
+.tab:hover{background:rgba(255,255,255,.15)}
+.tab.on{background:var(--rb);color:var(--acc);font-weight:700}
+.tab.file{background:var(--acc-d)}
+.ctxgrp{display:flex;flex-direction:column;margin-left:8px}
+.ctxgrp .cl{background:#f0c64a;color:#4a3800;font-size:11px;text-align:center;padding:1px 8px;border-radius:2px 2px 0 0;font-weight:700}
+.ctxgrp .tab{border-top:2px solid #f0c64a;border-radius:0}
+.ctxgrp .tab.on{border-top-color:#f0c64a}
+#ribbon{background:var(--rb);border-bottom:1px solid #d2d2d2;display:flex;padding:3px 4px 0;min-height:94px;overflow-x:auto;overflow-y:hidden;flex:none}
+.grp{display:flex;flex-direction:column;border-right:1px solid #dadada;padding:0 4px;flex:none}
+.grp .gi{display:flex;gap:1px;align-items:flex-start;flex:1}
+.grp .gn{text-align:center;font-size:11px;color:#666;padding:2px 0 3px;white-space:nowrap}
+.rbB{border:1px solid transparent;background:none;border-radius:3px;min-width:54px;max-width:86px;width:auto;white-space:normal;word-break:keep-all;min-height:68px;padding:3px 2px;font-size:11.5px;line-height:1.2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+.rbB .i{width:32px;height:32px;flex:none}
+.rbS{border:1px solid transparent;background:none;border-radius:3px;display:flex;align-items:center;gap:4px;padding:2px 6px 2px 3px;font-size:11.5px;white-space:nowrap;height:22px}
+.rbS .i{width:16px;height:16px;flex:none}
+.col{display:flex;flex-direction:column;gap:0;padding-top:1px}
+.rbB:hover,.rbS:hover{background:#fbe3e4;border-color:#e8b6b8}
+.rbB.act{background:#f4c9cb;border-color:#c98488}
+.split{display:flex;flex-direction:column;border:1px solid transparent;border-radius:3px;width:62px;min-height:68px}
+.split:hover{border-color:#e8b6b8}
+.split .top{border:0;background:none;padding:3px 2px 0;display:flex;justify-content:center;border-radius:3px 3px 0 0}
+.split .top .i{width:32px;height:32px}
+.split .bot{border:0;background:none;font-size:11.5px;padding:2px 0 3px;border-radius:0 0 3px 3px}
+.split .top:hover,.split .bot:hover{background:#fbe3e4}
+#wbody{flex:1;display:flex;min-height:0}
+#nav{width:190px;background:#fff;border-right:1px solid #d2d2d2;font-size:12.5px;overflow:auto;flex:none;display:flex;flex-direction:column}
+#nav .nh{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;font-weight:700;border-bottom:1px solid #e3e3e3;color:#333}
+#nav .nh span{color:#888;font-weight:400}
+#nav .srch{margin:6px 8px;border:1px solid #cfcfcf;padding:3px 6px;color:#999;font-size:12px;border-radius:2px}
+#nav .ng{padding:5px 8px 3px;color:var(--acc);font-weight:700;display:flex;justify-content:space-between;border-top:1px solid #f0f0f0}
+#nav .it{padding:4px 8px 4px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;-webkit-user-select:none}
+#nav .it .i{width:16px;height:16px;flex:none}
+#nav .it:hover{background:#fbe9ea}
+#nav .it.on{background:#f4c9cb}
+#nav .none{padding:3px 8px 3px 14px;color:#aaa}
+#nav .navtip{margin-top:auto;padding:8px;font-size:11.5px;color:#888;border-top:1px solid #eee;line-height:1.5}
+#doc{flex:1;display:flex;flex-direction:column;min-width:0;background:#fff}
+#doctabs{display:flex;background:#f3f3f3;border-bottom:1px solid #d2d2d2;font-size:12.5px;min-height:28px;flex:none}
+#doctabs .dt{display:flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;background:#fff;border:1px solid #d2d2d2;border-bottom:0;border-top:2px solid var(--acc);margin:2px 0 -1px 4px}
+#doctabs .dt .i{width:15px;height:15px}
+#doctabs .dt .x{border:0;background:none;width:20px;height:20px;border-radius:3px;color:#666;font-size:13px;line-height:1}
+#doctabs .dt .x:hover{background:#fbe3e4;color:var(--bad)}
+#docarea{flex:1;overflow:auto;position:relative;min-height:0}
+#win.locked #ribbon,#win.locked #wbody,#win.locked #tabsbar{pointer-events:none;opacity:.7}
+#status{height:26px;background:var(--acc);color:#fff;font-size:12px;display:flex;align-items:center;padding:0 8px;gap:8px;flex:none}
+#status .sp{flex:1}
+#stmsg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#viewbtns{display:flex;gap:2px}
+#viewbtns button{width:24px;height:20px;border:0;background:none;border-radius:2px;padding:2px;color:#fff}
+#viewbtns button .ic{filter:brightness(0) invert(1)}
+#viewbtns button:hover{background:rgba(255,255,255,.25)}
+#viewbtns button.on{background:rgba(255,255,255,.42)}
+.empty{padding:40px 30px;color:#666;line-height:1.9;font-size:14px}
+.empty b{color:var(--ink)}
+
+/* ---------- 開始畫面(後台) ---------- */
+.bs{display:flex;flex:1;min-height:0}
+.bs .side{width:200px;background:var(--acc);color:#fff;padding:18px 0;flex:none}
+.bs .side h2{font-weight:300;font-size:30px;margin:0 22px 22px}
+.bs .side div{padding:9px 22px;font-size:14px;cursor:pointer}
+.bs .side div:hover{background:rgba(255,255,255,.15)}
+.bs .side div.on{background:var(--acc-d)}
+.bs .main{flex:1;padding:22px 28px;overflow:auto;background:#fff}
+.bs .main h3{font-weight:400;font-size:22px;margin:0 0 16px;color:#333}
+.tiles{display:flex;flex-wrap:wrap;gap:16px}
+.tile{width:168px;cursor:pointer;border:1px solid transparent;padding:6px;border-radius:3px}
+.tile:hover{background:var(--acc-ll);border-color:#e8b6b8}
+.tile .pv{height:150px;border:1px solid #ccc;background:#fafafa;display:flex;align-items:center;justify-content:center}
+.tile .pv .i{width:64px;height:64px}
+.tile .lb{font-size:13px;margin-top:6px}
+
+/* ---------- 設計檢視 ---------- */
+.dv{display:flex;flex-direction:column;height:100%}
+.dv .top{flex:1;overflow:auto;min-height:150px}
+table.dg{border-collapse:collapse;width:100%;font-size:13px}
+table.dg th{background:#f3f3f3;border:1px solid #d6d6d6;padding:5px 6px;font-weight:400;text-align:left;position:sticky;top:0;z-index:1}
+table.dg td{border:1px solid #e0e0e0;padding:0;height:26px}
+table.dg td.rs{width:26px;text-align:center;background:#f3f3f3;cursor:pointer;border-color:#d6d6d6}
+table.dg td.rs .i{width:16px;height:16px;display:inline-block;vertical-align:middle}
+table.dg tr.sel td{background:#fdf3d1}
+table.dg tr.sel td.rs{background:#f4c9cb}
+table.dg input,table.dg select{width:100%;border:0;padding:4px 6px;font-size:13px;background:transparent;height:26px}
+table.dg input:focus,table.dg select:focus{outline:2px solid #e3a33a;outline-offset:-2px;background:#fffbe8}
+.props{border-top:3px solid #c8c8c8;background:#fff;display:flex;flex:none;max-height:46%;overflow:auto}
+.props .pl{flex:1;min-width:0;padding:4px 8px 8px}
+.props .ptabs{display:flex;gap:2px;margin:2px 0 4px;font-size:12.5px}
+.props .ptabs span{padding:3px 12px;border:1px solid #ccc;border-bottom:0;background:#f3f3f3}
+.props .ptabs span.on{background:#fff;font-weight:700}
+.props .pttl{font-size:12px;color:#666;margin:2px 0 4px}
+.props table{border-collapse:collapse;width:100%;max-width:560px;font-size:12.5px}
+.props td{border:1px solid #e0e0e0;padding:2px 6px;height:24px}
+.props td.k{width:150px;background:#fafafa;color:#333}
+.props td .ro{color:#999}
+.props input,.props select{width:100%;border:1px solid #9ab;padding:2px 4px;font-size:12.5px;height:22px}
+.props input:focus,.props select:focus{outline:2px solid #e3a33a;background:#fffbe8}
+.props .ph{width:240px;flex:none;padding:12px;font-size:12px;color:#555;line-height:1.6;border-left:1px solid #eee;background:#fafafa}
+
+/* ---------- 資料工作表 ---------- */
+.dsv{display:flex;flex-direction:column;height:100%}
+.dsv .top{flex:1;overflow:auto}
+table.ds{border-collapse:collapse;font-size:13px}
+table.ds th{background:#f3f3f3;border:1px solid #d0d0d0;padding:5px 8px;font-weight:400;text-align:left;min-width:110px;white-space:nowrap;position:sticky;top:0;z-index:1}
+table.ds th.add{color:#888;font-style:italic;min-width:120px}
+table.ds td{border:1px solid #e0e0e0;padding:0;height:26px;background:#fff}
+table.ds td.rs{width:24px;min-width:24px;text-align:center;background:#f3f3f3;cursor:pointer;color:var(--acc);border-color:#d0d0d0;font-size:12px}
+table.ds tr.sel td{background:#fdf3d1}
+table.ds tr.sel td.rs{background:#f4c9cb}
+table.ds tr.nr td{background:#fbfbfb}
+table.ds input[type=text]{width:100%;min-width:110px;border:0;padding:4px 8px;font-size:13px;background:transparent;height:26px}
+table.ds input:focus{outline:2px solid #e3a33a;outline-offset:-2px;background:#fffbe8}
+table.ds input.num{text-align:right}
+table.ds input[readonly]{color:#777}
+table.ds td.ck{text-align:center}
+table.ds td.ck input{width:16px;height:16px;margin:4px}
+.recnav{display:flex;align-items:center;gap:3px;border-top:1px solid #d0d0d0;background:#f3f3f3;font-size:12px;padding:2px 6px;flex:none;flex-wrap:wrap}
+.recnav button{border:1px solid transparent;background:none;padding:1px 6px;border-radius:2px;font-size:12px;min-width:24px}
+.recnav button:hover{background:#fbe3e4;border-color:#e8b6b8}
+.recnav .pos{border:1px solid #bbb;background:#fff;padding:1px 8px;min-width:64px;text-align:center}
+.recnav .nf{margin-left:10px;color:#888}
+.dsnote{font-size:12px;color:#777;padding:6px 8px}
+
+/* ---------- 表單檢視 ---------- */
+.fvw{display:flex;flex-direction:column;height:100%}
+.fvw .top{flex:1;overflow:auto;padding:14px;background:#fafafa}
+.fbox{background:#fff;border:1px solid #c9c9c9;max-width:560px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.fhd{background:linear-gradient(#3d6aa3,#2f5a91);color:#fff;padding:12px 16px;font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px}
+.fhd .i{width:26px;height:26px;background:#fff;border-radius:3px;padding:2px}
+.fbody{padding:12px 16px}
+.frow{display:flex;align-items:center;padding:4px 0;gap:10px}
+.frow .lb{width:92px;font-size:13px;color:#333;text-align:right;flex:none;background:#eef2f7;padding:5px 8px;border:1px solid #d8dee6}
+.frow input[type=text]{flex:1;padding:5px 8px;border:1px solid #9aa8b6;font-size:13.5px;background:#fff;height:30px}
+.frow input.num{text-align:right}
+.frow input[type=checkbox]{width:18px;height:18px}
+.frow input:focus{outline:2px solid #e3a33a;background:#fffbe8}
+.fbody.two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+
+/* ---------- 對話框 ---------- */
+#layer{position:fixed;inset:0;background:rgba(20,24,30,.35);display:none;align-items:center;justify-content:center;z-index:86;padding:12px}
+.dlg{background:#fff;border:1px solid #777;box-shadow:0 10px 32px rgba(0,0,0,.35);min-width:min(360px,94vw);max-width:min(640px,96vw);max-height:94vh;display:flex;flex-direction:column}
+.dlg .dh{background:#fff;color:#222;padding:8px 12px;font-size:13px;border-bottom:1px solid #e3e3e3;display:flex;justify-content:space-between;align-items:center}
+.dlg .dh .x{border:0;background:none;font-size:15px;color:#666;width:26px;height:22px}
+.dlg .dh .x:hover{background:var(--bad);color:#fff}
+.dlg .db{padding:16px;font-size:13.5px;line-height:1.6;overflow:auto}
+.dlg .db .warnic{float:left;width:36px;height:36px;border-radius:50%;background:#fde6b5;color:#8a5b00;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;margin:0 12px 6px 0}
+.dlg .df{padding:10px 12px;display:flex;justify-content:flex-end;gap:8px;background:#f3f3f3;border-top:1px solid #e3e3e3}
+.dlg .df button{min-width:84px;padding:5px 12px;border:1px solid #adadad;background:#e9e9e9;border-radius:2px;font-size:13px}
+.dlg .df button:hover{background:#e5f1fb;border-color:#0078d7}
+.dlg .df button.pri{border-color:#0078d7;box-shadow:inset 0 0 0 1px #0078d7}
+.dlg .df button:disabled{color:#aaa;cursor:default;background:#f3f3f3;border-color:#ccc;box-shadow:none}
+.dlg input[type=text]{width:100%;padding:5px 7px;font-size:13.5px;border:1px solid #7a7a7a}
+.dlg input[type=text]:focus{outline:2px solid #0078d7;outline-offset:-1px}
+.wizb{width:min(600px,92vw)}
+.wizhead{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.wizhead .i{width:40px;height:40px;flex:none}
+.wizhead b{font-size:15px}
+.wizrow{display:flex;gap:10px;align-items:stretch}
+select.lst{width:100%;height:170px;font-size:13px;border:1px solid #7a7a7a}
+.mvb{display:flex;flex-direction:column;gap:6px;justify-content:center}
+.mvb button{width:46px;padding:4px 0;border:1px solid #adadad;background:#e9e9e9;border-radius:2px}
+.mvb button:hover{background:#e5f1fb;border-color:#0078d7}
+.lay label{display:block;margin:7px 0;font-size:13.5px;cursor:pointer}
+.prev{flex:1;border:1px solid #aaa;background:#fff;padding:10px;min-height:170px}
+.pv-r{display:flex;gap:4px;margin:4px 0}
+.pv-r i{display:block;height:10px;flex:1;background:#cfd8e2;border:1px solid #b6c1cd}
+.pv-r i.l{flex:none;width:52px;background:#eef2f6}
+#ctx{position:fixed;background:#fff;border:1px solid #999;box-shadow:2px 4px 12px rgba(0,0,0,.25);z-index:60;display:none;font-size:13px;min-width:190px;padding:3px 0}
+#ctx div{padding:6px 16px 6px 28px;cursor:pointer}
+#ctx div:hover{background:#fbe3e4}
+#ctx .sepx{height:1px;background:#ddd;margin:3px 0;padding:0;cursor:default}
+#ctx div.b{font-weight:700}
+.vmenu{position:fixed;background:#fff;border:1px solid #999;box-shadow:2px 4px 12px rgba(0,0,0,.25);z-index:60;font-size:13px;min-width:190px;padding:3px 0}
+.vmenu div{display:flex;align-items:center;gap:8px;padding:6px 14px;cursor:pointer}
+.vmenu div .i{width:20px;height:20px}
+.vmenu div:hover{background:#fbe3e4}
+
+/* ---------- 指引欄 ---------- */
+.gcard{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:10px}
+.gprog{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.gprog .bar{flex:1;height:10px;background:#e3e7ec;border-radius:99px;overflow:hidden}
+.gprog .bar i{display:block;height:100%;background:linear-gradient(90deg,#2e8b57,#4cb37a);border-radius:99px;transition:width .5s}
+.gprog .t{font-size:12.5px;color:var(--mute);white-space:nowrap}
+.gcur{border:2px solid var(--ok);background:var(--ok-l)}
+.assess .gcur{border-color:#8a5a2b;background:#fbf4ec}
+.gcur .k{font-size:12px;color:var(--ok);font-weight:700;letter-spacing:.5px;display:flex;justify-content:space-between}
+.assess .gcur .k{color:#8a5a2b}
+.gcur .h{font-size:16px;font-weight:700;margin:4px 0 6px;line-height:1.4}
+.gcur .d{font-size:13px;line-height:1.7;color:#2b3036}
+.gcur .d table{border-collapse:collapse;margin:4px 0;font-size:12.5px;background:#fff}
+.gcur .d td,.gcur .d th{border:1px solid #cdd6cf;padding:2px 7px}
+.gcur .d th{background:#eef3ef}
+.hintbar{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.hintbar button{border:1px solid #d8b660;background:var(--warn-l);border-radius:6px;padding:5px 10px;font-size:12.5px;color:#6b4c00}
+.hintbar button:hover{background:#ffeec0}
+.hintbar button:disabled{opacity:.5;cursor:default}
+.hintbox{margin-top:8px;background:#fffaf0;border:1px dashed #e0b400;border-radius:6px;padding:7px 9px;font-size:12.8px;line-height:1.65}
+.hintbox .lv{font-size:11px;font-weight:700;color:#8a6a00;display:block}
+.alldone{text-align:center;padding:6px 0}
+.alldone .big{font-size:34px}
+.alldone b{display:block;font-size:15px;margin:4px 0}
+.slist{margin:0;padding:0;list-style:none}
+.slist li{display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border-radius:6px;font-size:12.8px;cursor:pointer;line-height:1.45}
+.slist li:hover{background:#f0f2f5}
+.slist li .st{width:20px;height:20px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:1.5px solid #c3c9d0;color:#8a929b;background:#fff}
+.slist li.ok{color:#5a6b5e}
+.slist li.ok .st{background:var(--ok);border-color:var(--ok);color:#fff}
+.slist li.cur{background:var(--ok-l);font-weight:700}
+.slist li.cur .st{border-color:var(--ok);color:var(--ok)}
+.slist li.view{outline:2px solid #9cc7ad}
+.slist li .m{margin-left:auto;font-size:11.5px;color:var(--mute);white-space:nowrap;font-weight:400}
+.slist li.pop .st{animation:pop .6s ease}
+@keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+.gcur.flash{animation:flash .8s ease}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(46,139,87,.6)}100%{box-shadow:0 0 0 14px rgba(46,139,87,0)}}
+.gcard h4{margin:0 0 8px;font-size:13.5px;color:#2b3036;display:flex;justify-content:space-between;align-items:center}
+.gcard details>summary{cursor:pointer;font-weight:700;font-size:13.5px;list-style:none;display:flex;justify-content:space-between}
+.gcard details>summary::after{content:'▾';color:var(--mute)}
+.gcard details[open]>summary::after{content:'▴'}
+.gcard details>summary::-webkit-details-marker{display:none}
+.reft{border-collapse:collapse;width:100%;font-size:12.3px;margin-top:6px}
+.reft th,.reft td{border:1px solid #d3d8de;padding:3px 5px;text-align:center}
+.reft th{background:#eef1f5;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.stats div{background:#f3f5f8;border-radius:6px;padding:6px 2px;font-size:11.5px;color:var(--mute)}
+.stats b{display:block;font-size:17px;color:var(--ink)}
+#log{max-height:160px;overflow:auto;font-size:11.5px;color:#555;line-height:1.55;margin-top:6px;font-family:Consolas,"Microsoft JhengHei",monospace}
+.gtoggle{display:none}
+
+/* ---------- 開始畫面 ---------- */
+.cover{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(135deg,var(--hdr) 0%,#16263d 100%);overflow:auto}
+.cover .card{background:#fff;border-radius:14px;width:min(760px,100%);box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;margin:auto}
+.cover .ch{background:var(--acc);color:#fff;padding:20px 26px;display:flex;gap:16px;align-items:center}
+.cover .ch .logo{width:54px;height:54px;border-radius:12px;background:#fff;color:var(--acc);font-weight:900;font-size:30px;display:flex;align-items:center;justify-content:center;flex:none}
+.cover .ch h1{margin:0;font-size:21px}
+.cover .ch p{margin:3px 0 0;opacity:.85;font-size:13.5px}
+.cover .cb{padding:20px 26px 24px}
+.cover .cols{display:grid;grid-template-columns:1.25fr 1fr;gap:20px}
+.cover h3{font-size:13px;color:var(--mute);margin:0 0 6px;letter-spacing:.5px}
+.cover ul{margin:0 0 12px;padding-left:20px;font-size:13.3px;line-height:1.75}
+.cover .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.cover .meta span{background:#f1f3f6;border-radius:999px;padding:4px 11px;font-size:12.5px}
+.cover .rules{background:#fafbfc;border:1px solid #e3e6ea;border-radius:8px;padding:10px 12px;font-size:12.6px;line-height:1.7;color:#3a4048}
+.cover .form{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:10px;margin-top:16px}
+.cover label{font-size:12.5px;font-weight:700;color:#444;display:block;margin-bottom:4px}
+.cover input[type=text]{width:100%;padding:9px 10px;font-size:15px;border:1.5px solid #c4cad2;border-radius:7px}
+.cover input[type=text]:focus{border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-l)}
+.cover .go{margin-top:16px;width:100%;background:var(--ok);color:#fff;border:0;border-radius:9px;padding:13px;font-size:16px;font-weight:700}
+.cover .go:hover{background:#277a4b}
+.cover .resume{background:#eef6ff;border:1.5px solid #8bb6e8;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13.5px;line-height:1.6}
+.cover .resume .bt{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.cover .resume button{border:0;border-radius:7px;padding:8px 14px;font-size:13.5px}
+.cover .resume .y{background:#2f6db5;color:#fff;font-weight:700}
+.cover .resume .n{background:#e3e7ec}
+.cover .err{color:var(--bad);font-size:12.5px;margin-top:6px;min-height:1em}
+
+/* ---------- 提示訊息 ---------- */
+#toast{position:fixed;left:16px;bottom:34px;z-index:95;display:flex;flex-direction:column;gap:6px;align-items:flex-start;pointer-events:none;width:max-content;max-width:92vw}
+#toast div{background:#333c46;color:#fff;padding:7px 14px;border-radius:8px;font-size:12.5px;max-width:420px;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:tin .25s ease}
+#toast div.ok{background:#1e7a45}#toast div.bad{background:#b23a30}#toast div.warn{background:#8a6300}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- 報告視窗 ---------- */
+#rptOverlay{position:fixed;inset:0;background:rgba(20,24,30,.5);z-index:90;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 12px}
+#rptCard{background:#fff;border-radius:10px;width:min(900px,100%);box-shadow:0 20px 60px rgba(0,0,0,.4);padding:22px 26px}
+.rbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;position:sticky;bottom:-22px;background:#fff;padding:12px 0;border-top:1px solid #eee}
+.rbar button{padding:9px 15px;border:1px solid #b9c0c8;background:#f3f5f8;border-radius:7px;font-size:13.5px}
+.rbar button.pri{background:var(--hdr);color:#fff;border-color:var(--hdr);font-weight:700}
+.rbar .tip{font-size:12.5px;color:var(--mute);align-self:center}
+
+/* ---------- 老師工具 ---------- */
+.tdrop{border:2px dashed #9aa6b4;border-radius:10px;padding:22px;text-align:center;color:#555;background:#f8f9fb}
+.tdrop.hov{border-color:#2f6db5;background:#eef5ff}
+.tres{margin-top:10px;font-size:13px}
+.tres .r{padding:8px 10px;border-radius:6px;margin-top:6px}
+.tres .r.ok{background:#eaf7ee;border:1px solid #9cd3ae}
+.tres .r.bad{background:#fdecec;border:1px solid #eaa}
+.demo-badge{background:#f0c64a;color:#4a3800;font-weight:700}
+
+/* ---------- 回應式(平板/細螢幕) ---------- */
+/* ---------- 資料庫關聯圖 / 查詢設計 ---------- */
+#win{position:relative}
+.relv{height:100%;display:flex;flex-direction:column}
+.relcv{position:relative;overflow:auto;flex:1;min-height:0;background:#fff}
+.relv .relcv{background:#fbfbfb}
+.relin{position:relative;width:1000px;height:560px}
+.qtop .relin{height:250px}
+.rlines{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:1}
+.rlines .rl{fill:none;stroke:#333;stroke-width:1.6}
+.rlines .rl.sel{stroke:#0a64c8;stroke-width:3}
+.rlines .rhit{fill:none;stroke:transparent;stroke-width:14;pointer-events:stroke;cursor:pointer}
+.rlines .rm{font-size:13px;font-weight:700;fill:#222;text-anchor:middle}
+.rlines .rtmp{stroke:#0a64c8;stroke-width:1.6;stroke-dasharray:5 3}
+.tbox{position:absolute;width:172px;background:#fff;border:1px solid #9a9a9a;box-shadow:2px 2px 6px rgba(0,0,0,.18);z-index:2;font-size:12.5px}
+.tbox.sel{border-color:#0a64c8;box-shadow:0 0 0 2px rgba(10,100,200,.35),2px 2px 6px rgba(0,0,0,.18)}
+.tbox .th{background:#dfe7f1;border-bottom:1px solid #9a9a9a;padding:4px 8px;font-weight:700;cursor:move;touch-action:none;user-select:none;-webkit-user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbox.sel .th{background:#c9daf0}
+.tbox .fl{padding:2px 0}
+.tbox .fld{display:flex;align-items:center;gap:3px;padding:3px 6px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;white-space:nowrap}
+.tbox .fld:hover{background:#e5f1fb}
+.tbox .fld .i{width:14px;height:14px;flex:none}
+.tbox .fld.star{color:#555;font-weight:700}
+.relempty{position:absolute;left:24px;top:24px;color:#999;font-size:13px}
+#axghost{position:fixed;z-index:99;pointer-events:none;background:#fffbe0;border:1px solid #c9a800;padding:2px 8px;font-size:12px;border-radius:2px;box-shadow:1px 2px 6px rgba(0,0,0,.2);display:none}
+.qdv{display:flex;flex-direction:column;height:100%}
+.qtop{flex:0 0 46%;min-height:150px;display:flex;border-bottom:5px solid #c8c8c8}
+.qbot{flex:1;overflow:auto;min-height:0;background:#fff}
+table.qg{border-collapse:collapse;font-size:12.5px;margin:6px 0 10px}
+table.qg th{background:#f3f3f3;border:1px solid #d6d6d6;padding:3px 8px;font-weight:400;text-align:right;white-space:nowrap;width:64px;position:sticky;left:0;z-index:1}
+table.qg td{border:1px solid #d6d6d6;min-width:132px;width:132px;height:24px;padding:0;background:#fff}
+table.qg td.qs{background:#fff8e0}
+table.qg tr.qcsr td{height:9px;background:#e8e8e8;cursor:pointer}
+table.qg tr.qcsr td.on{background:#333}
+table.qg tr.qcsr th{background:#fff;border-color:transparent}
+table.qg select,table.qg input[type=text]{width:100%;border:0;background:transparent;font-size:12.5px;height:24px;padding:2px 4px}
+table.qg select:focus,table.qg input[type=text]:focus{outline:2px solid #e3a33a;outline-offset:-2px;background:#fffbe8}
+table.qg td.ck{text-align:center}
+table.qg td.ck input{width:15px;height:15px;margin:4px}
+table.qg .qt{display:block;padding:3px 6px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+table.ds.qr td{padding:4px 8px;white-space:nowrap}
+#viewbtns .sqlb{font-size:9.5px;font-weight:700}
+.sttabs{display:flex;gap:2px;margin-bottom:6px;border-bottom:1px solid #ccc}
+.sttabs span{padding:4px 14px;border:1px solid #ccc;border-bottom:0;background:#f3f3f3;cursor:pointer;font-size:12.5px;margin-bottom:-1px}
+.sttabs span.on{background:#fff;font-weight:700}
+select.stl{height:150px}
+.sthint{font-size:12px;color:#666;margin-top:6px}
+.erel .ergrid{width:100%;border-collapse:collapse;margin-bottom:10px}
+.erel .ergrid th{font-weight:400;text-align:left;font-size:12.5px;color:#444;padding:2px 4px}
+.erel .ergrid td{padding:2px 4px;width:50%}
+.erel .ergrid td.tn{font-weight:700;border:1px solid #bbb;background:#fafafa;padding:4px 6px}
+.erel .ergrid select{width:100%;font-size:13px;padding:3px;border:1px solid #7a7a7a}
+.erel .erck{display:block;margin:4px 0;font-size:13px}
+.erel .erck.sub{margin-left:22px}
+.erel .erck input:disabled+*{color:#aaa}
+.erel .ertype{margin-top:10px;font-size:13px}
+.erel .ererr{color:var(--bad,#c0392b);font-size:12.5px;margin-top:6px;min-height:1em}
+/* 檔案 → 列印 */
+#bstage{position:absolute;left:0;right:0;top:32px;bottom:0;z-index:30;display:none;background:#fff}
+#bstage .bs{height:100%}
+#bstage .side .back{font-size:22px;padding:6px 22px 14px}
+#bstage .ptiles{display:flex;flex-direction:column;gap:10px;max-width:520px}
+#bstage .ptile{display:flex;gap:14px;align-items:center;border:1px solid #ddd;padding:12px 14px;cursor:pointer;font-size:13px;color:#555;line-height:1.5}
+#bstage .ptile b{color:#222;font-size:14.5px}
+#bstage .ptile:hover{background:#fbe3e4;border-color:#e8b6b8}
+#bstage .ptile .i{width:42px;height:42px;flex:none}
+.prd fieldset{border:1px solid #ccc;padding:8px 10px;margin:0 0 10px;font-size:13px}
+.prd legend{font-size:12.5px;color:#444;padding:0 4px}
+.prd select{font-size:13px;padding:3px;min-width:240px}
+.prd .prs{font-size:12px;color:#666;margin-top:6px}
+.prd .prrow{display:flex;gap:10px}
+.prd .prrow fieldset{flex:1}
+.prd .prrow label{display:block}
+.prd .prwhat{font-size:13px}
+.pprev{background:#8a8a8a;padding:16px;display:flex;justify-content:center;max-height:62vh;overflow:auto}
+.ppage{background:#fff;width:100%;max-width:600px;min-height:420px;padding:28px 30px;box-shadow:0 2px 10px rgba(0,0,0,.4);font-size:12px;display:flex;flex-direction:column}
+.ppage .phd{display:flex;justify-content:space-between;font-weight:700;margin-bottom:12px;font-size:13px}
+.ppage table{border-collapse:collapse}
+.ppage th,.ppage td{border:1px solid #999;padding:3px 7px;text-align:left;white-space:nowrap}
+.ppage th{background:#eee;font-weight:400}
+.ppage .pft{margin-top:auto;padding-top:16px;text-align:center;color:#555}
+/* ---------- 精簡版面：在電腦螢幕（1366×768 起）一眼看到全部內容，整頁不用捲動 ---------- */
+#hdr{height:44px;gap:8px;padding:0 10px}
+#hdr .logo{width:26px;height:26px;font-size:14px}
+#hdr .ttl{font-size:14px}
+#hdr .ttl small{font-size:11px}
+.chip{font-size:12px;padding:3px 9px}
+#hdr .hb{padding:6px 11px;font-size:12.5px}
+#wrap{height:calc(100vh - 44px);grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr) 320px}
+#left{padding:6px;min-height:0}
+#guide{padding:8px;min-height:0}
+#titlebar{height:26px;font-size:12px}
+.qat button{width:26px;height:22px;padding:2px}
+#tabsbar{min-height:26px}
+.tab{padding:4px 12px 5px;font-size:12.5px}
+.ctxgrp .cl{font-size:10px;padding:0 8px}
+#ribbon{min-height:76px;padding:2px 4px 0}
+.grp .gn{font-size:10.5px;padding:1px 0 2px}
+.rbB{min-height:56px;min-width:48px;font-size:11px;gap:2px;padding:2px}
+.rbB .i{width:26px;height:26px}
+.split{min-height:56px;width:54px}
+.split .top .i{width:26px;height:26px}
+.split .bot{font-size:11px;padding:1px 0 2px}
+.rbS{height:19px;font-size:11px}
+.rbS .i{width:15px;height:15px}
+#nav{width:170px;font-size:12px}
+#nav .nh{padding:4px 8px}
+#nav .srch{margin:4px 8px;padding:2px 6px}
+#nav .it{padding:3px 8px 3px 14px}
+#nav .navtip{padding:6px 8px;font-size:11px}
+#doctabs{min-height:24px;font-size:12px}
+#doctabs .dt{padding:2px 6px 2px 10px}
+#status{height:22px;font-size:11.5px}
+table.dg th{padding:3px 6px}
+table.dg td{height:22px}
+table.dg input,table.dg select{height:22px;padding:2px 6px}
+.dv .top{min-height:110px}
+.props{max-height:42%}
+.props .pl{padding:2px 8px 6px}
+.props .ptabs{margin:2px 0 2px}
+.props .pttl{margin:1px 0 3px}
+.props td{height:21px;padding:1px 6px}
+.props input,.props select{height:19px;padding:1px 4px}
+.props .ph{padding:8px 10px}
+table.ds th{padding:3px 8px}
+table.ds td{height:22px}
+table.ds input[type=text]{height:22px;padding:2px 8px}
+.empty{padding:24px 24px}
+.gcard{padding:10px;margin-bottom:8px}
+.gprog{margin-bottom:6px}
+.gcur .h{font-size:15px;margin:3px 0 4px}
+.gcur .d{font-size:12.5px;line-height:1.6}
+.hintbar{margin-top:8px}
+.hintbar button{padding:4px 9px;font-size:12px}
+.slist li{padding:4px 6px;font-size:12.5px}
+.slist li .tl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sref{margin-top:8px;background:#fff;border:1px solid #cfe3d6;border-radius:6px;padding:6px 8px 8px}
+.sref h4{margin:0 0 4px;font-size:12.5px}
+.sref .reft{font-size:12px}
+.tbox .th{padding:2px 8px}
+.tbox .fl{padding:1px 0}
+.tbox .fld{padding:1px 6px;line-height:17px}
+.qtop{flex-basis:48%}
+/* ---------- 報表精靈 / 標籤精靈 / 報表檢視 ---------- */
+.rwpv{font-size:12px;line-height:1.5}
+.rwpv .rwg{color:#1d3557;border-bottom:1px solid #9fb7d4;margin:4px 0 2px;padding:1px 4px}
+.rwpv .rwd{display:flex;gap:6px;margin:3px 0}
+.rwpv .rwd span{flex:1;background:#eef2f6;border:1px solid #cfd8e2;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rwpv .rwd i{flex:1;height:10px;background:#cfd8e2;border:1px solid #b6c1cd;display:block}
+.rwsort{display:flex;align-items:center;gap:8px;margin:6px 0}
+.rwsort span{width:18px;text-align:right;color:#666}
+.rwsort select{flex:1;max-width:260px;height:26px;font-size:13px}
+.rwsort button{min-width:64px;border:1px solid #adadad;background:#e9e9e9;border-radius:2px;padding:3px 10px;font-size:12.5px}
+.rwsort button:disabled{color:#aaa}
+.rwland{width:200px;transform:scale(1);border:1px solid #ccc;padding:6px;background:#fff;margin:0 auto}
+.rwport{width:150px;border:1px solid #ccc;padding:6px;background:#fff;margin:0 auto}
+.lwt{border-collapse:collapse;width:100%;font-size:13px;border:1px solid #999}
+.lwt th{background:#f3f3f3;border-bottom:1px solid #ccc;padding:3px 8px;text-align:left;font-weight:400;color:#555}
+.lwt td{padding:4px 8px;cursor:pointer}
+.lwt tr.on td{background:#0078d7;color:#fff}
+.lwt tr:not(.on):hover td{background:#e5f1fb}
+.lwf{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:13px}
+.lwf select{margin-left:4px;height:24px}
+.lwc{display:inline-block;width:14px;height:14px;background:#000;vertical-align:middle;border:1px solid #888}
+.lwproto{border:1px solid #999;background:#fff;padding:6px 8px;display:flex;flex-direction:column;gap:2px;box-shadow:inset 0 0 0 1px #eee}
+.lwproto input{border:0;border-bottom:1px dotted #ddd;font-size:13px;padding:2px 4px;font-family:"MingLiU","PMingLiU",serif}
+.lwproto input:focus{outline:0;background:#fffbe8;border-bottom-color:#e3a33a}
+.lwproto input.cur{background:#fffdf3}
+.rpv{padding:14px;background:#e9e9e9;min-height:100%;box-sizing:border-box}
+.rpage{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25);margin:0 auto;padding:28px 34px;width:min(794px,100%);min-height:420px;box-sizing:border-box;font-size:13px}
+.rpage.land{width:min(1000px,100%)}
+.rph{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1d3557;padding-bottom:6px;margin-bottom:10px}
+.rph h1{margin:0;font-size:20px;font-weight:700;color:#1d3557}
+.rph span{font-size:12px;color:#666}
+table.rpt{border-collapse:collapse;width:100%;font-size:13px}
+table.rpt th{text-align:left;border-bottom:1px solid #1d3557;padding:3px 6px;font-weight:700;color:#1d3557;white-space:nowrap}
+table.rpt td{padding:3px 6px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+table.rpt.tier tr.g td{border-bottom:0;padding-top:6px}
+table.rpt.tier tr.g0 td{padding-top:12px}
+table.rpt.tier td.gh b{display:inline-block;background:#eef2f6;padding:1px 6px;border-radius:3px}
+.rpf{display:flex;justify-content:space-between;margin-top:18px;padding-top:6px;border-top:1px solid #ccc;font-size:11.5px;color:#666}
+.lgrid{display:grid;gap:8px 12px;justify-content:start}
+.lbl{border:1px dashed #bbb;padding:6px 10px;box-sizing:border-box;line-height:1.45;overflow:hidden;background:#fff}
+@media (max-width:560px){
+  .tbox{width:150px}
+  table.qg td{min-width:112px;width:112px}
+  #bstage .side{width:96px}
+}
+@media (max-width:1280px){
+  #wrap{grid-template-columns:minmax(0,1fr) 300px}
+  #nav{width:160px}
+  .props .ph{width:180px}
+  #hdr .chip#hded{display:none}
+}
+@media (max-width:999px){
+  #wrap{display:flex;flex-direction:column;height:auto}
+  #guide{order:-1;border-left:0;border-bottom:1px solid var(--line);padding:10px;overflow:visible}
+  #guide .gfull{display:none}
+  #guide.open .gfull{display:block}
+  .gtoggle{display:block;width:100%;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:13px;color:var(--mute)}
+  #left{padding:8px;height:auto}
+  #win{min-height:640px;height:calc(100vh - 70px)}
+  .gwide{display:grid;grid-template-columns:1fr;gap:10px}
+  #guide.open .gwide{grid-template-columns:1fr 1fr}
+  .gwide .gcard{margin-bottom:0}
+}
+@media (max-width:860px){
+  #hdr{height:auto;flex-wrap:wrap;padding:8px 10px;row-gap:6px}
+  #hdr .ttl{flex-basis:calc(100% - 44px)}
+  #hdr .sp{display:none}
+  #nav{width:140px}
+  .props .ph{display:none}
+  .gwide{grid-template-columns:1fr}
+  .cover .cols{grid-template-columns:1fr}
+  .cover .form{grid-template-columns:1fr 1fr}
+  .cover .form>div:last-child{grid-column:1/-1}
+  .bs .side{width:120px}
+  .bs .side h2{font-size:22px}
+}
+@media (max-width:560px){
+  #nav{width:110px;font-size:11.5px}
+  .wctl{display:none}
+  .fbody.two{grid-template-columns:1fr}
+}
+@media print{
+  body>*:not(#rptOverlay){display:none!important}
+  #rptOverlay{position:static;display:block!important;background:none;padding:0}
+  #rptCard{box-shadow:none;padding:0;width:auto}
+  .rbar{display:none}
+}
+
+/* 設計檢視：列選取器可拖曳選取多列（組合主索引鍵） */
+table.dg td.rs{touch-action:none;user-select:none;-webkit-user-select:none}
+
+/* ---------- 互動實驗室外殼 ---------- */
+.labpage #hdr .logo.labl,.cover .logo.labl{background:#2f6db5;font-size:15px}
+#labwin{flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid #c4ccd6;box-shadow:0 4px 18px rgba(0,0,0,.12);min-width:0;min-height:0;border-radius:6px;overflow:hidden}
+#lab{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#labstatus{height:22px;background:#2f4a6d;color:#fff;font-size:11.5px;display:flex;align-items:center;padding:0 10px;flex:none}
+#stmsg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:999px){#labwin{min-height:640px;height:calc(100vh - 70px)}}
+
+/* ---------- 網絡架設模擬器 ---------- */
+.nl{flex:1;display:flex;flex-direction:column;min-height:0}
+.nltool{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#f3f5f8;border-bottom:1px solid #d5dbe3;flex-wrap:wrap;flex:none}
+.nlb{border:1px solid #c3cbd5;background:#fff;border-radius:6px;padding:5px 10px;font-size:12.5px;white-space:nowrap}
+.nlb:hover{background:#eaf2fc;border-color:#8fb0d8}
+.nlb.on{background:#2f6db5;border-color:#2f6db5;color:#fff}
+.nlb.pri{background:#2e8b57;border-color:#2e8b57;color:#fff;font-weight:700}
+.nlb.pri:hover{background:#277a4b}
+.nlsep{width:1px;height:22px;background:#d0d6de;margin:0 2px}
+.nlsp{flex:1}
+.nlcost{font-size:12.5px;background:#fff;border:1px solid #d5dbe3;border-radius:6px;padding:4px 8px}
+.nlcost.over{background:#fdecea;border-color:#e3a39c;color:#a12b20;font-weight:700}
+.nltst{font-size:12.5px;border-radius:6px;padding:4px 8px;background:#eef1f5;color:#555}
+.nltst.ok{background:#e7f5ec;color:#1e7a45;font-weight:700}
+.nltst.bad{background:#fdecea;color:#a12b20;font-weight:700}
+.nlmain{flex:1;display:flex;min-height:0}
+.nlshelf{width:112px;flex:none;border-right:1px solid #d5dbe3;background:#fafbfc;overflow:auto;padding:6px 6px 8px}
+.nlsh{font-size:12px;font-weight:700;color:#41505f;margin:0 0 4px}
+.nli{display:flex;flex-direction:column;align-items:center;gap:0;padding:3px 3px;border:1px solid #dfe4ea;border-radius:6px;background:#fff;margin-bottom:4px;cursor:grab;font-size:11.5px;line-height:1.3;text-align:center;user-select:none;-webkit-user-select:none;touch-action:none}
+.nli:hover{border-color:#8fb0d8;background:#f2f7fd}
+.nli.on{border-color:#2f6db5;box-shadow:0 0 0 2px rgba(47,109,181,.25);background:#eaf2fc}
+.nli .ic{width:28px;height:28px}
+.nli .ic svg,.nd .ic svg,.nlinfo-h .ic svg{width:100%;height:100%;display:block}
+.nli small{color:#888;font-size:10.5px}
+.nlshtip{font-size:10.5px;color:#888;line-height:1.4;margin-top:4px}
+.nlplanwrap{flex:1;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;background:#eef1f4;overflow:hidden;padding:4px}
+.nlplan{position:relative;background:#fbfbf9;border:1px solid #c9cfd6;box-shadow:0 1px 4px rgba(0,0,0,.08);touch-action:none;user-select:none;-webkit-user-select:none}
+.nz{position:absolute;border:1.5px solid #b9c2cc;background:#fff;border-radius:3px;box-sizing:border-box}
+.nz.cor{background:#f6f3ea;border-style:dashed}
+.nz.out{background:#eef6ff;border-style:dashed;border-color:#9fb7d4}
+.nz.ws{background:#fff8ec;border-color:#e0b46a}
+.nz .zn{position:absolute;left:5px;top:3px;font-size:11.5px;font-weight:700;color:#41505f}
+.nz .zt{position:absolute;left:5px;bottom:3px;font-size:10.5px;color:#8a6a00}
+.nllines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.nllines .ln{stroke:#5d6b7a;stroke-width:2.2;vector-effect:non-scaling-stroke}
+.nllines .ln.fiber{stroke:#e08a00;stroke-width:3}
+.nllines .ln.bb{stroke:#7a4fa3;stroke-dasharray:6 4}
+.nllines .ln.bad{stroke:#d33;stroke-width:3.2}
+.nllines .ln.sel{stroke:#0a64c8;stroke-width:4}
+.nllines .ln.tmp{stroke:#0a64c8;stroke-dasharray:5 4;pointer-events:none}
+.nllines .lhit{stroke:transparent;stroke-width:14;vector-effect:non-scaling-stroke;pointer-events:stroke;cursor:pointer}
+.nllines .lt{font-size:13px;fill:#41505f;text-anchor:middle;paint-order:stroke;stroke:#fbfbf9;stroke-width:3px;pointer-events:none}
+.nllines .wcov{fill:rgba(56,152,236,.10);stroke:rgba(47,109,181,.45);stroke-dasharray:4 4;vector-effect:non-scaling-stroke;pointer-events:none}
+.nllines .pkt{fill:#2e8b57;stroke:#fff;stroke-width:2;vector-effect:non-scaling-stroke}
+.nllines .pkt.bad{fill:#d33}
+.nd{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;cursor:pointer;z-index:2;padding:2px 3px;border-radius:6px;border:1.5px solid transparent}
+.nd .ic{width:34px;height:34px}
+.nd .lb{font-size:11px;white-space:nowrap;background:rgba(255,255,255,.85);padding:0 3px;border-radius:3px;line-height:1.35}
+.nd.mine{cursor:grab}
+.nd.sel{border-color:#0a64c8;background:rgba(10,100,200,.08)}
+.nd.pick{border-color:#2e8b57;background:rgba(46,139,87,.12)}
+.nd.nonic .ic{opacity:.55}
+.nd .bdg{font-size:9.5px;border-radius:3px;padding:0 3px;line-height:1.4;margin-top:1px}
+.nd .bdg.no{background:#fdecea;color:#a12b20;border:1px solid #e3a39c}
+.nd .bdg.ok{background:#e7f5ec;color:#1e7a45;border:1px solid #9fd2b3}
+.nd .wl{position:absolute;right:-6px;top:-4px;font-size:11px}
+.nd.deco{cursor:default;opacity:.85;z-index:1}
+.nlinfo{height:104px;flex:none;border-top:1px solid #d5dbe3;background:#fafbfc;padding:6px 10px;overflow:auto;font-size:12.5px;line-height:1.55}
+.nlinfo-h{display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:2px}
+.nlinfo-h .ic{width:22px;height:22px}
+.nlinfo-d{color:#333}
+.nlmuted{color:#777}
+.nlwarn{color:#a12b20;margin-top:3px}
+.nlrow{display:flex;align-items:center;gap:8px;margin-top:4px}
+.nlres{margin:2px 0 0;padding:0;list-style:none;columns:2;column-gap:18px}
+.nlres li{break-inside:avoid;padding:1px 0}
+.nlres li.ok{color:#1e7a45}
+.nlres li.bad{color:#a12b20}
+#nlghost{position:fixed;z-index:120;pointer-events:none;background:#2f6db5;color:#fff;font-size:12px;padding:3px 8px;border-radius:5px;display:none}
+.cabinfo{background:#eef4fb;border:1px solid #c9daef;border-radius:6px;padding:6px 10px;margin-bottom:8px;font-size:13px}
+.cabt{border-collapse:collapse;width:100%;font-size:12.5px}
+.cabt th{background:#f3f3f3;border:1px solid #d6d6d6;padding:3px 6px;text-align:left;font-weight:600}
+.cabt td{border:1px solid #e0e0e0;padding:3px 6px}
+.cabt td.nt{color:#666;font-size:11.5px}
+.cabt label{cursor:pointer;white-space:nowrap}
+.cabsrc{font-size:11px;color:#888;margin-top:4px}
+.wf label{display:block;margin-bottom:8px;font-size:13px}
+.wf input,.wf select{display:block;width:100%;margin-top:3px;padding:5px 7px;font-size:13.5px;border:1px solid #7a7a7a;box-sizing:border-box}
+.wfn{font-size:12px;color:#666;line-height:1.55;background:#fafafa;border:1px solid #eee;padding:6px 8px;border-radius:4px}
+.qz{margin-bottom:10px}
+.qq{font-weight:700;margin-bottom:3px}
+.qo{display:block;padding:3px 6px;border-radius:4px;cursor:pointer;font-size:13px}
+.qo.right{background:#e7f5ec}
+.qo.wrong{background:#fdecea}
+.qx{font-size:12.5px;color:#41505f;background:#f5f7fa;border-left:3px solid #9fb7d4;padding:3px 8px;margin-top:3px}
+
+/* ===== 報告(畫面、下載檔、列印共用;盡量一頁 A4) ===== */
+.rp{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;color:#1f2328;font-size:12.5px;line-height:1.45}
+.rp-head{display:flex;gap:16px;align-items:stretch;border-bottom:3px solid #1d3557;padding-bottom:10px;margin-bottom:4px}
+.rp-tl{flex:1;min-width:0}
+.rp-kicker{font-size:11px;letter-spacing:1px;color:#a4373a;font-weight:700}
+.rp h1{margin:2px 0 8px;font-size:18px;color:#1d3557;line-height:1.3}
+.rp-info{border-collapse:collapse;font-size:12px;width:100%}
+.rp-info th{text-align:left;color:#5f6670;font-weight:400;padding:1px 6px 1px 0;white-space:nowrap;width:1%}
+.rp-info td{padding:1px 14px 1px 0;font-weight:700}
+.rp-score{flex:none;width:160px;border:2.5px solid #1d3557;border-radius:10px;background:#f2f6fb;text-align:center;padding:8px 6px;display:flex;flex-direction:column;justify-content:center}
+.rp-score .l{font-size:11px;letter-spacing:2px;color:#1d3557}
+.rp-score .s{font-size:38px;font-weight:800;color:#1d3557;line-height:1.1}
+.rp-score .s span{font-size:16px;font-weight:400;color:#5f6670}
+.rp-score .p{font-size:12.5px;border-top:1px solid #a9bcd0;margin-top:4px;padding-top:3px;font-weight:700}
+.rp h2{font-size:13.5px;color:#1d3557;margin:12px 0 4px;padding-left:7px;border-left:4px solid #a4373a}
+.rp-t{border-collapse:collapse;width:100%;font-size:11.8px}
+.rp-t th,.rp-t td{border:1px solid #c8ced6;padding:2.5px 6px;vertical-align:top}
+.rp-t thead th{background:#e8edf3;text-align:left}
+.rp-t .c{text-align:center;white-space:nowrap}
+.rp-t tr.ok .y{color:#0a7a3f}
+.rp-t tr.bad .y,.rp-t tr.bad td.c{color:#b42318}
+.rp-t tr.part .y,.rp-t tr.part td.c{color:#9a6200}
+.rp-t tr.bad{background:#fff6f5}
+.rp-t tr.part{background:#fffaf0}
+.rp-t tfoot td{background:#f5f7fa}
+.rp-t tfoot tr.tot td{font-weight:800;background:#e8edf3;font-size:12.5px}
+.rp-fix{margin:4px 0 0;padding-left:20px;font-size:12.3px}
+.rp-fix li{margin-bottom:4px}
+.rp-fix li.note{color:#6b4c00}
+.rp-fix .why{color:#3a4a5c;background:#f2f6fb;border-radius:4px;padding:2px 7px;margin-top:2px}
+.rp-allok{color:#0a7a3f;font-weight:700;margin:4px 0}
+.rp-mini{border-collapse:collapse;font-size:11.3px;width:100%}
+.rp-mini th,.rp-mini td{border:1px solid #c8ced6;padding:2px 5px;text-align:center}
+.rp-mini th{background:#e8edf3}
+.rp-foot{margin-top:12px;border-top:1px solid #c8ced6;padding-top:7px;font-size:11.5px;color:#444}
+.rp-code{font-family:Consolas,monospace;font-size:13px;letter-spacing:1px;color:#a4373a}
+.rp-sign{margin-top:12px;display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}
+.rp-sign span{display:inline-block;border-bottom:1px solid #777;flex:1;min-width:140px;height:16px;margin-right:12px}
+.rp-sign span.s{flex:0 0 110px;min-width:90px}
+.rp-log{margin-top:10px;font-size:11.5px;color:#555}
+.rp-log summary{cursor:pointer;color:#1d3557}
+.rp-log div{max-height:200px;overflow:auto;font-family:Consolas,monospace;margin-top:4px}
+@media print{@page{size:A4;margin:9mm 10mm}.rp-noprint{display:none}.rp{font-size:10.5px;line-height:1.3}
+.rp h1{font-size:16px;margin:1px 0 5px}.rp h2{font-size:12px;margin:7px 0 3px}.rp-score .s{font-size:30px}
+.rp-t{font-size:10.3px}.rp-t th,.rp-t td{padding:1.4px 5px}.rp-mini{font-size:10px}.rp-mini th,.rp-mini td{padding:1px 4px}
+.rp-fix{font-size:10.5px}.rp-fix li{margin-bottom:2px}.rp-foot{margin-top:7px;padding-top:5px}.rp-sign{margin-top:8px}
+.rp-head{padding-bottom:6px}.rp-info{font-size:11px}}
+
+#axerr{position:fixed;top:0;left:0;right:0;z-index:999;background:#ffe8e8;border-bottom:2px solid #c34;color:#901;padding:8px 14px;font-weight:bold;display:none}
+</style>
+<script>window.onerror=function(m,s,l,c){var e=document.getElementById('axerr');if(!e){e=document.createElement('div');e.id='axerr';document.documentElement.appendChild(e);}e.style.display='block';e.textContent='⚠ 程式錯誤:'+m+'(第 '+l+' 行)。請截圖給老師。';return false;};</script>
+</head>
+<body>
+<noscript>請啟用 JavaScript 才可以使用本練習。</noscript>
+<script>
+/* =====================================================================
+   Access 模擬練習 — 核心（練習頁及老師匯總工具共用）
+   內容：常數、工具函式、SHA-256 簽署、評分、報告版面、舊格式報告解讀
+   ===================================================================== */
+"use strict";
+var AX = window.AX = window.AX || {};
+AX.VERSION = '2.0';
+AX.CFG = {};
+AX.register = function (cfg) { AX.CFG[cfg.id] = cfg; return cfg; };
+
+/* ---------- Access 2013–2021 繁體中文用語 ---------- */
+AX.TYPES = ['', '簡短文字', '長文字', '數字', '日期/時間', '貨幣', '自動編號', '是/否', 'OLE 物件', '超連結', '附件', '計算', '查閱精靈...'];
+AX.NUMSIZE = ['位元組', '整數', '長整數', '單精度浮點數', '雙精度浮點數', '複寫識別碼', '小數'];
+AX.LAYOUTS = ['單欄式', '表格式', '資料工作表', '對齊'];
+AX.defSize = function (t) { return t === '簡短文字' ? '255' : (t === '數字' || t === '自動編號') ? '長整數' : ''; };
+
+/* ---------- 工具 ---------- */
+AX.esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+AX.nm = function (s) { return String(s == null ? '' : s).replace(/\s+/g, ''); };
+AX.nd = function (s) {
+  var t = AX.nm(s).replace(/年/g, '/').replace(/月/g, '/').replace(/日/g, '').replace(/[-.]/g, '/');
+  t = t.replace(/\/0(\d)/g, '/$1'); return t.replace(/\/+$/, '');
+};
+AX.num = function (s) { var t = String(s == null ? '' : s).replace(/[^\d.\-]/g, ''); return t === '' ? NaN : Number(t); };
+AX.two = function (n) { return String(n).padStart(2, '0'); };
+AX.fmtDur = function (sec) { sec = Math.max(0, Math.round(sec)); return AX.two(Math.floor(sec / 60)) + ' 分 ' + AX.two(sec % 60) + ' 秒'; };
+AX.clock = function (sec) { sec = Math.max(0, Math.floor(sec)); return AX.two(Math.floor(sec / 60)) + ':' + AX.two(sec % 60); };
+AX.band = function (p) { return p >= 85 ? '優異' : p >= 70 ? '良好' : p >= 55 ? '尚可' : p >= 40 ? '及格' : '需努力'; };
+AX.clone = function (o) { return JSON.parse(JSON.stringify(o)); };
+AX.fmtTime = function (iso) { var d = new Date(iso); if (isNaN(d)) return String(iso || ''); return d.getFullYear() + '/' + AX.two(d.getMonth() + 1) + '/' + AX.two(d.getDate()) + ' ' + AX.two(d.getHours()) + ':' + AX.two(d.getMinutes()) + ':' + AX.two(d.getSeconds()); };
+
+/* 比較數值：依資料類型 */
+AX.same = function (type, a, b, ci) {
+  if (type === '是/否') return (a === true) === (b === true);
+  if (type === '數字' || type === '貨幣' || type === '自動編號') { var x = AX.num(a), y = AX.num(b); return !isNaN(x) && x === y; }
+  if (type === '日期/時間') return AX.nd(a) !== '' && AX.nd(a) === AX.nd(b);
+  var p = AX.nm(a), q = AX.nm(b);
+  return ci ? p.toUpperCase() === q.toUpperCase() : p === q;
+};
+AX.show = function (v) { return v === true ? '✔' : v === false ? '' : (v == null || v === '' ? '—' : String(v)); };
+
+/* ---------- 資料表輔助 ---------- */
+AX.namedRows = function (t) { return t ? t.rows.filter(function (r) { return AX.nm(r.name) !== ''; }) : []; };
+AX.table = function (S, name) { for (var i = 0; i < S.tables.length; i++) if (S.tables[i].name === name) return S.tables[i]; return null; };
+AX.mainTable = function (S, name) { return AX.table(S, name) || S.tables[0] || null; };
+AX.pkName = function (t) { return (t && t.pk != null && t.rows[t.pk]) ? AX.nm(t.rows[t.pk].name) : ''; };
+/* 組合主索引鍵：t.pkx = [列號, 列號…]（兩列或以上）；單一主索引鍵只用 t.pk */
+AX.isPk = function (t, i) { return !!t && (t.pkx && t.pkx.length > 1 ? t.pkx.indexOf(i) >= 0 : t.pk === i); };
+AX.pkNames = function (t) {
+  if (!t) return [];
+  var ix = t.pkx && t.pkx.length > 1 ? t.pkx : (t.pk != null ? [t.pk] : []);
+  return ix.map(function (i) { return t.rows[i] ? AX.nm(t.rows[i].name) : ''; }).filter(Boolean);
+};
+AX.savedPks = function (t) { return t ? (t.savedPks && t.savedPks.length ? t.savedPks : (t.savedPk ? [t.savedPk] : [])) : []; };
+AX.field = function (t, name) { var r = AX.namedRows(t); for (var i = 0; i < r.length; i++) if (AX.nm(r[i].name) === name) return r[i]; return null; };
+AX.savedField = function (t, name) { if (!t) return null; for (var i = 0; i < t.fields.length; i++) if (t.fields[i].name === name) return t.fields[i]; return null; };
+AX.form = function (S, name) { for (var i = 0; i < S.forms.length; i++) if (S.forms[i].name === name) return S.forms[i]; return null; };
+AX.query = function (S, name) { var q = S.queries || []; for (var i = 0; i < q.length; i++) if (q[i].name === name) return q[i]; return null; };
+
+/* ---------- 關聯 / 查詢 ---------- */
+AX.collator = (function () {
+  try { return new Intl.Collator('zh-Hant-TW-u-co-stroke', { numeric: true }); } catch (e) { return new Intl.Collator('zh-Hant', { numeric: true }); }
+})();
+AX.dateVal = function (s) { var m = String(s == null ? '' : s).match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/); return m ? new Date(+m[1], +m[2] - 1, +m[3]).getTime() : NaN; };
+AX.cmpVal = function (type, a, b) {
+  var x, y;
+  if (type === '數字' || type === '貨幣' || type === '自動編號') { x = AX.num(a); y = AX.num(b); }
+  else if (type === '日期/時間') { x = AX.dateVal(a); y = AX.dateVal(b); }
+  else if (type === '是/否') { x = a === true ? 1 : 0; y = (b === true || /^(true|yes|是|-1)$/i.test(String(b))) ? 1 : 0; }
+  else {
+    var sa = String(a == null ? '' : a), sb = String(b == null ? '' : b);
+    if (sa.toLowerCase() === sb.toLowerCase()) return 0;
+    if (sa === '') return -1; if (sb === '') return 1;
+    return AX.collator.compare(sa, sb);
+  }
+  if (isNaN(x) && isNaN(y)) return 0; if (isNaN(x)) return -1; if (isNaN(y)) return 1;
+  return x - y;
+};
+/* 準則：="男"、男、"男"、>5、<>3、Like "陳*"、Not "男" */
+AX.parseCrit = function (s) {
+  s = String(s == null ? '' : s).trim(); if (!s) return null;
+  var op = '=', v = s, m = s.match(/^(<>|<=|>=|=|<|>)\s*([\s\S]*)$/);
+  if (m) { op = m[1]; v = m[2]; }
+  else if ((m = s.match(/^like\s+([\s\S]*)$/i))) { op = 'like'; v = m[1]; }
+  else if ((m = s.match(/^not\s+([\s\S]*)$/i))) { op = '<>'; v = m[1]; }
+  v = v.trim().replace(/^"([\s\S]*)"$/, '$1').replace(/^'([\s\S]*)'$/, '$1').replace(/^#([\s\S]*)#$/, '$1');
+  return { op: op, v: v };
+};
+AX.critMatch = function (type, val, c) {
+  if (!c) return true;
+  if (c.op === 'like') {
+    var re = new RegExp('^' + c.v.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$', 'i');
+    return re.test(String(val == null ? '' : val));
+  }
+  var d = AX.cmpVal(type, val, c.v);
+  return c.op === '=' ? d === 0 : c.op === '<>' ? d !== 0 : c.op === '<' ? d < 0 : c.op === '>' ? d > 0 : c.op === '<=' ? d <= 0 : d >= 0;
+};
+AX.keyEq = function (a, b) {
+  var x = String(a == null ? '' : a).trim(), y = String(b == null ? '' : b).trim();
+  if (x === '' || y === '') return false;
+  if (x === y) return true;
+  var nx = Number(x), ny = Number(y);
+  return !isNaN(nx) && !isNaN(ny) && nx === ny;
+};
+AX.qTables = function (q) { return ((q && q.tables) || []).map(function (t) { return typeof t === 'string' ? t : t.n; }); };
+AX.qCols = function (q) { return ((q && q.cols) || []).filter(function (c) { return c && c.f; }); };
+/* 執行選取查詢：按關聯聯結 → 準則 → 排序 → 顯示欄位 */
+AX.runQuery = function (S, q) {
+  var names = AX.qTables(q), tabs = names.map(function (n) { return AX.table(S, n); }).filter(Boolean);
+  var cols = AX.qCols(q), rels = S.rels || [], res = { heads: [], cols: [], rows: [], cross: false };
+  if (!tabs.length) return res;
+  var joined = [tabs[0].name], rows = tabs[0].records.map(function (r) { var o = {}; o[tabs[0].name] = r.f; return o; }), rest = tabs.slice(1);
+  while (rest.length) {
+    var pick = -1, conds = [];
+    for (var i = 0; i < rest.length && pick < 0; i++) {
+      var nm = rest[i].name;
+      var cs = rels.filter(function (r) { return r.t1 !== r.t2 && ((r.t1 === nm && joined.indexOf(r.t2) >= 0) || (r.t2 === nm && joined.indexOf(r.t1) >= 0)); });
+      if (cs.length) { pick = i; conds = cs; }
+    }
+    if (pick < 0) { pick = 0; res.cross = true; }
+    var T = rest.splice(pick, 1)[0], nr = [];
+    rows.forEach(function (o) {
+      T.records.forEach(function (r) {
+        var ok = conds.every(function (c) { return c.t1 === T.name ? AX.keyEq(r.f[c.f1], o[c.t2] && o[c.t2][c.f2]) : AX.keyEq(r.f[c.f2], o[c.t1] && o[c.t1][c.f1]); });
+        if (ok) { var n = {}; Object.keys(o).forEach(function (k) { n[k] = o[k]; }); n[T.name] = r.f; nr.push(n); }
+      });
+    });
+    rows = nr; joined.push(T.name);
+  }
+  var fdef = function (c) { var t = AX.table(S, c.t); return t ? AX.savedField(t, c.f) : null; };
+  var typ = function (c) { var f = fdef(c); return f ? f.type : '簡短文字'; };
+  var get = function (o, c) { return o[c.t] ? o[c.t][c.f] : ''; };
+  var g1 = cols.filter(function (c) { return c.f !== '*' && String(c.crit || '').trim(); });
+  var g2 = cols.filter(function (c) { return c.f !== '*' && String(c.or || '').trim(); });
+  if (g1.length || g2.length) {
+    rows = rows.filter(function (o) {
+      var pass = function (g, key) { return g.length > 0 && g.every(function (c) { return AX.critMatch(typ(c), get(o, c), AX.parseCrit(c[key])); }); };
+      return pass(g1, 'crit') || pass(g2, 'or');
+    });
+  }
+  var sorts = cols.filter(function (c) { return c.f !== '*' && (c.sort === '遞增' || c.sort === '遞減'); });
+  if (sorts.length) {
+    rows = rows.map(function (o, i) { return { o: o, i: i }; }).sort(function (a, b) {
+      for (var k = 0; k < sorts.length; k++) { var c = sorts[k], d = AX.cmpVal(typ(c), get(a.o, c), get(b.o, c)); if (d) return c.sort === '遞減' ? -d : d; }
+      return a.i - b.i;
+    }).map(function (x) { return x.o; });
+  }
+  var out = [];
+  cols.forEach(function (c) {
+    if (c.show === false) return;
+    if (c.f === '*') { var t = AX.table(S, c.t); if (t) t.fields.forEach(function (F) { out.push({ t: c.t, f: F.name }); }); }
+    else out.push({ t: c.t, f: c.f });
+  });
+  var fn = out.map(function (x) { return x.f; });
+  res.cols = out;
+  res.heads = out.map(function (x) { return fn.filter(function (n) { return n === x.f; }).length > 1 ? x.t + '.' + x.f : x.f; });
+  res.rows = rows.map(function (o) { return out.map(function (x) { var v = get(o, x); return v == null ? '' : v; }); });
+  return res;
+};
+
+/* ---------- SHA-256（純 JavaScript，不需網絡） ---------- */
+AX.sha256 = function (str) {
+  function rr(v, a) { return (v >>> a) | (v << (32 - a)); }
+  var b = new TextEncoder().encode(str), l = b.length, K = [], H = [], p = 2, n = 0;
+  function frac(x) { return ((x - Math.floor(x)) * 4294967296) >>> 0; }
+  while (n < 64) {
+    var isP = true; for (var d = 2; d * d <= p; d++) if (p % d === 0) { isP = false; break; }
+    if (isP) { if (n < 8) H[n] = frac(Math.pow(p, 1 / 2)); K[n] = frac(Math.pow(p, 1 / 3)); n++; }
+    p++;
+  }
+  var wl = ((l + 8) >> 6 << 4) + 16, W = new Uint32Array(wl);
+  for (var i = 0; i < l; i++) W[i >> 2] |= b[i] << (24 - (i % 4) * 8);
+  W[l >> 2] |= 0x80 << (24 - (l % 4) * 8);
+  W[wl - 1] = l * 8;
+  var w = new Uint32Array(64), h = H.slice();
+  for (var j = 0; j < wl; j += 16) {
+    var A = h[0], B = h[1], C = h[2], D = h[3], E = h[4], F = h[5], G = h[6], Hh = h[7];
+    for (var t = 0; t < 64; t++) {
+      if (t < 16) w[t] = W[j + t];
+      else {
+        var x = w[t - 15], y = w[t - 2];
+        w[t] = ((rr(x, 7) ^ rr(x, 18) ^ (x >>> 3)) + w[t - 7] + (rr(y, 17) ^ rr(y, 19) ^ (y >>> 10)) + w[t - 16]) >>> 0;
+      }
+      var t1 = (Hh + (rr(E, 6) ^ rr(E, 11) ^ rr(E, 25)) + ((E & F) ^ (~E & G)) + K[t] + w[t]) >>> 0;
+      var t2 = ((rr(A, 2) ^ rr(A, 13) ^ rr(A, 22)) + ((A & B) ^ (A & C) ^ (B & C))) >>> 0;
+      Hh = G; G = F; F = E; E = (D + t1) >>> 0; D = C; C = B; B = A; A = (t1 + t2) >>> 0;
+    }
+    h[0] = (h[0] + A) >>> 0; h[1] = (h[1] + B) >>> 0; h[2] = (h[2] + C) >>> 0; h[3] = (h[3] + D) >>> 0;
+    h[4] = (h[4] + E) >>> 0; h[5] = (h[5] + F) >>> 0; h[6] = (h[6] + G) >>> 0; h[7] = (h[7] + Hh) >>> 0;
+  }
+  return h.map(function (v) { return v.toString(16).padStart(8, '0'); }).join('');
+};
+(function () {
+  var _q = [99, 21, 110, 107, 125, 86, 106, 70, 69, 66, 91, 90, 86, 93, 23, 90, 76, 17, 120, 71, 25, 113, 92, 16, 84, 27, 26, 25, 19];
+  function k() { return _q.map(function (c, i) { return String.fromCharCode(c ^ (37 + i % 7)); }).join(''); }
+  AX.sign = function (data) { var sep = String.fromCharCode(1); return AX.sha256(k() + sep + data + sep + k().split('').reverse().join('')); };
+})();
+AX.code = function (prefix, sig) { var s = sig.slice(0, 8).toUpperCase(); return prefix + '-' + s.slice(0, 4) + '-' + s.slice(4, 8); };
+
+/* ---------- 評分 ---------- */
+AX.hintStats = function (cfg, hints) {
+  var P = cfg.penalty, n1 = 0, n2 = 0;
+  Object.keys(hints || {}).forEach(function (k) { var lv = hints[k] || 0; if (lv >= 1) n1++; if (lv >= 2) n2++; });
+  return { n1: n1, n2: n2, raw: n1 * P.hint1 + n2 * P.hint2 };
+};
+/* S 只需要 tables / forms / flags / db / hints / errs */
+AX.evaluate = function (cfg, S) {
+  var g = cfg.grade(S, AX), items = g.items, P = cfg.penalty;
+  var full = items.reduce(function (a, b) { return a + b.f; }, 0);
+  var raw = items.reduce(function (a, b) { return a + b.g; }, 0);
+  var hs = AX.hintStats(cfg, S.hints);
+  var dh = Math.min(hs.raw, P.hintMax), de = Math.min((S.errs || 0) * P.err, P.errMax);
+  var fin = Math.max(0, raw - dh - de), pct = full ? Math.round(fin / full * 100) : 0;
+  return { items: items, notes: g.notes || [], full: full, raw: raw, dh: dh, de: de, hs: hs, final: fin, pct: pct, band: AX.band(pct) };
+};
+/* 評測卷：以任務清單自動產生評分項目 */
+AX.gradeTasks = function (cfg, S) {
+  var items = cfg.steps.map(function (s) {
+    var ok = !!s.check(S, AX);
+    return { l: s.id + ' ' + s.title, y: s.res ? s.res(S, AX) : (ok ? '已完成' : '未完成'), c: s.expect || '', g: ok ? s.m : 0, f: s.m, why: s.why || '' };
+  });
+  return { items: items, notes: cfg.notes ? cfg.notes(S, AX) : [] };
+};
+
+/* ---------- 報表 / 標籤 ---------- */
+  AX.LABEL_SIZES = [
+  { id: 'L1', l: '42 mm x 90 mm', n: 2, w: 90, h: 42, dir: '橫向' }, { id: 'L2', l: '42 mm x 90 mm', n: 3, w: 90, h: 42, dir: '橫向' },
+  { id: 'L3', l: '38 mm x 99 mm', n: 2, w: 99, h: 38, dir: '橫向' }, { id: 'L4', l: '52 mm x 70 mm', n: 2, w: 70, h: 52, dir: '橫向' },
+  { id: 'L5', l: '21 mm x 70 mm', n: 3, w: 70, h: 21, dir: '橫向' }];
+
+AX.report = function (S, name) { var r = S.reports || []; for (var i = 0; i < r.length; i++) if (r[i].name === name) return r[i]; return null; };
+/* 報表資料：以欄位清單（T.F）執行查詢，再按分組及排序整理
+   rp = { fields:[T.F], view: T, groups:[T.F], sorts:[{f:T.F, dir:'遞增'|'遞減'}] } */
+AX.reportRows = function (S, rp) {
+  var fields = rp.fields || [], groups = rp.groups || [], sorts = rp.sorts || [];
+  var all = fields.slice(); groups.concat(sorts.map(function (x) { return x.f; })).forEach(function (f) { if (all.indexOf(f) < 0) all.push(f); });
+  var cols = all.map(function (tf) { var p = tf.split('.'); return { t: p[0], f: p[1], show: true, sort: '', crit: '', or: '' }; });
+  var tabs = []; cols.forEach(function (c) { if (tabs.indexOf(c.t) < 0) tabs.push(c.t); });
+  /* 自動補上中間的聯結資料表（經關聯可到達者） */
+  var rels = S.rels || [], changed = true;
+  while (changed) {
+    changed = false;
+    if (tabs.length > 1 && rels.length) {
+      var linked = function (a, b) { return rels.some(function (r) { return (r.t1 === a && r.t2 === b) || (r.t1 === b && r.t2 === a); }); };
+      var ok = tabs.every(function (t) { return tabs.some(function (u) { return u !== t && linked(t, u); }); });
+      if (!ok) S.tables.forEach(function (t) { if (t.name != null && tabs.indexOf(t.name) < 0 && tabs.filter(function (u) { return linked(t.name, u); }).length >= 2) { tabs.push(t.name); changed = true; } });
+    }
+  }
+  var r = AX.runQuery(S, { tables: tabs.map(function (n) { return { n: n }; }), cols: cols });
+  var idx = function (tf) { return all.indexOf(tf); };
+  var typ = function (tf) { var p = tf.split('.'), t = AX.table(S, p[0]), f = t && AX.savedField(t, p[1]); return f ? f.type : '簡短文字'; };
+  var keys = groups.map(function (g) { return { i: idx(g), t: typ(g), d: '遞增' }; }).concat(sorts.map(function (x) { return { i: idx(x.f), t: typ(x.f), d: x.dir || '遞增' }; }));
+  var rows = r.rows.map(function (row, i) { return { row: row, i: i }; }).sort(function (a, b) {
+    for (var k = 0; k < keys.length; k++) { var d = AX.cmpVal(keys[k].t, a.row[keys[k].i], b.row[keys[k].i]); if (d) return keys[k].d === '遞減' ? -d : d; }
+    return a.i - b.i;
+  }).map(function (x) { return x.row; });
+  return { all: all, heads: all.map(function (tf) { return tf.split('.')[1]; }), rows: rows, cross: r.cross, fieldIdx: fields.map(idx), groupIdx: groups.map(idx) };
+};
+
+/* ---------- 提交資料（報告內嵌） ---------- */
+AX.stateForGrade = function (S) {
+  return { phase: S.phase, db: S.db, tables: S.tables, forms: S.forms, flags: S.flags, rels: S.rels || [], relLayout: S.relLayout || [], queries: S.queries || [], qdraft: S.qdraft || null, reports: S.reports || [], lab: S.lab || null };
+};
+AX.buildPayload = function (cfg, S, ev, endISO) {
+  var d = {
+    v: 2, ex: cfg.id, title: cfg.title, mode: cfg.mode,
+    name: S.info.name, cls: S.info.cls, sid: S.info.sid,
+    start: S.startISO, end: endISO, durSec: Math.round(S.elapsed / 1000),
+    hints: S.hints, errs: S.errs, errList: S.errList.slice(-60), submits: S.submits,
+    final: ev.final, full: ev.full, pct: ev.pct,
+    state: AX.stateForGrade(S), log: S.log.slice(-150)
+  };
+  var data = JSON.stringify(d);
+  return { data: data, sig: AX.sign(data), d: d };
+};
+/* 驗證一份提交資料：簽署 + 重新評分 + 合理性檢查 */
+AX.verifyReport = function (data, sig) {
+  var r = { ok: false, sigOk: false, d: null, cfg: null, ev: null, warn: [] };
+  try { r.d = JSON.parse(data); } catch (e) { r.warn.push('資料無法解讀'); return r; }
+  r.sigOk = (AX.sign(data) === sig);
+  r.cfg = AX.CFG[r.d.ex] || null;
+  if (!r.sigOk) r.warn.push('簽署不符：報告內容曾被修改');
+  if (!r.cfg) { r.warn.push('未知的練習編號 ' + r.d.ex); return r; }
+  var S = r.d.state || {}; S.hints = r.d.hints || {}; S.errs = r.d.errs || 0;
+  try { r.ev = AX.evaluate(r.cfg, S); } catch (e) { r.warn.push('重新評分失敗'); return r; }
+  if (r.ev.final !== r.d.final) r.warn.push('報告所寫分數(' + r.d.final + ')與重新評分(' + r.ev.final + ')不符');
+  if ((r.d.errList || []).length < Math.min(r.d.errs, 60)) r.warn.push('誤操作紀錄數目不符');
+  if (r.d.durSec < 90) r.warn.push('用時異常短(' + r.d.durSec + ' 秒)');
+  r.ok = r.sigOk && r.ev.final === r.d.final;
+  return r;
+};
+
+/* ---------- 舊格式報告（舊練習檔產生） ---------- */
+AX.fnv = function (s) { var h = 2166136261 >>> 0; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h.toString(36).toUpperCase(); };
+AX.b64d = function (s) { return new TextDecoder().decode(Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); })); };
+AX.verifyOld = function (digest, code) {
+  var r = { ok: false, d: null };
+  try { r.d = JSON.parse(AX.b64d(digest)); } catch (e) { return r; }
+  var a = AX.fnv(digest).padStart(8, '0').slice(0, 8);
+  var pre = (code.match(/^ACC\d/) || ['ACC?'])[0];
+  r.ok = (pre + '-' + a.slice(0, 4) + '-' + a.slice(4, 8)) === code.toUpperCase();
+  return r;
+};
+
+/* ---------- 解讀報告檔（新格式或舊格式） ---------- */
+AX.parseReportText = function (html) {
+  var m = html.match(/<script type="application\/json" id="axpayload">([\s\S]*?)<\/script>/);
+  if (m) {
+    try { var o = JSON.parse(m[1]); return { kind: 'cur', data: o.data, sig: o.sig }; } catch (e) { return { kind: 'bad' }; }
+  }
+  var dg = html.match(/class="dig">([A-Za-z0-9+\/=\s]+)</);
+  var cd = html.match(/(ACC\d-[0-9A-Z]{4}-[0-9A-Z]{4})/);
+  if (dg && cd) return { kind: 'old', digest: dg[1].replace(/\s+/g, ''), code: cd[1] };
+  return { kind: 'bad' };
+};
+
+/* ---------- 報告版面（練習頁、下載檔、老師工具共用） ---------- */
+AX.reportInner = function (cfg, d, ev, code) {
+  var E = AX.esc, h = '';
+  var info = [
+    ['姓名', d.name], ['班別', d.cls], ['班號', d.sid || '—'],
+    ['開始', AX.fmtTime(d.start)], ['完成', AX.fmtTime(d.end)], ['用時', AX.fmtDur(d.durSec)],
+    ['提示', (ev.hs.n1 + ev.hs.n2) + ' 次(扣 ' + ev.dh + ')'], ['誤操作', d.errs + ' 次(扣 ' + ev.de + ')'], ['提交次數', d.submits]
+  ];
+  h += '<div class="rp"><div class="rp-head"><div class="rp-tl">' +
+    '<div class="rp-kicker">中三 電腦科 · ' + (cfg.subject || 'Microsoft Access') + ' ' + (cfg.mode === 'assess' ? '評測' : '自學練習') + '報告</div>' +
+    '<h1>' + E(cfg.title) + '</h1><table class="rp-info">';
+  for (var i = 0; i < info.length; i += 3) {
+    h += '<tr>' + info.slice(i, i + 3).map(function (p) { return '<th>' + p[0] + '</th><td>' + E(p[1]) + '</td>'; }).join('') + '</tr>';
+  }
+  h += '</table></div><div class="rp-score"><div class="l">最終得分</div><div class="s">' + ev.final + '<span> / ' + ev.full + '</span></div>' +
+    '<div class="p">' + ev.pct + '% · ' + ev.band + '</div></div></div>';
+
+  h += '<h2>一、評分明細</h2><table class="rp-t"><thead><tr><th style="width:30%">評分項目</th><th>你的結果</th><th>正確答案</th><th class="c" style="width:62px">得分</th></tr></thead><tbody>';
+  ev.items.forEach(function (it) {
+    var ok = it.g === it.f, part = it.g > 0 && !ok;
+    h += '<tr class="' + (ok ? 'ok' : part ? 'part' : 'bad') + '"><td>' + E(it.l) + '</td><td class="y">' + E(it.y) + '</td><td>' + E(it.c) + '</td><td class="c">' + it.g + ' / ' + it.f + '</td></tr>';
+  });
+  h += '</tbody><tfoot><tr><td colspan="3">操作得分</td><td class="c">' + ev.raw + ' / ' + ev.full + '</td></tr>' +
+    '<tr><td colspan="3">提示扣分(第一級 ' + ev.hs.n1 + ' 次 × ' + cfg.penalty.hint1 + '，第二級 ' + ev.hs.n2 + ' 次 × ' + cfg.penalty.hint2 + '，上限 ' + cfg.penalty.hintMax + ')</td><td class="c">− ' + ev.dh + '</td></tr>' +
+    '<tr><td colspan="3">誤操作扣分(' + d.errs + ' 次 × ' + cfg.penalty.err + '，上限 ' + cfg.penalty.errMax + ')</td><td class="c">− ' + ev.de + '</td></tr>' +
+    '<tr class="tot"><td colspan="3">最終得分</td><td class="c">' + ev.final + ' / ' + ev.full + '</td></tr></tfoot></table>';
+
+  var wrong = ev.items.filter(function (it) { return it.g < it.f; }), el = (d.errList || []).slice(-6);
+  h += '<h2>二、需改善之處</h2>';
+  if (!wrong.length) h += '<p class="rp-allok">✔ 所有評分項目都正確，做得好！</p>';
+  if (wrong.length || ev.notes.length || el.length) {
+    h += '<ol class="rp-fix">';
+    wrong.forEach(function (it) {
+      h += '<li><b>' + E(it.l) + '</b>：你的結果是「' + E(it.y) + '」，正確應為「' + E(it.c) + '」。' +
+        (it.why ? '<div class="why">💡 ' + E(it.why) + '</div>' : '') + '</li>';
+    });
+    ev.notes.forEach(function (n) { h += '<li class="note">' + E(n) + '</li>'; });
+    if (el.length) h += '<li class="note">誤操作紀錄' + (d.errs > el.length ? '（最後 ' + el.length + ' 次）' : '') + '：<div class="why">' + el.map(E).join('<br>') + '</div></li>';
+    h += '</ol>';
+  }
+  if (cfg.reportExtra) h += cfg.reportExtra(d.state, AX);
+  h += '<div class="rp-foot"><div>驗證碼 <b class="rp-code">' + E(code) + '</b> · 請把下載的 <b>.html 報告檔</b>原檔上傳，不要改名後另存其他格式。</div>' +
+    '<div class="rp-sign">老師評語：<span></span>簽署：<span class="s"></span>日期：<span class="s"></span></div></div>';
+  h += '<details class="rp-log rp-noprint"><summary>操作紀錄(最後 ' + Math.min(40, (d.log || []).length) + ' 項)</summary><div>' +
+    (d.log || []).slice(-40).map(E).join('<br>') + '</div></details></div>';
+  return h;
+};
+
+/* =====================================================================
+   功能區圖示(仿 Office 線條風格,全部內嵌 SVG,不需網絡)
+   ===================================================================== */
+(function () {
+  var B = '#2f6db5', G = '#2e8b57', O = '#d0761b', P = '#7a4fa3', R = '#c0392b', Y = '#d9a400', K = '#4a4f57', L = '#9fb7d4';
+  function s(inner) { return '<svg viewBox="0 0 24 24" class="ic" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>'; }
+  function grid(c, x, y, w, h) {
+    x = x || 3; y = y || 4; w = w || 18; h = h || 16;
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="1" fill="#fff" stroke="' + c + '" stroke-width="1.4"/>' +
+      '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + (h * .25) + '" fill="' + c + '"/>' +
+      '<path d="M' + x + ' ' + (y + h * .55) + 'h' + w + 'M' + x + ' ' + (y + h * .8) + 'h' + w + 'M' + (x + w / 3) + ' ' + (y + h * .25) + 'v' + (h * .75) + 'M' + (x + 2 * w / 3) + ' ' + (y + h * .25) + 'v' + (h * .75) + '" stroke="' + c + '" stroke-width=".9"/>';
+  }
+  function formG(c, x, y, w, h) {
+    x = x || 3; y = y || 3; w = w || 18; h = h || 18;
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="1.2" fill="#fff" stroke="' + c + '" stroke-width="1.4"/>' +
+      '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="3.5" fill="' + c + '"/>' +
+      '<path d="M' + (x + 2.5) + ' ' + (y + 7.5) + 'h4M' + (x + 2.5) + ' ' + (y + 11) + 'h4M' + (x + 2.5) + ' ' + (y + 14.5) + 'h4" stroke="' + K + '" stroke-width="1.1"/>' +
+      '<rect x="' + (x + 8) + '" y="' + (y + 6.3) + '" width="' + (w - 10.5) + '" height="2.4" stroke="' + c + '" stroke-width=".9"/>' +
+      '<rect x="' + (x + 8) + '" y="' + (y + 9.8) + '" width="' + (w - 10.5) + '" height="2.4" stroke="' + c + '" stroke-width=".9"/>' +
+      '<rect x="' + (x + 8) + '" y="' + (y + 13.3) + '" width="' + (w - 10.5) + '" height="2.4" stroke="' + c + '" stroke-width=".9"/>';
+  }
+  var pencil = '<path d="M14.5 21.5l1-3.6 5.4-5.4 2.6 2.6-5.4 5.4z" fill="#fff6d6" stroke="' + O + '" stroke-width="1.2"/>';
+  var wand = '<path d="M13 22l7-7" stroke="' + K + '" stroke-width="2"/><path d="M20.5 9.5v3M19 11h3M16.5 7.5v2M15.5 8.5h2M22 15.5v2M21 16.5h2" stroke="' + Y + '" stroke-width="1.3"/>';
+  var plus = function (c) { return '<circle cx="18" cy="18" r="4.6" fill="' + c + '"/><path d="M18 15.6v4.8M15.6 18h4.8" stroke="#fff" stroke-width="1.6"/>'; };
+  var xmark = '<circle cx="18" cy="18" r="4.6" fill="' + R + '"/><path d="M16.2 16.2l3.6 3.6M19.8 16.2l-3.6 3.6" stroke="#fff" stroke-width="1.6"/>';
+  AX.ICON = {
+    table: s(grid(B)),
+    tableDesign: s(grid(B, 2, 3, 16, 14) + pencil),
+    sharepoint: s(grid('#1f7a8c', 2, 4, 15, 13) + '<circle cx="18" cy="17" r="4.5" fill="#1f7a8c"/><path d="M16.5 18.5c.7.6 2.6.6 2.6-.6 0-1.3-2.5-.8-2.5-2 0-1 1.6-1.2 2.4-.6" stroke="#fff" stroke-width="1.1"/>'),
+    appParts: s('<path d="M4 9h4a2 2 0 1 1 4 0h4v4a2 2 0 1 0 0 4v4H4z" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.3"/>'),
+    view: s(grid(B, 3, 3, 13, 11) + '<path d="M9 16l4 5 9-9" stroke="' + G + '" stroke-width="0"/><rect x="10" y="12" width="11" height="9" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M12 15h7M12 18h5" stroke="' + K + '" stroke-width="1"/>'),
+    viewDs: s(grid(B)),
+    viewDesign: s('<rect x="3" y="4" width="18" height="16" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M3 8h18M10 4v16" stroke="' + K + '" stroke-width="1"/><path d="M5 11h3M12 11h6M5 14h3M12 14h6M5 17h3M12 17h6" stroke="' + B + '" stroke-width="1"/>'),
+    viewForm: s(formG(G)),
+    query: s(grid(O, 2, 3, 12, 10) + grid(O, 10, 11, 12, 10)),
+    queryWiz: s(grid(O, 2, 3, 13, 11) + wand),
+    queryDesign: s(grid(O, 2, 3, 15, 13) + pencil),
+    form: s(formG(G)),
+    formDesign: s(formG(G, 2, 2, 16, 16) + pencil),
+    formBlank: s('<rect x="3" y="3" width="18" height="18" rx="1.2" fill="#fff" stroke="' + G + '" stroke-width="1.4"/><rect x="3" y="3" width="18" height="3.5" fill="' + G + '"/>'),
+    formWiz: s(formG(G, 2, 2, 15, 15) + wand),
+    navForm: s('<rect x="3" y="5" width="18" height="16" rx="1.2" fill="#fff" stroke="' + G + '" stroke-width="1.4"/><path d="M3 9h18" stroke="' + G + '"/><rect x="4" y="2.5" width="5" height="3.5" fill="' + G + '"/><rect x="10" y="2.5" width="5" height="3.5" fill="#cfe7d8" stroke="' + G + '" stroke-width=".8"/>'),
+    report: s('<path d="M5 2.5h10l4 4V21.5H5z" fill="#fff" stroke="' + P + '" stroke-width="1.4"/><path d="M15 2.5v4h4" stroke="' + P + '" stroke-width="1.2"/><path d="M8 17v-3M11 17v-6M14 17v-4" stroke="' + P + '" stroke-width="1.8"/>'),
+    reportDesign: s('<path d="M4 2.5h9l3.5 3.5V19H4z" fill="#fff" stroke="' + P + '" stroke-width="1.4"/><path d="M7 15v-3M10 15v-5" stroke="' + P + '" stroke-width="1.6"/>' + pencil),
+    reportWiz: s('<path d="M4 2.5h9l3.5 3.5V19H4z" fill="#fff" stroke="' + P + '" stroke-width="1.4"/><path d="M7 15v-3M10 15v-5" stroke="' + P + '" stroke-width="1.6"/>' + wand),
+    labels: s('<path d="M3 8l6-5h12v10H9z" fill="#f3ebfa" stroke="' + P + '" stroke-width="1.3"/><circle cx="8" cy="8" r="1.4" fill="' + P + '"/><path d="M3 15l6-3h12v9H9z" fill="#fff" stroke="' + P + '" stroke-width="1.3"/>'),
+    macro: s('<rect x="3" y="3" width="14" height="18" rx="1.2" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M6 8h8M6 11h6M6 14h7" stroke="' + K + '"/><circle cx="18" cy="17" r="4" fill="' + O + '"/><circle cx="18" cy="17" r="1.4" fill="#fff"/>'),
+    paste: s('<rect x="4" y="4" width="13" height="17" rx="1.5" fill="#f2e2c4" stroke="#8a6a33" stroke-width="1.3"/><rect x="7.5" y="2.5" width="6" height="3.5" rx="1" fill="#fff" stroke="#8a6a33" stroke-width="1.2"/><rect x="11" y="10" width="10" height="12" rx="1" fill="#fff" stroke="' + B + '" stroke-width="1.3"/><path d="M13.5 14h5M13.5 17h5" stroke="' + B + '"/>'),
+    cut: s('<circle cx="7" cy="18" r="3" stroke="' + K + '" stroke-width="1.4"/><circle cx="17" cy="18" r="3" stroke="' + K + '" stroke-width="1.4"/><path d="M9 16L17 3M15 16L7 3" stroke="' + K + '" stroke-width="1.4"/>'),
+    copy: s('<rect x="3" y="3" width="11" height="14" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><rect x="9" y="7" width="11" height="14" rx="1" fill="#fff" stroke="' + B + '" stroke-width="1.3"/>'),
+    painter: s('<rect x="4" y="3" width="14" height="6" rx="1.2" fill="' + Y + '" stroke="#8a6a00" stroke-width="1.1"/><path d="M18 6h2v5h-8v3" stroke="' + K + '" stroke-width="1.3"/><rect x="10.5" y="14" width="3" height="8" rx="1" fill="' + K + '"/>'),
+    filter: s('<path d="M3 4h18l-7 8v7l-4 2v-9z" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.4"/>'),
+    sortAsc: s('<path d="M5 9l2.5-6L10 9M5.8 7h3.4M5 13h5l-5 6h5" stroke="' + K + '" stroke-width="1.2"/><path d="M17 4v16M14 17l3 3 3-3" stroke="' + B + '" stroke-width="1.5"/>'),
+    sortDesc: s('<path d="M5 3h5l-5 6h5M5 21l2.5-6L10 21M5.8 19h3.4" stroke="' + K + '" stroke-width="1.2"/><path d="M17 4v16M14 17l3 3 3-3" stroke="' + B + '" stroke-width="1.5"/>'),
+    refresh: s('<path d="M20 11a8 8 0 1 0-2.3 6.3" stroke="' + G + '" stroke-width="1.8"/><path d="M20 4v7h-7" stroke="' + G + '" stroke-width="1.8"/>'),
+    recNew: s(grid(B, 2, 3, 15, 13) + plus(G)),
+    recSave: s('<path d="M4 3h13l3 3v15H4z" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.4"/><rect x="7" y="3" width="9" height="6" fill="#fff" stroke="' + B + '" stroke-width="1.1"/><rect x="7" y="13" width="10" height="8" fill="#fff" stroke="' + B + '" stroke-width="1.1"/>'),
+    recDel: s(grid(B, 2, 3, 15, 13) + xmark),
+    find: s('<circle cx="10" cy="10" r="6" fill="#e8f0fb" stroke="' + K + '" stroke-width="1.6"/><path d="M14.5 14.5L21 21" stroke="' + K + '" stroke-width="2.2"/>'),
+    replace: s('<text x="2" y="11" font-size="9" font-family="Segoe UI,Arial" fill="' + K + '">ab</text><text x="11" y="21" font-size="9" font-family="Segoe UI,Arial" fill="' + B + '">ac</text><path d="M14 5h5v5M19 5l-4 4" stroke="' + G + '" stroke-width="1.3"/>'),
+    newSrc: s('<ellipse cx="11" cy="5" rx="7" ry="2.5" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.3"/><path d="M4 5v12c0 1.4 3.1 2.5 7 2.5M18 5v7" stroke="' + B + '" stroke-width="1.3"/>' + plus(G)),
+    savedImp: s('<path d="M4 3h13l3 3v15H4z" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M12 7v9M8.5 12.5L12 16l3.5-3.5" stroke="' + G + '" stroke-width="1.6"/>'),
+    excel: s('<rect x="8" y="3" width="13" height="18" rx="1" fill="#fff" stroke="#1d6f42" stroke-width="1.3"/><path d="M12 7h6M12 11h6M12 15h6" stroke="#1d6f42"/><rect x="2.5" y="6" width="10" height="12" rx="1" fill="#1d6f42"/><path d="M5 9l5 6M10 9l-5 6" stroke="#fff" stroke-width="1.5"/>'),
+    textFile: s('<path d="M5 2.5h10l4 4V21.5H5z" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M8 10h8M8 13h8M8 16h6" stroke="' + K + '"/>'),
+    pdf: s('<path d="M5 2.5h10l4 4V21.5H5z" fill="#fff" stroke="' + R + '" stroke-width="1.3"/><rect x="3" y="11" width="14" height="6" rx="1" fill="' + R + '"/><text x="4.5" y="15.9" font-size="5" font-family="Arial" font-weight="bold" fill="#fff">PDF</text>'),
+    mail: s('<rect x="2.5" y="5" width="19" height="14" rx="1.5" fill="#fff" stroke="' + B + '" stroke-width="1.4"/><path d="M3 6l9 7 9-7" stroke="' + B + '" stroke-width="1.3"/>'),
+    compact: s('<ellipse cx="10" cy="5" rx="7" ry="2.5" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.3"/><path d="M3 5v12c0 1.4 3.1 2.5 7 2.5S17 18.4 17 17V5" stroke="' + B + '" stroke-width="1.3"/><path d="M15 21l6-6M19 13l3 3" stroke="' + K + '" stroke-width="1.8"/>'),
+    vba: s('<rect x="2.5" y="4" width="19" height="16" rx="1.5" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M9 9l-3 3 3 3M15 9l3 3-3 3" stroke="' + B + '" stroke-width="1.6"/>'),
+    rel: s('<rect x="2" y="3" width="8" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="14" y="3" width="8" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="8" y="14" width="8" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><path d="M10 6.5h4M6 10v7h2M18 10v7h-2" stroke="' + K + '" stroke-width="1.2"/>'),
+    docr: s('<path d="M5 2.5h10l4 4V21.5H5z" fill="#fff" stroke="' + B + '" stroke-width="1.3"/><path d="M8 9h8M8 12h8M8 15h5" stroke="' + B + '"/><circle cx="17" cy="18" r="3" fill="#fff" stroke="' + K + '" stroke-width="1.3"/>'),
+    key: s('<circle cx="8" cy="12" r="4.5" fill="' + Y + '" stroke="#8a6a00" stroke-width="1.2"/><circle cx="7" cy="12" r="1.3" fill="#fff"/><path d="M12.3 12H21v3M18 12v2.5" stroke="#8a6a00" stroke-width="2"/>'),
+    builder: s('<rect x="3" y="3" width="13" height="15" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M6 7h7M6 10h5" stroke="' + K + '"/>' + wand),
+    testVal: s('<rect x="3" y="3" width="15" height="17" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M6 8h9M6 12h6" stroke="' + K + '"/><path d="M13 18l2.5 2.5L21 14" stroke="' + G + '" stroke-width="2"/>'),
+    insRow: s('<rect x="3" y="3" width="15" height="4" fill="#fff" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="9" width="15" height="4" fill="' + L + '" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="15" width="10" height="4" fill="#fff" stroke="' + B + '" stroke-width="1.2"/>' + plus(G)),
+    delRow: s('<rect x="3" y="3" width="15" height="4" fill="#fff" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="9" width="15" height="4" fill="' + L + '" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="15" width="10" height="4" fill="#fff" stroke="' + B + '" stroke-width="1.2"/>' + xmark),
+    lookup: s(grid(B, 2, 3, 15, 13) + '<rect x="13" y="13" width="9" height="8" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M15.5 16l2 2 2-2" stroke="' + K + '" stroke-width="1.2"/>'),
+    propSheet: s('<rect x="3" y="3" width="18" height="18" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.3"/><path d="M3 8h18M3 13h18M3 18h18M10 8v13" stroke="' + K + '" stroke-width=".9"/><rect x="3" y="3" width="18" height="5" fill="' + L + '"/>'),
+    indexes: s('<path d="M6 4h12M6 9h12M6 14h12M6 19h8" stroke="' + K + '" stroke-width="1.4"/><path d="M19 13l-2.5 4h3l-2.5 5" stroke="' + Y + '" stroke-width="1.6"/>'),
+    save: s('<path d="M3.5 3.5h13.2l3.8 3.8v13.2h-17z" fill="rgba(255,255,255,.18)" stroke="currentColor" stroke-width="1.6"/><rect x="7" y="3.5" width="8.5" height="5.5" fill="currentColor" opacity=".9"/><rect x="12.3" y="4.6" width="1.9" height="3.3" fill="#a4373a"/><rect x="6.5" y="12.8" width="11" height="7.7" rx=".6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8.6 15.4h6.8M8.6 17.9h6.8" stroke="currentColor" stroke-width="1.1"/>'),
+    undo: s('<path d="M9 7L4 11l5 4" stroke="currentColor" stroke-width="1.8"/><path d="M4 11h10a6 6 0 0 1 0 12h-3" stroke="currentColor" stroke-width="1.8"/>'),
+    redo: s('<path d="M15 7l5 4-5 4" stroke="currentColor" stroke-width="1.8"/><path d="M20 11H10a6 6 0 0 0 0 12h3" stroke="currentColor" stroke-width="1.8"/>'),
+    navTable: s('<rect x="3" y="5" width="18" height="14" rx="1" fill="#fff" stroke="' + B + '" stroke-width="1.6"/><rect x="3" y="5" width="18" height="4" fill="' + B + '"/><path d="M3 14h18M9 9v10M15 9v10" stroke="' + B + '" stroke-width="1.2"/>'),
+    navForm: s('<rect x="3" y="3" width="18" height="18" rx="1" fill="#fff" stroke="' + G + '" stroke-width="1.6"/><rect x="3" y="3" width="18" height="4" fill="' + G + '"/><path d="M6 11h3M6 15h3M11 11h7M11 15h7" stroke="' + G + '" stroke-width="1.5"/>'),
+    pk: s('<circle cx="8" cy="12" r="4" fill="' + Y + '" stroke="#8a6a00" stroke-width="1.3"/><circle cx="7.2" cy="12" r="1.2" fill="#fff"/><path d="M12 12h9v3M18 12v2.5" stroke="#8a6a00" stroke-width="2.2"/>'),
+    db: s('<ellipse cx="12" cy="5.5" rx="8" ry="3" fill="#fbe9ea" stroke="#a4373a" stroke-width="1.4"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" stroke="#a4373a" stroke-width="1.4"/>'),
+    folder: s('<path d="M2.5 6.5V19h19V8.5h-9l-2-2z" fill="#f6dc8f" stroke="#a07f20" stroke-width="1.3"/>'),
+    tpl: s('<rect x="3" y="3" width="8" height="8" rx="1" fill="#fbe9ea" stroke="#a4373a" stroke-width="1.2"/><rect x="13" y="3" width="8" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="3" y="13" width="8" height="8" rx="1" fill="#e6f4ea" stroke="' + G + '" stroke-width="1.2"/><rect x="13" y="13" width="8" height="8" rx="1" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>'),
+    relEdit: s('<rect x="2" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="13" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><path d="M9 7.5h4" stroke="' + K + '" stroke-width="1.3"/>' + pencil),
+    clearLayout: s('<rect x="2" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="11" y="4" width="7" height="7" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/>' + xmark),
+    relReport: s('<rect x="4" y="2.5" width="14" height="19" rx="1" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><rect x="6.5" y="6" width="4" height="4" fill="#e8f0fb" stroke="' + B + '" stroke-width="1"/><rect x="12" y="12" width="4" height="4" fill="#e8f0fb" stroke="' + B + '" stroke-width="1"/><path d="M10.5 8h3v4" stroke="' + K + '" stroke-width="1"/>'),
+    showTable: s(grid(B, 2, 3, 15, 13) + plus(G)),
+    hideTable: s(grid(B, 2, 3, 15, 13) + xmark),
+    relDirect: s('<rect x="2" y="8" width="7" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><rect x="15" y="8" width="7" height="8" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.2"/><path d="M9 12h6" stroke="' + K + '" stroke-width="1.6"/>'),
+    relAll: s('<rect x="2" y="3" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><rect x="16" y="3" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><rect x="2" y="15" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><rect x="16" y="15" width="6" height="6" rx="1" fill="#e8f0fb" stroke="' + B + '" stroke-width="1.1"/><path d="M8 6h8M5 9v6M19 9v6M8 18h8" stroke="' + K + '" stroke-width="1.1"/>'),
+    closeX: s('<rect x="3" y="3" width="18" height="18" rx="2" fill="#fbe9ea" stroke="' + R + '" stroke-width="1.4"/><path d="M8 8l8 8M16 8l-8 8" stroke="' + R + '" stroke-width="2"/>'),
+    run: s('<path d="M7 2.5l3.4 9.5H7.2l3.6 9.5" stroke="' + R + '" stroke-width="2.6"/><path d="M7 2.5l3.4 9.5H7.2l3.6 9.5" stroke="#ff6b5b" stroke-width="1"/>'),
+    qSelect: s(grid(O, 3, 4, 18, 16)),
+    qMake: s(grid(O, 2, 3, 14, 12) + '<path d="M14 18h7" stroke="' + K + '" stroke-width="1.4"/><path d="M18.5 15.5l2.5 2.5-2.5 2.5" stroke="' + K + '" stroke-width="1.4"/>'),
+    qAppend: s(grid(O, 2, 3, 14, 12) + plus(O)),
+    qUpdate: s(grid(O, 2, 3, 14, 12) + pencil),
+    qCross: s(grid(P, 3, 4, 18, 16)),
+    qDelete: s(grid(O, 2, 3, 14, 12) + xmark),
+    totals: s('<path d="M18 4H6l6.5 8L6 20h12" stroke="' + K + '" stroke-width="1.8"/>'),
+    insCol: s('<rect x="3" y="3" width="6" height="18" fill="#fff" stroke="' + K + '" stroke-width="1.1"/><rect x="11" y="3" width="6" height="18" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>' + plus(G)),
+    delCol: s('<rect x="3" y="3" width="6" height="18" fill="#fff" stroke="' + K + '" stroke-width="1.1"/><rect x="11" y="3" width="6" height="18" fill="#fff4dc" stroke="' + O + '" stroke-width="1.2"/>' + xmark),
+    printer: s('<rect x="6" y="2.5" width="12" height="6" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><rect x="2.5" y="8.5" width="19" height="9" rx="1.5" fill="#e9edf2" stroke="' + K + '" stroke-width="1.3"/><rect x="6" y="14" width="12" height="7.5" fill="#fff" stroke="' + K + '" stroke-width="1.2"/><path d="M8.5 17h7M8.5 19.3h5" stroke="' + B + '" stroke-width="1"/><circle cx="18.3" cy="11.3" r=".9" fill="' + G + '"/>'),
+    navReport: s('<path d="M5 2.5h10l4 4V21.5H5z" fill="#fff" stroke="' + P + '" stroke-width="1.5"/><path d="M15 2.5v4h4" stroke="' + P + '" stroke-width="1.2"/><path d="M8 11h8M8 14h8M8 17h5" stroke="' + P + '" stroke-width="1.3"/><rect x="8" y="8" width="4" height="1.6" fill="' + P + '"/>'),
+    navQuery: s('<rect x="3" y="5" width="18" height="14" rx="1" fill="#fff" stroke="' + O + '" stroke-width="1.6"/><rect x="3" y="5" width="18" height="4" fill="' + O + '"/><path d="M3 14h18M9 9v10M15 9v10" stroke="' + O + '" stroke-width="1.2"/>')
+  };
+})();
+
+AX.REPORT_CSS = "/* ===== 報告(畫面、下載檔、列印共用;盡量一頁 A4) ===== */\n.rp{font-family:\"Microsoft JhengHei\",\"PingFang TC\",\"Noto Sans TC\",sans-serif;color:#1f2328;font-size:12.5px;line-height:1.45}\n.rp-head{display:flex;gap:16px;align-items:stretch;border-bottom:3px solid #1d3557;padding-bottom:10px;margin-bottom:4px}\n.rp-tl{flex:1;min-width:0}\n.rp-kicker{font-size:11px;letter-spacing:1px;color:#a4373a;font-weight:700}\n.rp h1{margin:2px 0 8px;font-size:18px;color:#1d3557;line-height:1.3}\n.rp-info{border-collapse:collapse;font-size:12px;width:100%}\n.rp-info th{text-align:left;color:#5f6670;font-weight:400;padding:1px 6px 1px 0;white-space:nowrap;width:1%}\n.rp-info td{padding:1px 14px 1px 0;font-weight:700}\n.rp-score{flex:none;width:160px;border:2.5px solid #1d3557;border-radius:10px;background:#f2f6fb;text-align:center;padding:8px 6px;display:flex;flex-direction:column;justify-content:center}\n.rp-score .l{font-size:11px;letter-spacing:2px;color:#1d3557}\n.rp-score .s{font-size:38px;font-weight:800;color:#1d3557;line-height:1.1}\n.rp-score .s span{font-size:16px;font-weight:400;color:#5f6670}\n.rp-score .p{font-size:12.5px;border-top:1px solid #a9bcd0;margin-top:4px;padding-top:3px;font-weight:700}\n.rp h2{font-size:13.5px;color:#1d3557;margin:12px 0 4px;padding-left:7px;border-left:4px solid #a4373a}\n.rp-t{border-collapse:collapse;width:100%;font-size:11.8px}\n.rp-t th,.rp-t td{border:1px solid #c8ced6;padding:2.5px 6px;vertical-align:top}\n.rp-t thead th{background:#e8edf3;text-align:left}\n.rp-t .c{text-align:center;white-space:nowrap}\n.rp-t tr.ok .y{color:#0a7a3f}\n.rp-t tr.bad .y,.rp-t tr.bad td.c{color:#b42318}\n.rp-t tr.part .y,.rp-t tr.part td.c{color:#9a6200}\n.rp-t tr.bad{background:#fff6f5}\n.rp-t tr.part{background:#fffaf0}\n.rp-t tfoot td{background:#f5f7fa}\n.rp-t tfoot tr.tot td{font-weight:800;background:#e8edf3;font-size:12.5px}\n.rp-fix{margin:4px 0 0;padding-left:20px;font-size:12.3px}\n.rp-fix li{margin-bottom:4px}\n.rp-fix li.note{color:#6b4c00}\n.rp-fix .why{color:#3a4a5c;background:#f2f6fb;border-radius:4px;padding:2px 7px;margin-top:2px}\n.rp-allok{color:#0a7a3f;font-weight:700;margin:4px 0}\n.rp-mini{border-collapse:collapse;font-size:11.3px;width:100%}\n.rp-mini th,.rp-mini td{border:1px solid #c8ced6;padding:2px 5px;text-align:center}\n.rp-mini th{background:#e8edf3}\n.rp-foot{margin-top:12px;border-top:1px solid #c8ced6;padding-top:7px;font-size:11.5px;color:#444}\n.rp-code{font-family:Consolas,monospace;font-size:13px;letter-spacing:1px;color:#a4373a}\n.rp-sign{margin-top:12px;display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}\n.rp-sign span{display:inline-block;border-bottom:1px solid #777;flex:1;min-width:140px;height:16px;margin-right:12px}\n.rp-sign span.s{flex:0 0 110px;min-width:90px}\n.rp-log{margin-top:10px;font-size:11.5px;color:#555}\n.rp-log summary{cursor:pointer;color:#1d3557}\n.rp-log div{max-height:200px;overflow:auto;font-family:Consolas,monospace;margin-top:4px}\n@media print{@page{size:A4;margin:9mm 10mm}.rp-noprint{display:none}.rp{font-size:10.5px;line-height:1.3}\n.rp h1{font-size:16px;margin:1px 0 5px}.rp h2{font-size:12px;margin:7px 0 3px}.rp-score .s{font-size:30px}\n.rp-t{font-size:10.3px}.rp-t th,.rp-t td{padding:1.4px 5px}.rp-mini{font-size:10px}.rp-mini th,.rp-mini td{padding:1px 4px}\n.rp-fix{font-size:10.5px}.rp-fix li{margin-bottom:2px}.rp-foot{margin-top:7px;padding-top:5px}.rp-sign{margin-top:8px}\n.rp-head{padding-bottom:6px}.rp-info{font-size:11px}}\n";
+/* =====================================================================
+   互動實驗室外殼 — 給「網絡」「資訊處理」等非 Access 練習使用
+   與 Access 練習共用：開始畫面、步驟指引、兩級提示、扣分、自動保存、
+   簽署報告、老師驗證(Ctrl+Alt+T)、老師示範(Ctrl+Alt+D)。
+   中間的互動區由練習設定檔的 C.lab 提供：
+     C.lab.init()            → 初始的 S.lab
+     C.lab.mount(api)        → 開始時呼叫一次（可加事件）
+     C.lab.render(api)       → 每次重新繪畫
+   ===================================================================== */
+AX.bootLab = function (C) {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var E = AX.esc, I = AX.ICON, P = C.penalty, ASSESS = C.mode === 'assess';
+  var SAVEKEY = 'AXv2:' + C.id, SUBKEY = 'AXv2sub:' + C.id + ':';
+  var S = null;
+  var U = { prevDone: null, acc: 0, sess: Date.now(), saveT: null, lastErr: { k: '', t: 0 }, gOpen: false, open: {}, pops: {}, demoTimer: null };
+  var LOGO = C.logo || '⌘';
+
+  function newState() {
+    return {
+      v: 2, ex: C.id, phase: 'lab', db: null, tables: [], forms: [], lab: C.lab.init(),
+      ui: { viewStep: null }, flags: {}, hints: {}, errs: 0, errList: [], log: [],
+      info: null, startISO: null, elapsed: 0, submits: 0, done: false, demo: false, lastReport: null
+    };
+  }
+  function nowStr() { return new Date().toLocaleTimeString('zh-HK', { hour12: false }); }
+  function log(t) { S.log.push(nowStr() + ' ' + t); if (S.log.length > 400) S.log.shift(); }
+  function elapsed() { return S.done ? S.elapsed : U.acc + (Date.now() - U.sess); }
+  function persist() { if (!S || !S.info || S.demo) return; S.elapsed = elapsed(); try { localStorage.setItem(SAVEKEY, JSON.stringify(S)); } catch (e) { } }
+  function saveLater() { clearTimeout(U.saveT); U.saveT = setTimeout(persist, 350); }
+  function loadSaved() { try { var s = localStorage.getItem(SAVEKEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+  function clearSaved() { try { localStorage.removeItem(SAVEKEY); } catch (e) { } }
+
+  /* ================= 頁面骨架 ================= */
+  document.title = C.title + ' — 互動練習';
+  document.body.classList.add('labpage');
+  if (ASSESS) document.body.classList.add('assess');
+  document.body.innerHTML =
+    '<header id="hdr"><div class="logo labl">' + LOGO + '</div><div class="ttl">' + E(C.title) + '<small>' + E(C.subtitle || '') + '</small></div><span class="sp"></span>' +
+    '<span class="chip" id="hwho"></span><span class="chip" id="htime">⏱ 00:00</span><span class="chip" id="hprog"></span><span class="chip" id="hded"></span>' +
+    '<button class="hb" data-act="reset">↺ 重新開始</button><button class="hb pri" data-act="finish" id="bfin">✅ 完成並產生報告</button></header>' +
+    '<div id="wrap"><section id="left"><div id="labwin"><div id="lab"></div><div id="labstatus"><span id="stmsg"></span></div></div></section><aside id="guide"></aside></div>' +
+    '<div id="cover" class="cover"></div><div id="layer"></div><div id="ctx"></div>' +
+    '<div id="toast"></div><div id="rptOverlay"><div id="rptCard"></div></div>';
+
+  /* ================= 小工具 ================= */
+  function toast(t, c) {
+    var box = $('#toast'), d = document.createElement('div'); d.className = c || ''; d.textContent = t; box.appendChild(d); while (box.children.length > 3) box.removeChild(box.firstChild);
+    setTimeout(function () { d.style.transition = '.4s'; d.style.opacity = '0'; setTimeout(function () { d.remove(); }, 420); }, 2800);
+  }
+  function setStatus(t) { var e = $('#stmsg'); if (e) e.textContent = t; }
+  function layer() { return $('#layer'); }
+  function closeLayer() { layer().style.display = 'none'; layer().innerHTML = ''; }
+  function dlg(title, body, btns, opt) {
+    opt = opt || {};
+    var L = layer();
+    L.innerHTML = '<div class="dlg" style="' + (opt.w ? 'width:' + opt.w : '') + '"><div class="dh"><span>' + E(title) + '</span><button class="x" data-dx="x">✕</button></div>' +
+      '<div class="db">' + body + '</div><div class="df">' +
+      btns.map(function (b, i) { return '<button data-dx="' + i + '" class="' + (b.pri ? 'pri' : '') + '">' + E(b.l) + '</button>'; }).join('') + '</div></div>';
+    L.style.display = 'flex';
+    $$('[data-dx]', L).forEach(function (b) {
+      b.onclick = function () {
+        var k = b.getAttribute('data-dx');
+        if (k === 'x') { closeLayer(); if (opt.onX) opt.onX(); return; }
+        var B = btns[+k];
+        if (B.check && !B.check()) return;
+        closeLayer(); if (B.fn) B.fn();
+      };
+    });
+    var f = $('input[type=text]', L) || $('.df button.pri', L);
+    if (f && !opt.noFocus) { f.focus(); if (f.select) f.select(); }
+    return L;
+  }
+  function msg(t, after) { dlg(C.appName || '提示', '<div class="warnic">!</div>' + t, [{ l: '確定', pri: 1, fn: after }]); }
+  function inputbox(title, label, val, cb) {
+    dlg(title, '<div style="margin-bottom:6px">' + E(label) + '</div><input type="text" id="dlgin" value="' + E(val) + '">',
+      [{ l: '確定', pri: 1, fn: function () { cb(U._in); }, check: function () { U._in = $('#dlgin').value; return true; } }, { l: '取消' }]);
+    $('#dlgin').onkeydown = function (e) { if (e.key === 'Enter' && !e.isComposing) { $('.df button.pri', layer()).click(); } };
+  }
+  function err(key, m) {
+    if (!S || S.demo) { toast('✘ ' + m, 'bad'); return; }
+    var now = Date.now();
+    if (U.lastErr.k === key && now - U.lastErr.t < 1500) { U.lastErr.t = now; toast('✘ ' + m, 'bad'); return; }
+    U.lastErr = { k: key, t: now };
+    S.errs++; S.errList.push(nowStr() + ' ' + m); log('誤操作：' + m);
+    toast('✘ ' + m + '(誤操作，扣 ' + P.err + ' 分)', 'bad'); setStatus('⚠ ' + m);
+    lightRefresh();
+  }
+  function locked() { return S && S.done && ASSESS; }
+
+  /* ================= 頂欄 / 指引 ================= */
+  function stepsDone() { return C.steps.map(function (s) { try { return !!s.check(S, AX); } catch (e) { return false; } }); }
+  function renderHeader() {
+    if (!S || !S.info) return;
+    $('#hwho').textContent = (S.demo ? '🎬 示範模式 ' : '') + S.info.cls + ' ' + S.info.sid + ' ' + S.info.name;
+    $('#hwho').className = 'chip' + (S.demo ? ' demo-badge' : '');
+    var d = stepsDone(), n = d.filter(Boolean).length, hs = AX.hintStats(C, S.hints);
+    $('#hprog').innerHTML = '進度 <b>' + n + '</b> / ' + C.steps.length;
+    $('#hded').innerHTML = '提示 −' + Math.min(hs.raw, P.hintMax) + ' ｜ 誤操作 −' + Math.min(S.errs * P.err, P.errMax);
+    $('#bfin').textContent = '✅ 完成並產生報告';
+  }
+  function checkProgress() {
+    var d = stepsDone();
+    if (U.prevDone) {
+      d.forEach(function (v, i) {
+        if (v && !U.prevDone[i]) {
+          U.pops[i] = 1;
+          toast('✔ ' + (S.demo ? '' : '完成步驟 ' + (i + 1) + '：') + C.steps[i].title, 'ok');
+          if (S.ui.viewStep === i) S.ui.viewStep = null;
+          log('完成步驟 ' + (i + 1));
+        }
+      });
+      if (d.every(Boolean) && !U.prevDone.every(Boolean)) toast('🎉 全部步驟完成！請按右上角「完成並產生報告」', 'ok');
+    }
+    U.prevDone = d; return d;
+  }
+  function hintBlock(i) {
+    var s = C.steps[i], lv = S.hints[s.id] || 0, h = '<div class="hintbar">';
+    h += '<button data-act="hint" data-arg="' + i + ':1"' + (lv >= 1 ? ' disabled' : '') + '>💡 提示一' + (lv >= 1 ? '（已看）' : '(扣 ' + P.hint1 + ' 分)') + '</button>';
+    h += '<button data-act="hint" data-arg="' + i + ':2"' + (lv >= 2 || lv < 1 ? ' disabled' : '') + '>💡💡 提示二' + (lv >= 2 ? '（已看）' : '(再扣 ' + P.hint2 + ' 分)') + '</button></div>';
+    if (lv >= 1) h += '<div class="hintbox"><span class="lv">提示一</span>' + s.h1 + '</div>';
+    if (lv >= 2) h += '<div class="hintbox"><span class="lv">提示二（詳細做法）</span>' + s.h2 + '</div>';
+    return h;
+  }
+  function renderGuide() {
+    if (!S || !S.info) { $('#guide').innerHTML = ''; return; }
+    var d = U.prevDone || stepsDone(), N = C.steps.length, n = d.filter(Boolean).length, cur = d.indexOf(false);
+    var v = S.ui.viewStep != null ? S.ui.viewStep : cur, h = '<div class="gwide"><div class="gcard gcur">';
+    h += '<div class="gprog"><div class="bar"><i style="width:' + Math.round(n / N * 100) + '%"></i></div><span class="t">' + n + ' / ' + N + ' 步</span></div>';
+    if (v === -1 || v == null) {
+      h += '<div class="alldone"><div class="big">🎉</div><b>全部 ' + N + ' 步已完成！</b><div class="d">請檢查一次，然後按右上角<strong>「完成並產生報告」</strong>，下載報告檔交給老師。</div></div>';
+    } else {
+      var s = C.steps[v];
+      h += '<div class="k"><span>步驟 ' + (v + 1) + ' / ' + N + (d[v] ? ' · ✔ 已完成' : '') + '</span>' + (s.m ? '<span>' + s.m + ' 分</span>' : '') + '</div>' +
+        '<div class="h">' + E(s.title) + '</div><div class="d">' + (s.detail || '') + '</div>' + (s.ref ? '<div class="sref">' + s.ref(S, AX) + '</div>' : '') + hintBlock(v);
+      if (S.ui.viewStep != null && v !== cur) h += '<div style="margin-top:8px"><button class="gtoggle" style="display:block" data-act="vstep" data-arg="-1">↩ 回到目前步驟</button></div>';
+    }
+    h += '</div><div class="gcard gfull"><h4>全部步驟</h4><ul class="slist">';
+    C.steps.forEach(function (s, i) {
+      var cls = d[i] ? 'ok' : i === cur ? 'cur' : '';
+      if (S.ui.viewStep === i) cls += ' view';
+      if (U.pops[i]) cls += ' pop';
+      h += '<li class="' + cls + '" data-act="vstep" data-arg="' + i + '"><span class="st">' + (d[i] ? '✔' : i + 1) + '</span><span class="tl" title="' + E(s.title) + '">' + E(s.title) + '</span></li>';
+    });
+    U.pops = {};
+    h += '</ul></div></div>';
+    h += '<button class="gtoggle" data-act="gtoggle">' + (U.gOpen ? '收起步驟清單及資料 ▴' : '顯示全部步驟清單及資料 ▾') + '</button>';
+    h += '<div class="gfull">' + (C.ref ? '<div class="gcard">' + C.ref(S, AX) + '</div>' : '');
+    var hs = AX.hintStats(C, S.hints);
+    h += '<div class="gcard"><div class="stats"><div><b>' + (hs.n1 + hs.n2) + '</b>提示(−' + Math.min(hs.raw, P.hintMax) + ')</div><div><b>' + S.errs + '</b>誤操作(−' + Math.min(S.errs * P.err, P.errMax) + ')</div><div><b>' + n + '</b>已完成</div></div></div>';
+    h += '<div class="gcard"><details data-k="log"' + (U.open.log ? ' open' : '') + '><summary>🖥 操作紀錄</summary><div id="log">' + S.log.slice(-60).reverse().map(E).join('<br>') + '</div></details></div></div>';
+    var g = $('#guide'); g.innerHTML = h; g.classList.toggle('open', U.gOpen);
+  }
+  document.addEventListener('toggle', function (e) { var k = e.target.getAttribute && e.target.getAttribute('data-k'); if (k) U.open[k] = e.target.open; }, true);
+
+  /* ================= 互動區介面（給練習設定檔使用） ================= */
+  var API = {
+    get S() { return S; }, get lab() { return S && S.lab; }, el: function () { return $('#lab'); },
+    $: $, $$: $$, E: E, I: I, AX: AX, C: C,
+    err: err, log: function (t) { log(t); }, toast: toast, msg: msg, dlg: dlg, inputbox: inputbox, closeLayer: closeLayer, status: setStatus,
+    refresh: function () { lightRefresh(); }, render: function () { render(); }, locked: locked,
+    get demo() { return !!(S && S.demo); }
+  };
+  function renderLab() { if (S) C.lab.render(API); }
+  function render() {
+    if (!S) return;
+    checkProgress(); renderHeader(); renderLab(); renderGuide(); saveLater();
+  }
+  function lightRefresh() { checkProgress(); renderHeader(); renderGuide(); saveLater(); }
+
+  /* ================= 事件 ================= */
+  document.addEventListener('click', function (e) {
+    var c = $('#ctx'); if (c.style.display === 'block' && !e.target.closest('#ctx')) c.style.display = 'none';
+    var t = e.target.closest('[data-act]'); if (!t) return;
+    var a = t.getAttribute('data-act'), g = t.getAttribute('data-arg');
+    if (a === 'reset') { resetAsk(); return; }
+    if (a === 'finish') { finish(); return; }
+    if (a === 'start') { startRun(); return; }
+    if (a === 'resume') { resumeRun(); return; }
+    if (a === 'discard') { dlg('放棄進度', '確定要放棄上次的進度並重新開始嗎？', [{ l: '確定', pri: 1, fn: function () { clearSaved(); showCover(); } }, { l: '取消' }]); return; }
+    if (a === 'gtoggle') { U.gOpen = !U.gOpen; renderGuide(); return; }
+    if (a === 'vstep') { S.ui.viewStep = +g < 0 ? null : +g; renderGuide(); return; }
+    if (a === 'hint') { useHint(g); return; }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey && e.altKey && (e.key === 't' || e.key === 'T')) { e.preventDefault(); teacherTool(); return; }
+    if (e.ctrlKey && e.altKey && (e.key === 'd' || e.key === 'D')) { e.preventDefault(); demoPrompt(); return; }
+  });
+  function useHint(g) {
+    if (!S || !S.info || locked()) return;
+    var p = g.split(':'), i = +p[0], lv = +p[1], s = C.steps[i], cur = S.hints[s.id] || 0;
+    if (lv <= cur || (lv === 2 && cur < 1)) return;
+    S.hints[s.id] = lv; S.ui.viewStep = i;
+    log('使用' + (lv === 1 ? '提示一' : '提示二') + '(步驟 ' + (i + 1) + ')');
+    toast('已打開提示' + (lv === 1 ? '一' : '二') + '，扣 ' + (lv === 1 ? P.hint1 : P.hint2) + ' 分', 'warn');
+    lightRefresh();
+  }
+
+  /* ================= 開始 / 續做 / 重設 ================= */
+  function rulesHTML() {
+    return '<b>提示</b>分兩級：「提示一」扣 ' + P.hint1 + ' 分，「提示二」（詳細做法）再扣 ' + P.hint2 + ' 分；同一步每級只扣一次，最多共扣 ' + P.hintMax + ' 分。<br>' +
+      '<b>誤操作</b>（例如接駁明顯錯誤的設備）每次扣 ' + P.err + ' 分，最多扣 ' + P.errMax + ' 分；1.5 秒內重複同一個錯誤只計一次。<br>' +
+      '<b>自動保存</b>：進度會保存在這部電腦的瀏覽器，不小心關閉網頁，重新打開可以繼續。<br>' +
+      '完成後按右上角<b>「完成並產生報告」</b>，下載報告檔(.html)上傳給老師。提交後仍可返回修改再提交，報告會記錄提交次數。';
+  }
+  function showCover() {
+    var sv = loadSaved(), cv = $('#cover'), res = '';
+    if (sv && sv.info && sv.v === 2 && sv.lab) {
+      var tmpS = S; S = sv; var dn = stepsDone().filter(Boolean).length; S = tmpS;
+      res = '<div class="resume">💾 發現未完成的進度：<b>' + E(sv.info.cls + ' ' + sv.info.sid + ' ' + sv.info.name) + '</b>，已用時 ' + AX.clock(sv.elapsed / 1000) + '，完成 ' + dn + ' / ' + C.steps.length + ' 步。' +
+        '<div class="bt"><button class="y" data-act="resume">▶ 繼續上次的進度</button><button class="n" data-act="discard">放棄，重新開始</button></div></div>';
+    }
+    cv.innerHTML = '<div class="card"><div class="ch"><div class="logo labl">' + LOGO + '</div><div><h1>' + E(C.title) + '</h1><p>' + E(C.subtitle || '') + '</p></div></div><div class="cb">' + res +
+      '<div class="cols"><div><h3>學習目標</h3><ul>' + C.objectives.map(function (o) { return '<li>' + o + '</li>'; }).join('') + '</ul>' +
+      '<h3>你要做的事</h3><ul>' + C.intro.map(function (o) { return '<li>' + o + '</li>'; }).join('') + '</ul></div>' +
+      '<div><div class="meta"><span>⏱ 預計 ' + E(C.time) + '</span><span>🎯 滿分 ' + C.full + ' 分</span><span>📋 ' + C.steps.length + ' 個步驟</span></div>' +
+      '<h3>規則</h3><div class="rules">' + rulesHTML() + '</div></div></div>' +
+      '<div class="form"><div><label for="iCls">班別 *</label><input type="text" id="iCls" placeholder="例：3A" maxlength="4" autocomplete="off"></div>' +
+      '<div><label for="iSid">班號 *</label><input type="text" id="iSid" placeholder="例：12" maxlength="3" inputmode="numeric" autocomplete="off"></div>' +
+      '<div><label for="iNm">姓名 *</label><input type="text" id="iNm" placeholder="例：陳大文" maxlength="20" autocomplete="off"></div></div>' +
+      '<div class="err" id="cerr"></div><button class="go" data-act="start">▶ 開始練習</button></div></div>';
+    cv.style.display = 'flex';
+    $('#iNm').onkeydown = function (e) { if (e.key === 'Enter' && !e.isComposing) startRun(); };
+  }
+  function startRun() {
+    var c = $('#iCls').value.trim().toUpperCase(), s = $('#iSid').value.trim(), n = $('#iNm').value.trim();
+    if (!c || !s || !n) { $('#cerr').textContent = '請填寫班別、班號及姓名。'; return; }
+    var sv = loadSaved();
+    if (sv && sv.info && !sv.demo) {
+      dlg('覆蓋舊進度？', '這部電腦有 <b>' + E(sv.info.cls + ' ' + sv.info.sid + ' ' + sv.info.name) + '</b> 的進度。重新開始會清除它。確定嗎？',
+        [{ l: '確定重新開始', pri: 1, fn: function () { clearSaved(); begin(c, s, n); } }, { l: '取消' }]);
+      return;
+    }
+    begin(c, s, n);
+  }
+  function begin(c, s, n) {
+    S = newState(); S.info = { cls: c, sid: s, name: n }; S.startISO = new Date().toISOString();
+    U.acc = 0; U.sess = Date.now(); U.prevDone = null;
+    $('#cover').style.display = 'none';
+    log('開始練習'); setStatus(C.startMsg || '');
+    render(); persist();
+  }
+  function resumeRun() {
+    var sv = loadSaved(); if (!sv) { showCover(); return; }
+    S = sv; U.acc = S.elapsed || 0; U.sess = Date.now(); U.prevDone = null;
+    if (C.lab.upgrade) C.lab.upgrade(S.lab);
+    $('#cover').style.display = 'none';
+    log('繼續上次的進度'); setStatus('已載入上次的進度。'); render();
+  }
+  function resetAsk() {
+    if (!S || !S.info) return;
+    dlg('重新開始', '重新開始會<b>清除</b>所有已做的操作及進度，確定嗎？', [{ l: '確定', pri: 1, fn: function () { clearSaved(); S = null; closeLayer(); clearInterval(U.demoTimer); showCover(); $('#guide').innerHTML = ''; } }, { l: '取消' }]);
+  }
+
+  /* ================= 完成 / 報告 ================= */
+  function bumpSubmit() {
+    var k = SUBKEY + S.info.cls + '|' + S.info.sid + '|' + S.info.name, n = S.submits + 1;
+    try { n = Math.max(n, (+localStorage.getItem(k) || 0) + 1); localStorage.setItem(k, n); } catch (e) { }
+    S.submits = n;
+  }
+  function finish() {
+    if (!S || !S.info) return;
+    if (S.demo) { msg('示範模式不會產生成績報告。請按「重新開始」讓學生正式作答。'); return; }
+    closeLayer();
+    var d = stepsDone(), left = [];
+    d.forEach(function (v, i) { if (!v) left.push(i + 1); });
+    if (left.length) dlg('尚未完成', '仍有步驟未完成或未正確完成：<b>步驟 ' + left.join('、') + '</b>。<br><br>你可以先返回修改；如果現在提交，未完成的部分不會得分。',
+      [{ l: '返回修改', pri: 1 }, { l: '仍然提交', fn: submit }]);
+    else submit();
+  }
+  function submit() {
+    bumpSubmit(); S.elapsed = elapsed();
+    var ev = AX.evaluate(C, S), pl = AX.buildPayload(C, S, ev, new Date().toISOString());
+    S.lastReport = { data: pl.data, sig: pl.sig };
+    log('產生報告(第 ' + S.submits + ' 次提交，' + ev.final + ' / ' + ev.full + ')');
+    persist(); render(); showReport();
+  }
+  function reportDoc(inner, d) {
+    return '<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+      '<title>' + E(C.fileTag + ' 報告 - ' + d.cls + ' ' + d.sid + ' ' + d.name) + '</title><style>' + AX.REPORT_CSS +
+      'body{margin:24px auto;max-width:880px;padding:0 16px;background:#fff}</style></head><body>' + inner +
+      '<script type="application/json" id="axpayload">' + JSON.stringify(S.lastReport).replace(/</g, String.fromCharCode(92) + 'u003c') + '<\/script></body></html>';
+  }
+  function showReport() {
+    var R = S.lastReport; if (!R) return;
+    var d = JSON.parse(R.data), Sx = AX.clone(d.state); Sx.hints = d.hints; Sx.errs = d.errs;
+    var ev = AX.evaluate(C, Sx), code = AX.code(C.code, R.sig), inner = AX.reportInner(C, d, ev, code), doc = reportDoc(inner, d);
+    var fn = C.fileTag + '_' + d.cls + '_' + d.sid + '_' + d.name + '.html';
+    $('#rptCard').innerHTML = inner + '<div class="rbar"><button class="pri" id="rdl">⬇ 下載報告檔（交給老師）</button><button id="rpr">🖨 列印 / 另存 PDF</button>' +
+      '<button id="rbk">↩ 返回修改</button><span class="tip">請上傳 <b>' + E(fn) + '</b> 這個檔案</span></div>';
+    $('#rptOverlay').style.display = 'flex'; $('#rptOverlay').scrollTop = 0;
+    $('#rdl').onclick = function () {
+      var b = new Blob([doc], { type: 'text/html;charset=utf-8' }), a = document.createElement('a');
+      a.href = URL.createObjectURL(b); a.download = fn; document.body.appendChild(a); a.click(); a.remove();
+      log('下載報告檔'); saveLater();
+    };
+    $('#rpr').onclick = function () { window.print(); };
+    $('#rbk').onclick = function () { $('#rptOverlay').style.display = 'none'; };
+  }
+
+  /* ================= 老師工具(Ctrl+Alt+T) ================= */
+  function teacherTool() {
+    dlg('老師專用：報告驗證', '<div class="tdrop" id="tdrop">把學生的報告檔(.html)拖到這裏<br>或 <input type="file" id="tfile" accept=".html,.htm" multiple></div><div class="tres" id="tres"></div>' +
+      '<div style="font-size:12px;color:#666;margin-top:8px">提示：要一次批改全班，請使用 <b>teacher_dashboard.html</b>（老師匯總工具）。</div>', [{ l: '關閉', pri: 1 }], { w: 'min(620px,96vw)' });
+    var dz = $('#tdrop');
+    var handle = function (files) {
+      Array.prototype.forEach.call(files, function (f) {
+        var rd = new FileReader();
+        rd.onload = function () {
+          var p = AX.parseReportText(rd.result), h;
+          if (p.kind === 'cur') {
+            var r = AX.verifyReport(p.data, p.sig), d = r.d || {};
+            h = '<div class="r ' + (r.ok ? 'ok' : 'bad') + '"><b>' + (r.ok ? '✔ 報告真確' : '✘ 有問題') + '</b> — ' + E(f.name) + '<br>' + E((d.cls || '') + ' ' + (d.sid || '') + ' ' + (d.name || '')) + ' · ' + E(d.title || '') +
+              (r.ev ? '<br>重新評分：<b>' + r.ev.final + ' / ' + r.ev.full + '</b>(' + r.ev.pct + '%)' : '') + (r.warn.length ? '<br>⚠ ' + r.warn.map(E).join('<br>⚠ ') : '') + '</div>';
+          } else h = '<div class="r bad">✘ ' + E(f.name) + '：不是練習報告檔</div>';
+          $('#tres').insertAdjacentHTML('beforeend', h);
+        };
+        rd.readAsText(f);
+      });
+    };
+    $('#tfile').onchange = function () { handle(this.files); };
+    dz.ondragover = function (e) { e.preventDefault(); dz.classList.add('hov'); };
+    dz.ondragleave = function () { dz.classList.remove('hov'); };
+    dz.ondrop = function (e) { e.preventDefault(); dz.classList.remove('hov'); handle(e.dataTransfer.files); };
+  }
+
+  /* ================= 老師示範(Ctrl+Alt+D) ================= */
+  function demoPrompt() {
+    inputbox('老師示範模式', '請輸入老師密碼：', '', function (v) {
+      if (String(v) !== String(C.pin || AX.TEACHER_PIN)) { toast('密碼不正確', 'bad'); return; }
+      dlg('老師示範', '示範模式會自動完成全部步驟（每步約 1 秒），<b>不會產生成績</b>。開始嗎？', [{ l: '開始示範', pri: 1, fn: runDemo }, { l: '取消' }]);
+    });
+  }
+  function runDemo() {
+    clearInterval(U.demoTimer);
+    S = newState(); S.info = { cls: 'DEMO', sid: '0', name: '老師示範' }; S.demo = true; S.startISO = new Date().toISOString();
+    U.acc = 0; U.sess = Date.now(); U.prevDone = null; $('#cover').style.display = 'none'; $('#rptOverlay').style.display = 'none';
+    render();
+    var k = 0, list = C.lab.demo || [];
+    U.demoTimer = setInterval(function () {
+      if (!S || !S.demo) { clearInterval(U.demoTimer); return; }
+      if (k >= list.length) { clearInterval(U.demoTimer); toast('🎬 示範完成', 'ok'); return; }
+      try { list[k](API, AX); } catch (e) { console.error(e); }
+      k++; render();
+    }, C.demoSpeed || 1000);
+  }
+  AX.app = { api: API, get S() { return S; }, render: function () { render(); } };
+
+  /* ================= 計時 / 啟動 ================= */
+  setInterval(function () { if (S && S.info) $('#htime').textContent = '⏱ ' + AX.clock(elapsed() / 1000); }, 1000);
+  window.addEventListener('beforeunload', function () { persist(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) persist(); });
+  if (C.lab.mount) C.lab.mount(API);
+  S = null; showCover();
+  /* 背景：讓開始畫面後面顯示互動區 */
+  (function () { S = newState(); renderLab(); S = null; })();
+};
+if (!AX.TEACHER_PIN) AX.TEACHER_PIN = '0000';
+
+/* =====================================================================
+   網絡架設模擬器（單元二 電腦網絡與無線網絡）
+   - 純計算部分（AX.NET.analyze 等）亦供老師匯總工具重新評分使用
+   - AX.NET.lab(情境) 產生給 AX.bootLab 用的互動區
+   用語依課本：工作站、伺服器、網絡界面卡、雙扭線、光纖、微波、交換器、
+   路由器、數據機、無線網絡接達點、SSID、WEP / WPA / WPA2。
+   ===================================================================== */
+(function () {
+  var NET = AX.NET = {};
+
+  /* ---------- 設備 ---------- */
+  NET.TYPES = {
+    pc: { n: '桌上電腦', end: 1, ports: 1 },
+    laptop: { n: '筆記簿型電腦', end: 1, ports: 1 },
+    tablet: { n: '平板電腦', end: 1, ports: 0 },
+    server: { n: '伺服器', end: 1, ports: 1 },
+    printer: { n: '打印機', end: 1, ports: 1 },
+    camera: { n: '網絡攝錄機', end: 1, ports: 0 },
+    inet: { n: '互聯網', end: 1, ports: 1 },
+    switch: { n: '交換器', infra: 1, ports: 8, cost: 2, desc: '交換器用來連接區域網絡上的電腦和網絡裝置。它能把數據按 MAC 位址傳送給目的網絡裝置，因此能減少網絡的數據傳輸流量及提升網絡的效能。' },
+    router: { n: '路由器', infra: 1, ports: 5, cost: 3, router: 1, desc: '路由器是連接兩個或以上個別網絡的裝置，決定信息傳輸的路徑。路由器常見的用途是連接區域網絡至互聯網。' },
+    modem: { n: '數據機', infra: 1, ports: 2, cost: 1, desc: '數據機（調制解調器）負責把電腦輸出的數碼信號轉化為可透過電話線傳遞的模擬信號（調制），以及把模擬信號轉回數碼信號（解調）。寬頻上網要經數據機連接互聯網。' },
+    ap: { n: '無線網絡接達點', infra: 1, ports: 1, cost: 2, hub: 1, desc: '無線網絡接達點是一種通訊設備，用來連繫有線和無線網絡，可以透過收發無線信號與筆記簿型電腦、平板電腦等流動設備通訊。' },
+    wrouter: { n: '無線網絡路由器', infra: 1, ports: 5, cost: 3, hub: 1, router: 1, desc: '無線網絡路由器同時有路由器、交換器（4 個網絡插口）及無線網絡接達點的功能，最適合規模細小的 SOHO 網絡。' },
+    repeater: { n: '無線中繼站', infra: 1, ports: 0, cost: 1, rep: 1, desc: '無線中繼站負責接收並轉發無線網絡訊號，以增加訊號的覆蓋範圍。它本身不用接網線。' },
+    nic: { n: '網絡界面卡', item: 1, cost: 0.5, desc: '網絡界面卡是把電腦連接至網絡所需要的硬件。每一張網絡界面卡都有一個獨一無二的 MAC 位址，用來識別網上的電腦。' }
+  };
+  /* ---------- 傳輸媒介（課本表 2.1、表 2.2） ---------- */
+  NET.CABLES = {
+    cat5: { n: '雙扭線 Cat 5', tp: 1, spd: 0.1, dist: 100, cost: 1, sp: '100 Mbps', ds: '100 m' },
+    cat5e: { n: '雙扭線 Cat 5e', tp: 1, spd: 1, dist: 100, cost: 1.5, sp: '1000 Mbps', ds: '100 m' },
+    cat6: { n: '雙扭線 Cat 6', tp: 1, spd: 10, dist: 55, cost: 2, sp: '10 Gbps', ds: '37–55 m' },
+    cat6a: { n: '雙扭線 Cat 6A', tp: 1, spd: 10, dist: 100, cost: 3, sp: '10 Gbps', ds: '100 m' },
+    cat7: { n: '雙扭線 Cat 7', tp: 1, spd: 10, dist: 100, cost: 4, sp: '10 Gbps', ds: '100 m' },
+    fiber: { n: '光纖', spd: 100, dist: 2000, cost: 12, sp: '非常快', ds: '數公里', note: '不受電磁波干擾；價格昂貴、安裝困難' },
+    microwave: { n: '微波', bad: 1, sp: '—', ds: '數十公里', note: '用於地面基站、人造衛星等遠距離通訊' },
+    broadband: { n: '寬頻線路', spd: 100, dist: 99999, cost: 0, sp: '—', ds: '—' }
+  };
+  NET.CABLE_ORDER = ['cat5', 'cat5e', 'cat6', 'cat6a', 'cat7', 'fiber', 'microwave'];
+  NET.spdTxt = function (g) { return g >= 1 ? g + ' Gbps' : (g * 1000) + ' Mbps'; };
+
+  /* ---------- 純計算 ---------- */
+  NET.dev = function (lab, id) { for (var i = 0; i < lab.devs.length; i++) if (lab.devs[i].id === id) return lab.devs[i]; return null; };
+  NET.T = function (d) { return NET.TYPES[d.type] || {}; };
+  NET.zone = function (scen, id) { for (var i = 0; i < scen.zones.length; i++) if (scen.zones[i].id === id) return scen.zones[i]; return null; };
+  NET.zoneAt = function (scen, x, y) { for (var i = 0; i < scen.zones.length; i++) { var z = scen.zones[i]; if (x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h) return z.id; } return null; };
+  NET.dist = function (scen, a, b) { if (a === b) return scen.sameZone || 5; var k = [a, b].sort().join('|'); return scen.dist[k] != null ? scen.dist[k] : 999; };
+  NET.zname = function (scen, id) { var z = NET.zone(scen, id); return z ? z.n : id; };
+  NET.linksOf = function (lab, id) { return lab.links.filter(function (l) { return l.a === id || l.b === id; }); };
+  NET.other = function (l, id) { return l.a === id ? l.b : l.a; };
+  NET.needSpeed = function (scen, lab, l) { var a = NET.dev(lab, l.a), b = NET.dev(lab, l.b); return scen.speed ? scen.speed(a, b) : 1; };
+  /* 一條線是否合適 */
+  NET.linkCheck = function (scen, lab, l) {
+    var a = NET.dev(lab, l.a), b = NET.dev(lab, l.b), c = NET.CABLES[l.cable] || {};
+    if (!a || !b) return { ok: false, why: '設備不存在' };
+    var d = NET.dist(scen, a.zone, b.zone), need = NET.needSpeed(scen, lab, l), r = { ok: true, why: '', d: d, need: need };
+    if (l.cable === 'broadband') return r;
+    var noNic = [a, b].filter(function (x) { return x.needNic && !x.nic; })[0];
+    if (noNic) return { ok: false, why: '「' + noNic.name + '」沒有網絡界面卡，不能連接網絡。', d: d, need: need };
+    var iz = (scen.interfere || []).filter(function (z) { return z === a.zone || z === b.zone; })[0];
+    if (c.tp && iz) return { ok: false, why: '「' + NET.zname(scen, iz) + '」有大型機器，' + c.n + '會受電磁干擾，數據傳送不穩定。', d: d, need: need };
+    if (d > c.dist) return { ok: false, why: c.n + '的傳輸距離只有 ' + c.ds + '，但這條線長約 ' + d + ' 米。', d: d, need: need };
+    if (c.spd < need) return { ok: false, why: c.n + '的傳輸速度只有 ' + c.sp + '，這條線要達到 ' + NET.spdTxt(need) + '。', d: d, need: need };
+    return r;
+  };
+  NET.covers = function (scen, hubZone) { return [hubZone].concat((scen.adj && scen.adj[hubZone]) || []); };
+  NET.isHub = function (d) { return !!NET.T(d).hub; };
+  NET.isRep = function (d) { return !!NET.T(d).rep; };
+  NET.wifiCfg = function (lab, id) { return (lab.wifi || {})[id] || null; };
+  NET.wifiOk = function (cfg) { return !!(cfg && String(cfg.ssid || '').trim()); };
+  NET.strongPwd = function (p) { p = String(p || ''); return p.length >= 8 && /[A-Za-z]/.test(p) && /\d/.test(p); };
+  /* 所有連線（有線 + 無線） */
+  NET.edges = function (scen, lab) {
+    var E = [];
+    lab.links.forEach(function (l) { var c = NET.linkCheck(scen, lab, l); E.push({ a: l.a, b: l.b, ok: c.ok, why: c.why, link: l.id }); });
+    var hubs = lab.devs.filter(NET.isHub), reps = lab.devs.filter(NET.isRep);
+    /* 中繼站：在某無線網絡接達點 / 無線網絡路由器的覆蓋範圍內便可轉發 */
+    var repParent = {};
+    reps.forEach(function (r) {
+      var h = hubs.filter(function (h) { return NET.covers(scen, h.zone).indexOf(r.zone) >= 0; })[0];
+      if (h) { repParent[r.id] = h.id; var cfg = NET.wifiCfg(lab, h.id); E.push({ a: r.id, b: h.id, ok: NET.wifiOk(cfg), why: NET.wifiOk(cfg) ? '' : '「' + h.name + '」未設定無線網絡（SSID）。', wl: 1 }); }
+    });
+    lab.devs.filter(function (d) { return d.wl; }).forEach(function (d) {
+      var src = hubs.concat(reps.filter(function (r) { return repParent[r.id]; })).filter(function (h) { return NET.covers(scen, h.zone).indexOf(d.zone) >= 0; });
+      src.forEach(function (h) {
+        var hubId = NET.isRep(h) ? repParent[h.id] : h.id, cfg = NET.wifiCfg(lab, hubId);
+        E.push({ a: d.id, b: h.id, ok: NET.wifiOk(cfg), why: NET.wifiOk(cfg) ? '' : '無線網絡未設定 SSID，「' + d.name + '」找不到可連接的網絡。', wl: 1 });
+      });
+    });
+    return E;
+  };
+  NET.forwards = function (d) { return !!NET.T(d).infra; };
+  /* 由 src 找到 dst 的路徑 */
+  NET.route = function (scen, lab, E, src, dst) {
+    var adj = {}, add = function (x, y, e) { (adj[x] = adj[x] || []).push({ to: y, e: e }); };
+    E.forEach(function (e) { add(e.a, e.b, e); add(e.b, e.a, e); });
+    var bfs = function (okOnly) {
+      var prev = {}, q = [src], seen = {}; seen[src] = 1;
+      while (q.length) {
+        var x = q.shift(); if (x === dst) break;
+        var dx = NET.dev(lab, x);
+        if (x !== src && !NET.forwards(dx)) continue;
+        (adj[x] || []).forEach(function (n) { if (seen[n.to] || (okOnly && !n.e.ok)) return; seen[n.to] = 1; prev[n.to] = { from: x, e: n.e }; q.push(n.to); });
+      }
+      if (!seen[dst]) return null;
+      var path = [dst], es = [], c = dst; while (c !== src) { es.unshift(prev[c].e); c = prev[c].from; path.unshift(c); }
+      return { path: path, edges: es };
+    };
+    var good = bfs(true); if (good) return { ok: true, path: good.path };
+    var any = bfs(false);
+    if (any) { var bad = any.edges.filter(function (e) { return !e.ok; })[0]; return { ok: false, path: any.path, why: bad.why, at: bad }; }
+    var d = NET.dev(lab, src), hasLink = E.some(function (e) { return e.a === src || e.b === src; });
+    if (d.needNic && !d.nic) return { ok: false, path: [src], why: '「' + d.name + '」沒有網絡界面卡。' };
+    return { ok: false, path: [src], why: hasLink ? '未能連接到「' + NET.dev(lab, dst).name + '」。' : (d.wl ? '「' + d.name + '」不在任何無線網絡的覆蓋範圍內。' : '「' + d.name + '」還未接駁到網絡。') };
+  };
+  NET.cost = function (lab) {
+    var c = 0;
+    lab.devs.forEach(function (d) { if (!d.fixed) c += NET.T(d).cost || 0; if (d.needNic && d.nic) c += NET.TYPES.nic.cost; });
+    lab.links.forEach(function (l) { c += (NET.CABLES[l.cable] || {}).cost || 0; });
+    return Math.round(c * 10) / 10;
+  };
+  NET.secIssues = function (lab) {
+    var out = [];
+    lab.devs.filter(NET.isHub).forEach(function (h) {
+      var c = NET.wifiCfg(lab, h.id);
+      if (!NET.wifiOk(c)) out.push('「' + h.name + '」未設定 SSID。');
+      else if (c.sec !== 'WPA2') out.push('「' + h.name + '」使用' + (c.sec === 'none' ? '「不加密」，任何人都可以連接' : '「' + c.sec + '」，保安能力較弱，應改用 WPA2') + '。');
+      else if (!NET.strongPwd(c.pwd)) out.push('「' + h.name + '」的密碼太簡單（最少 8 個字元，並要有英文字母和數字）。');
+    });
+    return out;
+  };
+  /* 全面分析：每部終端設備能否到達各目標 */
+  NET.analyze = function (scen, lab) {
+    var E = NET.edges(scen, lab), res = [];
+    lab.devs.filter(function (d) { return NET.T(d).end && d.type !== 'inet' && !d.deco; }).forEach(function (d) {
+      var tg = scen.targets(d).filter(function (t) { return t !== d.id; });
+      var r = { id: d.id, name: d.name, ok: true, to: {} };
+      tg.forEach(function (t) { var x = NET.route(scen, lab, E, d.id, t); r.to[t] = x; if (!x.ok) { r.ok = false; if (!r.why) r.why = x.why; } });
+      res.push(r);
+    });
+    var sec = NET.secIssues(lab);
+    return { edges: E, res: res, sec: sec, cost: NET.cost(lab), allOk: res.every(function (r) { return r.ok; }) && !sec.length };
+  };
+  NET.reach = function (scen, lab, from, to) { var E = NET.edges(scen, lab); return NET.route(scen, lab, E, from, to).ok; };
+  NET.uplinkOk = function (scen, lab, id) {
+    return NET.linksOf(lab, id).some(function (l) { var o = NET.dev(lab, NET.other(l, id)); return o && NET.T(o).infra && NET.linkCheck(scen, lab, l).ok; });
+  };
+  NET.byType = function (lab, type, zone) { return lab.devs.filter(function (d) { return d.type === type && (!zone || d.zone === zone); }); };
+  NET.linkBetween = function (lab, a, b) { return lab.links.filter(function (l) { return (l.a === a && l.b === b) || (l.a === b && l.b === a); })[0] || null; };
+
+  /* ---------- 操作（介面及示範共用） ---------- */
+  /* 回傳 { ok, err(扣分訊息) 或 warn(提示) } */
+  NET.canLink = function (scen, lab, aId, bId) {
+    var a = NET.dev(lab, aId), b = NET.dev(lab, bId); if (!a || !b || a === b) return { warn: '請選擇兩部不同的設備。' };
+    if (NET.linkBetween(lab, aId, bId)) return { warn: '這兩部設備之間已經有連線。' };
+    var A = NET.T(a), B = NET.T(b), pair = function (x, y) { return (a.type === x && b.type === y) || (a.type === y && b.type === x); };
+    var one = function (t) { return a.type === t ? a : b.type === t ? b : null; };
+    if (one('repeater')) return { warn: '無線中繼站不用接網線，它會自動接收附近無線網絡的訊號。' };
+    var w = [a, b].filter(function (x) { return x.wl && !NET.T(x).ports; })[0];
+    if (w) return { warn: '「' + w.name + '」沒有網線插口，要用無線網絡連接。' };
+    if (one('inet')) { var o = a.type === 'inet' ? b : a; if (o.type !== 'modem') return { err: '寬頻線路要先接到「數據機」，由數據機把模擬信號轉換為數碼信號，不能直接接到「' + o.name + '」。' }; }
+    if (one('modem')) { var o2 = a.type === 'modem' ? b : a; if (['inet', 'router', 'wrouter'].indexOf(o2.type) < 0) return { err: '數據機只需要連接互聯網線路及路由器；「' + o2.name + '」應經路由器才可以上網。' }; }
+    if (A.end && B.end) return { warn: '在這個網絡，「' + a.name + '」和「' + b.name + '」應各自接到交換器等網絡設備，才可以和其他設備互相通訊。' };
+    if (one('ap')) { var o3 = a.type === 'ap' ? b : a; if (['switch', 'router', 'wrouter'].indexOf(o3.type) < 0) return { err: '無線網絡接達點要用網線接到交換器或路由器，才可以把無線設備連到有線網絡。' }; }
+    var full = [a, b].filter(function (x) { var p = NET.T(x).ports; return p != null && NET.linksOf(lab, x.id).length >= p; })[0];
+    if (full) return { warn: '「' + full.name + '」已經沒有空的網絡插口（最多 ' + NET.T(full).ports + ' 個）。' };
+    return { ok: true, broadband: pair('inet', 'modem') };
+  };
+  NET.addLink = function (lab, a, b, cable) { lab.seq = (lab.seq || 0) + 1; var l = { id: 'L' + lab.seq, a: a, b: b, cable: cable }; lab.links.push(l); NET.dirty(lab); return l; };
+  NET.place = function (scen, lab, type, x, y) {
+    var z = NET.zoneAt(scen, x, y); if (!z) return null;
+    lab.seq = (lab.seq || 0) + 1;
+    var n = NET.byType(lab, type).length + 1, d = { id: type + lab.seq, type: type, name: NET.TYPES[type].n + (n > 1 ? ' ' + n : ''), zone: z, x: Math.round(x), y: Math.round(y) };
+    lab.devs.push(d); NET.dirty(lab); return d;
+  };
+  NET.remove = function (lab, id) {
+    lab.devs = lab.devs.filter(function (d) { return d.id !== id; });
+    lab.links = lab.links.filter(function (l) { return l.a !== id && l.b !== id; });
+    if (lab.wifi) delete lab.wifi[id]; NET.dirty(lab);
+  };
+  NET.dirty = function (lab) { if (lab.test) lab.test.ok = false; lab.test = lab.test || {}; lab.test.stale = true; };
+  NET.runTest = function (scen, lab) {
+    var a = NET.analyze(scen, lab);
+    lab.test = { ok: a.allOk, stale: false, n: (lab.test && lab.test.n || 0) + 1, res: a.res.map(function (r) { return { id: r.id, name: r.name, ok: r.ok, why: r.why || '' }; }), sec: a.sec };
+    return a;
+  };
+  NET.init = function (scen) {
+    return { devs: AX.clone(scen.devices).map(function (d) { d.fixed = 1; return d; }), links: [], wifi: {}, seq: 0, test: { ok: false, stale: true, n: 0, res: [], sec: [] }, quiz: { ans: {}, first: {} } };
+  };
+
+  /* ---------- 圖示 ---------- */
+  var K = '#41505f', B = '#2f6db5', G = '#2e8b57', O = '#d0761b';
+  function sv(inner) { return '<svg viewBox="0 0 40 40" aria-hidden="true">' + inner + '</svg>'; }
+  NET.ICON = {
+    pc: sv('<rect x="5" y="6" width="30" height="20" rx="2" fill="#e8f0fb" stroke="' + B + '" stroke-width="2"/><path d="M16 26v5h8v-5M11 33h18" stroke="' + K + '" stroke-width="2" fill="none"/>'),
+    laptop: sv('<rect x="8" y="9" width="24" height="16" rx="1.5" fill="#e8f0fb" stroke="' + B + '" stroke-width="2"/><path d="M4 29h32l-3 3H7z" fill="#cfd8e2" stroke="' + K + '" stroke-width="1.6"/>'),
+    tablet: sv('<rect x="11" y="5" width="18" height="30" rx="3" fill="#e8f0fb" stroke="' + B + '" stroke-width="2"/><circle cx="20" cy="31" r="1.4" fill="' + K + '"/>'),
+    server: sv('<rect x="11" y="4" width="18" height="32" rx="2" fill="#f2f4f7" stroke="' + K + '" stroke-width="2"/><path d="M14 11h12M14 16h12M14 21h12" stroke="' + K + '" stroke-width="1.6"/><circle cx="25" cy="30" r="1.8" fill="' + G + '"/>'),
+    printer: sv('<rect x="11" y="5" width="18" height="9" fill="#fff" stroke="' + K + '" stroke-width="1.8"/><rect x="5" y="14" width="30" height="13" rx="2" fill="#e9edf2" stroke="' + K + '" stroke-width="1.8"/><rect x="11" y="23" width="18" height="11" fill="#fff" stroke="' + K + '" stroke-width="1.8"/>'),
+    camera: sv('<rect x="6" y="12" width="20" height="14" rx="3" fill="#e9edf2" stroke="' + K + '" stroke-width="1.8"/><path d="M26 16l8-4v14l-8-4z" fill="#cfd8e2" stroke="' + K + '" stroke-width="1.6"/><circle cx="16" cy="19" r="4" fill="#fff" stroke="' + B + '" stroke-width="1.8"/>'),
+    inet: sv('<path d="M11 30a7 7 0 0 1 0-14 9 9 0 0 1 17-3 7 7 0 0 1 2 17z" fill="#e8f0fb" stroke="' + B + '" stroke-width="2"/>'),
+    switch: sv('<rect x="3" y="14" width="34" height="13" rx="2" fill="#34495e" stroke="#22303c" stroke-width="1.6"/><path d="M7 20h3M12 20h3M17 20h3M22 20h3M27 20h3" stroke="#9fe0b4" stroke-width="2.4"/>'),
+    router: sv('<ellipse cx="20" cy="22" rx="15" ry="8" fill="#2f6db5" stroke="#1d4f8a" stroke-width="1.6"/><path d="M13 20l4 2-4 2M27 20l-4 2 4 2M20 16v3M20 25v3" stroke="#fff" stroke-width="1.8" fill="none"/>'),
+    modem: sv('<rect x="12" y="6" width="16" height="28" rx="3" fill="#2b2f36" stroke="#111" stroke-width="1.6"/><path d="M16 12h8M16 16h8" stroke="#7fd3ff" stroke-width="1.8"/><circle cx="20" cy="27" r="2" fill="#7fd3ff"/>'),
+    ap: sv('<rect x="9" y="24" width="22" height="8" rx="2" fill="#e9edf2" stroke="' + K + '" stroke-width="1.8"/><path d="M14 24V12M26 24V12" stroke="' + K + '" stroke-width="2"/><path d="M20 20a5 5 0 0 1 0-8M20 20a5 5 0 0 0 0-8" stroke="' + O + '" stroke-width="1.6" fill="none"/><circle cx="20" cy="16" r="1.6" fill="' + O + '"/>'),
+    wrouter: sv('<rect x="6" y="22" width="28" height="10" rx="2" fill="#2f6db5" stroke="#1d4f8a" stroke-width="1.6"/><path d="M11 22V10M20 22V8M29 22V10" stroke="#1d4f8a" stroke-width="2"/><path d="M10 27h3M15 27h3M20 27h3" stroke="#bfe0ff" stroke-width="2"/>'),
+    repeater: sv('<rect x="13" y="12" width="14" height="20" rx="3" fill="#fff" stroke="' + K + '" stroke-width="1.8"/><path d="M8 14a12 12 0 0 1 0 14M32 14a12 12 0 0 0 0 14" stroke="' + O + '" stroke-width="1.8" fill="none"/><circle cx="20" cy="22" r="2" fill="' + O + '"/>'),
+    nic: sv('<rect x="4" y="12" width="30" height="16" rx="1.5" fill="#c94a4a" stroke="#8a2c2c" stroke-width="1.6"/><path d="M8 28v5h4v-5M16 28v5M22 28v5M28 28v5" stroke="#d9a400" stroke-width="1.8"/><rect x="24" y="15" width="7" height="6" fill="#ddd" stroke="#555"/>'),
+    machine: sv('<rect x="4" y="10" width="32" height="22" rx="2" fill="#fde6b5" stroke="#8a5b00" stroke-width="1.8"/><path d="M10 16h8v10h-8zM24 15l6 6-6 6" stroke="#8a5b00" stroke-width="1.8" fill="none"/><path d="M33 5l-4 5M7 5l4 5" stroke="#c0392b" stroke-width="1.6"/>')
+  };
+
+  /* ======================== 互動介面 ======================== */
+  NET.lab = function (scen, opt) {
+    opt = opt || {};
+    var V = { mode: 'select', pick: null, sel: null, drag: null, anim: null, mounted: false };
+    var A = null; /* bootLab API */
+    function L() { return A.lab; }
+    function E(s) { return AX.esc(s); }
+    function changed(t) { A.log(t); A.render(); }
+
+    function toolbar() {
+      var lab = L(), cost = NET.cost(lab), tst = lab.test || {};
+      var bt = function (m, ic, t, tip) { return '<button class="nlb' + (V.mode === m ? ' on' : '') + '" data-nl="mode" data-a="' + m + '" title="' + tip + '">' + ic + ' ' + t + '</button>'; };
+      return '<div class="nltool">' + bt('select', '🖱', '選取 / 移動', '選取設備或線，拖曳可移動你放置的設備') + bt('link', '🔌', '連線', '先按一部設備，再按另一部設備，然後選擇網線') +
+        '<button class="nlb" data-nl="del" title="刪除選取的設備或線">🗑 刪除</button><span class="nlsep"></span>' +
+        '<button class="nlb pri" data-nl="test">▶ 測試網絡</button>' + (scen.quiz ? '<button class="nlb" data-nl="quiz">📝 ' + E(scen.quizTitle || '網絡報告') + '</button>' : '') +
+        '<span class="nlsp"></span>' + (scen.budget ? '<span class="nlcost' + (cost > scen.budget ? ' over' : '') + '">💰 $' + Math.round(cost * 1000).toLocaleString() + ' / $' + (scen.budget * 1000).toLocaleString() + '</span>' : '<span class="nlcost">🧰 網絡設備 ' + lab.devs.filter(function (d) { return NET.T(d).infra; }).length + ' 件</span>') +
+        '<span class="nltst ' + (tst.stale ? '' : tst.ok ? 'ok' : 'bad') + '">' + (tst.stale ? (tst.n ? '⟳ 已改動，請重新測試' : '未測試') : tst.ok ? '✔ 測試通過' : '✘ 測試未通過') + '</span></div>';
+    }
+    function shelf() {
+      return '<div class="nlshelf"><div class="nlsh">設備架</div>' + scen.shelf.map(function (t) {
+        var T = NET.TYPES[t];
+        return '<div class="nli' + (V.mode === 'place:' + t ? ' on' : '') + '" data-shelf="' + t + '" title="' + E(T.desc || '') + '"><span class="ic">' + NET.ICON[t] + '</span><span>' + E(T.n) + '</span>' +
+          (scen.budget && T.cost ? '<small>$' + Math.round(T.cost * 1000).toLocaleString() + '</small>' : '') + '</div>';
+      }).join('') + '<div class="nlshtip">按一下設備，再按平面圖上的房間放置；也可以直接拖曳。</div></div>';
+    }
+    function pos(d) { return 'left:' + (d.x / 10) + '%;top:' + (d.y / 6) + '%'; }
+    function plan() {
+      var lab = L(), h = '<div class="nlplan" id="nlplan">';
+      scen.zones.forEach(function (z) {
+        h += '<div class="nz' + (z.cls ? ' ' + z.cls : '') + '" style="left:' + z.x / 10 + '%;top:' + z.y / 6 + '%;width:' + z.w / 10 + '%;height:' + z.h / 6 + '%"><span class="zn">' + E(z.n) + '</span>' + (z.note ? '<span class="zt">' + E(z.note) + '</span>' : '') + '</div>';
+      });
+      (scen.deco || []).forEach(function (d) { h += '<div class="nd deco" style="' + pos(d) + '"><span class="ic">' + NET.ICON[d.icon] + '</span><span class="lb">' + E(d.n) + '</span></div>'; });
+      var tst = lab.test || {}, badLinks = {};
+      if (!tst.stale && tst.n) NET.edges(scen, lab).forEach(function (e) { if (!e.ok && e.link) badLinks[e.link] = 1; });
+      h += '<svg class="nllines" id="nllines" viewBox="0 0 1000 600" preserveAspectRatio="none">';
+      /* 無線覆蓋範圍 */
+      lab.devs.filter(function (d) { return NET.isHub(d) || NET.isRep(d); }).forEach(function (hb) {
+        NET.covers(scen, hb.zone).forEach(function (zid) { var z = NET.zone(scen, zid); if (z) h += '<rect class="wcov" x="' + z.x + '" y="' + z.y + '" width="' + z.w + '" height="' + z.h + '"/>'; });
+      });
+      lab.links.forEach(function (l) {
+        var a = NET.dev(lab, l.a), b = NET.dev(lab, l.b); if (!a || !b) return;
+        var c = NET.CABLES[l.cable] || {}, cls = 'ln ' + (l.cable === 'fiber' ? 'fiber' : l.cable === 'broadband' ? 'bb' : 'tp') + (badLinks[l.id] ? ' bad' : '') + (V.sel === l.id ? ' sel' : '');
+        h += '<line class="' + cls + '" x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '"/><line class="lhit" data-link="' + l.id + '" x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '"/>';
+        h += '<text class="lt" x="' + (a.x + b.x) / 2 + '" y="' + ((a.y + b.y) / 2 - 4) + '">' + E((c.n || '').replace('雙扭線 ', '')) + '</text>';
+      });
+      if (V.pick) { var p = NET.dev(lab, V.pick); if (p && V.cur) h += '<line class="ln tmp" x1="' + p.x + '" y1="' + p.y + '" x2="' + V.cur.x + '" y2="' + V.cur.y + '"/>'; }
+      if (V.anim) h += '<circle class="pkt' + (V.anim.bad ? ' bad' : '') + '" cx="' + V.anim.x + '" cy="' + V.anim.y + '" r="9"/>';
+      h += '</svg>';
+      lab.devs.forEach(function (d) {
+        var T = NET.T(d), cls = 'nd t-' + d.type + (d.fixed ? ' fixed' : ' mine') + (V.sel === d.id ? ' sel' : '') + (V.pick === d.id ? ' pick' : '') + (d.needNic && !d.nic ? ' nonic' : '');
+        var badge = d.needNic ? (d.nic ? '<span class="bdg ok" title="已安裝網絡界面卡">NIC</span>' : '<span class="bdg no" title="沒有網絡界面卡">無 NIC</span>') : '';
+        h += '<div class="' + cls + '" data-dev="' + d.id + '" style="' + pos(d) + '"><span class="ic">' + NET.ICON[d.type] + '</span><span class="lb">' + E(d.name) + '</span>' + badge + (d.wl ? '<span class="wl">📶</span>' : '') + '</div>';
+      });
+      return h + '</div>';
+    }
+    function info() {
+      var lab = L(), tst = lab.test || {}, h = '';
+      if (V.sel) {
+        var d = NET.dev(lab, V.sel), l = lab.links.filter(function (x) { return x.id === V.sel; })[0];
+        if (d) {
+          var T = NET.T(d);
+          h += '<div class="nlinfo-h"><span class="ic">' + NET.ICON[d.type] + '</span><b>' + E(d.name) + '</b>（' + E(NET.zname(scen, d.zone)) + '）</div><div class="nlinfo-d">' + E(T.desc || (d.desc || '')) + '</div>';
+          if (d.needNic && !d.nic) h += '<div class="nlwarn">⚠ 這部舊電腦沒有網絡界面卡。在設備架選「網絡界面卡」，再按這部電腦安裝。</div>';
+          if (NET.isHub(d)) { var c = NET.wifiCfg(lab, d.id); h += '<div class="nlrow"><button class="nlb" data-nl="wifi" data-a="' + d.id + '">📶 設定無線網絡</button><span>' + (c && c.ssid ? 'SSID：' + E(c.ssid) + '，加密：' + E(c.sec === 'none' ? '不加密' : c.sec) : '未設定') + '</span></div>'; }
+          if (T.ports) h += '<div class="nlmuted">已用網絡插口：' + NET.linksOf(lab, d.id).length + ' / ' + T.ports + '</div>';
+        } else if (l) {
+          var a = NET.dev(lab, l.a), b = NET.dev(lab, l.b), ck = NET.linkCheck(scen, lab, l), cb = NET.CABLES[l.cable];
+          h += '<div class="nlinfo-h"><b>' + E(cb.n) + '</b>：' + E(a.name) + ' ↔ ' + E(b.name) + '</div><div class="nlinfo-d">長約 ' + ck.d + ' 米（' + E(NET.zname(scen, a.zone)) + ' ↔ ' + E(NET.zname(scen, b.zone)) + '），' +
+            (l.cable === 'broadband' ? '由電訊公司提供的寬頻線路。' : '需要速度 ' + NET.spdTxt(ck.need) + '。這條線可傳 ' + cb.sp + '、' + cb.ds + '。') + '</div>' +
+            (l.cable === 'broadband' ? '' : '<div class="nlrow"><button class="nlb" data-nl="recab" data-a="' + l.id + '">🔁 更改傳輸媒介</button><button class="nlb" data-nl="del">🗑 刪除這條線</button></div>');
+        }
+      } else if (tst.n && !tst.stale) {
+        h += '<div class="nlinfo-h"><b>' + (tst.ok ? '✔ 測試通過：所有設備都可以使用網絡' : '✘ 測試未通過') + '</b></div><ul class="nlres">' +
+          tst.res.map(function (r) { return '<li class="' + (r.ok ? 'ok' : 'bad') + '">' + (r.ok ? '✔' : '✘') + ' ' + E(r.name) + (r.ok ? '' : '：' + E(r.why)) + '</li>'; }).join('') +
+          (tst.sec || []).map(function (s) { return '<li class="bad">🔒 ' + E(s) + '</li>'; }).join('') + '</ul>';
+      } else {
+        h += '<div class="nlinfo-d nlmuted">' + (V.mode === 'link' ? (V.pick ? '已選「' + E(NET.dev(lab, V.pick).name) + '」，再按另一部設備。按 Esc 取消。' : '連線模式：先按一部設備，再按另一部設備。') :
+          V.mode.indexOf('place:') === 0 ? '按平面圖上的房間，放置「' + E(NET.TYPES[V.mode.slice(6)].n) + '」。按 Esc 取消。' :
+            '按一下設備或線，這裏會顯示資料。完成後按「▶ 測試網絡」。') + '</div>';
+      }
+      return '<div class="nlinfo" id="nlinfo">' + h + '</div>';
+    }
+    function render(api) {
+      A = api; var root = api.el(); if (!api.S) return;
+      root.innerHTML = '<div class="nl">' + toolbar() + '<div class="nlmain">' + shelf() + '<div class="nlplanwrap" id="nlwrap">' + plan() + '</div></div>' + info() + '</div>';
+      fit();
+    }
+    function fit() {
+      var w = document.getElementById('nlwrap'), p = document.getElementById('nlplan'); if (!w || !p) return;
+      var W = w.clientWidth - 8, H = w.clientHeight - 8, pw = Math.max(320, Math.min(W, H * 5 / 3));
+      p.style.width = pw + 'px'; p.style.height = (pw * 0.6) + 'px';
+    }
+    function redrawPlan() { var w = document.getElementById('nlwrap'); if (!w) return; w.innerHTML = plan(); fit(); }
+    function redrawInfo() { var i = document.getElementById('nlinfo'); if (i) i.outerHTML = info(); }
+    function toLogical(e) { var p = document.getElementById('nlplan'); if (!p) return null; var r = p.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * 1000, y: (e.clientY - r.top) / r.height * 600, inside: e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom }; }
+    function setMode(m) { V.mode = m; V.pick = null; V.cur = null; A.render(); }
+
+    function placeAt(type, pt) {
+      var lab = L();
+      if (type === 'nic') return;
+      var d = NET.place(scen, lab, type, pt.x, pt.y);
+      if (!d) { A.toast('請把設備放在房間之內。', 'warn'); return; }
+      V.sel = d.id; V.mode = 'select';
+      changed('放置「' + d.name + '」於' + NET.zname(scen, d.zone));
+    }
+    function installNic(id) {
+      var lab = L(), d = NET.dev(lab, id); if (!d) return;
+      if (!d.needNic) { A.toast(d.wl && !NET.T(d).ports ? '「' + d.name + '」使用無線網絡，不用安裝網絡界面卡。' : '「' + d.name + '」已經內置網絡界面卡。', 'warn'); return; }
+      if (d.nic) { A.toast('已經安裝了網絡界面卡。', 'warn'); return; }
+      d.nic = true; NET.dirty(lab); V.mode = 'select'; V.sel = d.id; changed('為「' + d.name + '」安裝網絡界面卡');
+    }
+    function tryLink(a, b) {
+      var lab = L(), r = NET.canLink(scen, lab, a, b);
+      V.pick = null; V.cur = null;
+      if (r.err) { A.err('link-' + a + b, r.err); A.render(); return; }
+      if (r.warn) { A.toast(r.warn, 'warn'); A.render(); return; }
+      if (r.broadband) { NET.addLink(lab, a, b, 'broadband'); changed('連接「' + NET.dev(lab, a).name + '」與「' + NET.dev(lab, b).name + '」（寬頻線路）'); return; }
+      cableDlg(a, b);
+    }
+    function cableDlg(a, b, linkId) {
+      var lab = L(), da = NET.dev(lab, a), db = NET.dev(lab, b), d = NET.dist(scen, da.zone, db.zone), need = NET.needSpeed(scen, lab, { a: a, b: b });
+      var cur = linkId ? lab.links.filter(function (l) { return l.id === linkId; })[0].cable : '';
+      var rows = NET.CABLE_ORDER.map(function (k) {
+        var c = NET.CABLES[k];
+        return '<tr><td><label><input type="radio" name="cab" value="' + k + '"' + (cur === k ? ' checked' : '') + '> ' + E(c.n) + '</label></td><td>' + E(c.sp) + '</td><td>' + E(c.ds) + '</td><td>' + (c.cost ? '$' + Math.round(c.cost * 1000).toLocaleString() : '—') + '</td><td class="nt">' + E(c.note || '') + '</td></tr>';
+      }).join('');
+      var iz = (scen.interfere || []).filter(function (z) { return z === da.zone || z === db.zone; })[0];
+      A.dlg('選擇傳輸媒介', '<div class="cabinfo"><b>' + E(da.name) + '</b> ↔ <b>' + E(db.name) + '</b><br>這條線長約 <b>' + d + ' 米</b>（' + E(NET.zname(scen, da.zone)) + (da.zone !== db.zone ? ' ↔ ' + E(NET.zname(scen, db.zone)) : '內') + '），需要速度 <b>' + NET.spdTxt(need) + '</b>' +
+        (iz ? '<br>⚠ 這條線會經過「' + E(NET.zname(scen, iz)) + '」。' : '') + '</div>' +
+        '<table class="cabt"><tr><th>傳輸媒介</th><th>傳輸速度</th><th>傳輸距離</th><th>成本</th><th>備註</th></tr>' + rows + '</table><div class="cabsrc">資料來源：課本表 2.1 及表 2.2</div>',
+        [{ l: '確定', pri: 1, check: function () {
+          var el = document.querySelector('input[name=cab]:checked');
+          if (!el) { A.toast('請選擇一種傳輸媒介。', 'warn'); return false; }
+          if (el.value === 'microwave') { A.err('microwave', '微波用於地面基站、人造衛星等遠距離通訊，不適合在校園或家居內連接網絡設備。'); return false; }
+          V._cab = el.value; return true;
+        }, fn: function () {
+          var lab2 = L();
+          if (linkId) { lab2.links.forEach(function (l) { if (l.id === linkId) l.cable = V._cab; }); NET.dirty(lab2); changed('把連線改為' + NET.CABLES[V._cab].n); }
+          else { var l = NET.addLink(lab2, a, b, V._cab); V.sel = l.id; changed('連接「' + da.name + '」與「' + db.name + '」（' + NET.CABLES[V._cab].n + '）'); }
+        } }, { l: '取消' }], { w: 'min(680px,96vw)', noFocus: true });
+    }
+    function wifiDlg(id) {
+      var lab = L(), d = NET.dev(lab, id), c = NET.wifiCfg(lab, id) || { ssid: '', sec: 'none', pwd: '' };
+      A.dlg('無線網絡設定 — ' + d.name, '<div class="wf"><label>無線網絡識別碼（SSID）<input type="text" id="wfS" value="' + E(c.ssid) + '" maxlength="32" placeholder="例：CS-Centre"></label>' +
+        '<label>加密方式<select id="wfE">' + [['none', '不加密'], ['WEP', 'WEP'], ['WPA', 'WPA'], ['WPA2', 'WPA2']].map(function (o) { return '<option value="' + o[0] + '"' + (c.sec === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>' +
+        '<label>密碼<input type="text" id="wfP" value="' + E(c.pwd) + '" maxlength="40" autocomplete="off"></label>' +
+        '<div class="wfn">課本提示：WEP 是最舊的加密方式，保護能力最薄弱；WPA2 最好。密碼最好組合英文、數字及特殊符號，而且不可以太短。<br>（這只是模擬設定，請不要輸入你真正使用的密碼。）</div></div>',
+        [{ l: '儲存', pri: 1, check: function () {
+          var s = document.getElementById('wfS').value.trim(); if (!s) { A.toast('請輸入 SSID。', 'warn'); return false; }
+          V._wf = { ssid: s, sec: document.getElementById('wfE').value, pwd: document.getElementById('wfP').value };
+          if (V._wf.sec !== 'none' && !V._wf.pwd) { A.toast('使用加密時要設定密碼。', 'warn'); return false; }
+          return true;
+        }, fn: function () {
+          var lab2 = L(); lab2.wifi = lab2.wifi || {}; lab2.wifi[id] = V._wf; NET.dirty(lab2);
+          if (V._wf.sec === 'none') A.toast('不加密：附近任何人都可以連接及截取資料。', 'warn');
+          else if (V._wf.sec !== 'WPA2') A.toast(V._wf.sec + ' 保安能力較弱，建議使用 WPA2。', 'warn');
+          else if (!NET.strongPwd(V._wf.pwd)) A.toast('密碼太簡單：最少 8 個字元，並要有英文字母和數字。', 'warn');
+          changed('設定「' + d.name + '」無線網絡：SSID「' + V._wf.ssid + '」，' + (V._wf.sec === 'none' ? '不加密' : V._wf.sec));
+        } }, { l: '取消' }], { w: 'min(460px,96vw)' });
+    }
+    function quizDlg() {
+      var lab = L(), q = lab.quiz || (lab.quiz = { ans: {}, first: {} });
+      var body = scen.quiz.map(function (Q, i) {
+        var a = q.ans[i], done = a != null;
+        return '<div class="qz"><div class="qq">' + (i + 1) + '. ' + Q.q + '</div>' + Q.o.map(function (o, k) {
+          var cls = done ? (k === Q.a ? ' right' : k === a ? ' wrong' : '') : '';
+          return '<label class="qo' + cls + '"><input type="radio" name="qz' + i + '" value="' + k + '"' + (a === k ? ' checked' : '') + '> ' + o + '</label>';
+        }).join('') + (done ? '<div class="qx">' + (a === Q.a ? '✔ 正確。' : '✘ 不正確。') + Q.x + '</div>' : '') + '</div>';
+      }).join('');
+      A.dlg(scen.quizTitle || '網絡報告', body, [{ l: '提交答案', pri: 1, check: function () {
+        var any = false;
+        scen.quiz.forEach(function (Q, i) { var el = document.querySelector('input[name=qz' + i + ']:checked'); if (el) { q.ans[i] = +el.value; if (q.first[i] == null) q.first[i] = +el.value; any = true; } });
+        if (!any) { A.toast('請先選擇答案。', 'warn'); return false; }
+        A.log('提交' + (scen.quizTitle || '網絡報告') + '：' + scen.quiz.map(function (Q, i) { return (i + 1) + (q.ans[i] == null ? '未答' : q.ans[i] === Q.a ? '✔' : '✘'); }).join(' '));
+        A.refresh(); setTimeout(quizDlg, 0); return true;
+      } }, { l: '關閉' }], { w: 'min(620px,96vw)', noFocus: true });
+    }
+    function runTest() {
+      var lab = L(), a = NET.runTest(scen, lab);
+      A.log('測試網絡：' + (a.allOk ? '全部通過' : '未通過（' + a.res.filter(function (r) { return !r.ok; }).length + ' 部設備有問題' + (a.sec.length ? '，無線網絡保安有問題' : '') + '）'));
+      V.sel = null; A.render();
+      if (A.demo || opt.noAnim) return;
+      animate(a);
+    }
+    function animate(a) {
+      var lab = L(), list = [];
+      a.res.forEach(function (r) { var k = Object.keys(r.to)[0]; if (k) list.push({ path: r.to[k].path, bad: !r.ok }); });
+      var i = 0, step = function () {
+        if (i >= list.length) { V.anim = null; redrawPlan(); return; }
+        var it = list[i++], pts = it.path.map(function (id) { return NET.dev(lab, id); }).filter(Boolean), t0 = null, dur = Math.max(260, pts.length * 120);
+        var frame = function (ts) {
+          if (!t0) t0 = ts; var f = Math.min(1, (ts - t0) / dur), segs = pts.length - 1;
+          if (segs <= 0) { V.anim = { x: pts[0].x, y: pts[0].y, bad: it.bad }; redrawPlan(); setTimeout(step, 180); return; }
+          var pos = f * segs, k = Math.min(segs - 1, Math.floor(pos)), u = pos - k;
+          V.anim = { x: pts[k].x + (pts[k + 1].x - pts[k].x) * u, y: pts[k].y + (pts[k + 1].y - pts[k].y) * u, bad: it.bad && f > 0.6 };
+          var svg = document.getElementById('nllines'), c = svg && svg.querySelector('.pkt');
+          if (c) { c.setAttribute('cx', V.anim.x); c.setAttribute('cy', V.anim.y); c.setAttribute('class', 'pkt' + (V.anim.bad ? ' bad' : '')); } else redrawPlan();
+          if (f < 1) requestAnimationFrame(frame); else setTimeout(step, 60);
+        };
+        requestAnimationFrame(frame);
+      };
+      step();
+    }
+    function delSel() {
+      var lab = L(); if (!V.sel) { A.toast('請先按一下要刪除的設備或線。', 'warn'); return; }
+      var d = NET.dev(lab, V.sel);
+      if (d && d.fixed) { A.toast('「' + d.name + '」是原有的設備，不可以刪除。', 'warn'); return; }
+      if (d) { NET.remove(lab, d.id); V.sel = null; changed('刪除「' + d.name + '」'); return; }
+      lab.links = lab.links.filter(function (l) { return l.id !== V.sel; }); NET.dirty(lab); V.sel = null; changed('刪除一條連線');
+    }
+
+    function mount(api) {
+      A = api;
+      document.addEventListener('click', function (e) {
+        if (!A.S || !A.S.info) return;
+        var t = e.target.closest('[data-nl]'); if (!t) return;
+        var k = t.getAttribute('data-nl'), a = t.getAttribute('data-a');
+        if (k === 'mode') setMode(a);
+        else if (k === 'del') delSel();
+        else if (k === 'test') runTest();
+        else if (k === 'quiz') quizDlg();
+        else if (k === 'wifi') wifiDlg(a);
+        else if (k === 'recab') { var rl = L().links.filter(function (x) { return x.id === a; })[0]; if (rl) cableDlg(rl.a, rl.b, rl.id); }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (!A.S || !A.S.info) return;
+        if (e.key === 'Escape') { V.pick = null; V.cur = null; if (V.mode !== 'select') V.mode = 'select'; A.render(); }
+        if ((e.key === 'Delete') && document.activeElement && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) && document.getElementById('layer').style.display !== 'flex') delSel();
+      });
+      window.addEventListener('resize', fit);
+      /* 指標：設備架拖曳、放置、選取、移動、連線 */
+      document.addEventListener('pointerdown', function (e) {
+        if (!A.S || !A.S.info || e.button > 0) return;
+        var sh = e.target.closest('[data-shelf]');
+        if (sh) { V.drag = { kind: 'shelf', type: sh.getAttribute('data-shelf'), x0: e.clientX, y0: e.clientY, moved: false }; e.preventDefault(); return; }
+        if (!e.target.closest('#nlplan')) return;
+        var dv = e.target.closest('[data-dev]'), ln = e.target.closest('[data-link]'), pt = toLogical(e), lab = L();
+        if (V.mode.indexOf('place:') === 0) {
+          var ty = V.mode.slice(6);
+          if (ty === 'nic') { if (dv) installNic(dv.getAttribute('data-dev')); else A.toast('請按一部電腦來安裝網絡界面卡。', 'warn'); return; }
+          placeAt(ty, pt); return;
+        }
+        if (V.mode === 'link') {
+          if (!dv) { V.pick = null; V.cur = null; redrawPlan(); redrawInfo(); return; }
+          var id = dv.getAttribute('data-dev');
+          if (!V.pick) { V.pick = id; V.cur = pt; redrawPlan(); redrawInfo(); V.drag = { kind: 'link', from: id, x0: e.clientX, y0: e.clientY, moved: false }; return; }
+          tryLink(V.pick, id); return;
+        }
+        if (dv) {
+          var did = dv.getAttribute('data-dev'), d = NET.dev(lab, did); V.sel = did;
+          if (d && !d.fixed) V.drag = { kind: 'move', id: did, x0: e.clientX, y0: e.clientY, dx: d.x, dy: d.y, moved: false };
+          redrawPlan(); redrawInfo(); e.preventDefault(); return;
+        }
+        if (ln) { V.sel = ln.getAttribute('data-link'); redrawPlan(); redrawInfo(); return; }
+        V.sel = null; redrawPlan(); redrawInfo();
+      });
+      document.addEventListener('pointermove', function (e) {
+        var d = V.drag; if (!d && !(V.mode === 'link' && V.pick)) return;
+        if (V.mode === 'link' && V.pick) { var pt = toLogical(e); if (pt) { V.cur = pt; var svg = document.getElementById('nllines'), tmp = svg && svg.querySelector('.tmp'); if (tmp) { tmp.setAttribute('x2', pt.x); tmp.setAttribute('y2', pt.y); } else redrawPlan(); } }
+        if (!d) return;
+        if (!d.moved && Math.abs(e.clientX - d.x0) + Math.abs(e.clientY - d.y0) < 6) return;
+        d.moved = true;
+        if (d.kind === 'shelf') { ghost(e, NET.TYPES[d.type].n); return; }
+        if (d.kind === 'move') {
+          var p2 = toLogical(e), dev = NET.dev(L(), d.id); if (!p2 || !dev) return;
+          dev.x = Math.max(10, Math.min(990, Math.round(p2.x))); dev.y = Math.max(10, Math.min(590, Math.round(p2.y)));
+          var el = document.querySelector('[data-dev="' + d.id + '"]'); if (el) { el.style.left = dev.x / 10 + '%'; el.style.top = dev.y / 6 + '%'; }
+          redrawPlan();
+        }
+      });
+      document.addEventListener('pointerup', function (e) {
+        var d = V.drag; V.drag = null; hideGhost(); if (!d) return;
+        if (d.kind === 'shelf') {
+          if (!d.moved) { setMode(V.mode === 'place:' + d.type ? 'select' : 'place:' + d.type); return; }
+          var pt = toLogical(e); if (!pt || !pt.inside) return;
+          if (d.type === 'nic') { var tg = document.elementFromPoint(e.clientX, e.clientY), dv = tg && tg.closest('[data-dev]'); if (dv) installNic(dv.getAttribute('data-dev')); else A.toast('請把網絡界面卡拖到一部電腦上。', 'warn'); return; }
+          placeAt(d.type, pt); return;
+        }
+        if (d.kind === 'link' && d.moved) {
+          var tg2 = document.elementFromPoint(e.clientX, e.clientY), dv2 = tg2 && tg2.closest('[data-dev]');
+          if (dv2 && dv2.getAttribute('data-dev') !== d.from) tryLink(d.from, dv2.getAttribute('data-dev'));
+          return;
+        }
+        if (d.kind === 'move' && d.moved) {
+          var lab = L(), dev = NET.dev(lab, d.id), z = NET.zoneAt(scen, dev.x, dev.y);
+          if (!z) { dev.x = d.dx; dev.y = d.dy; A.toast('設備要放在房間之內。', 'warn'); A.render(); return; }
+          var old = dev.zone; dev.zone = z; NET.dirty(lab);
+          changed('移動「' + dev.name + '」' + (old !== z ? '到' + NET.zname(scen, z) : ''));
+        }
+      });
+    }
+    function ghost(e, t) { var g = document.getElementById('nlghost'); if (!g) { g = document.createElement('div'); g.id = 'nlghost'; document.body.appendChild(g); } g.textContent = t; g.style.display = 'block'; g.style.left = (e.clientX + 12) + 'px'; g.style.top = (e.clientY + 8) + 'px'; }
+    function hideGhost() { var g = document.getElementById('nlghost'); if (g) g.style.display = 'none'; }
+
+    /* 給示範及測試用的操作 */
+    var OPS = {
+      place: function (type, x, y) { var d = NET.place(scen, L(), type, x, y); A.log('放置「' + d.name + '」'); return d.id; },
+      link: function (a, b, cable) { var r = NET.canLink(scen, L(), a, b); if (!r.ok) throw new Error(r.err || r.warn); NET.addLink(L(), a, b, r.broadband ? 'broadband' : cable); A.log('連接 ' + a + ' ↔ ' + b); },
+      nic: function (id) { var d = NET.dev(L(), id); d.nic = true; NET.dirty(L()); },
+      wifi: function (id, cfg) { L().wifi[id] = cfg; NET.dirty(L()); },
+      test: function () { NET.runTest(scen, L()); },
+      quiz: function (ans) { var q = L().quiz; ans.forEach(function (a, i) { q.ans[i] = a; if (q.first[i] == null) q.first[i] = a; }); },
+      find: function (type, zone) { var d = NET.byType(L(), type, zone)[0]; return d && d.id; }
+    };
+    NET.ops = OPS;
+    return { init: function () { return NET.init(scen); }, mount: mount, render: render, demo: (opt.demo || []).map(function (f) { return function (api) { A = api; f(OPS, api); }; }) };
+  };
+})();
+
+/* =====================================================================
+   老師設定(全部練習共用)
+   TEACHER_PIN:按 Ctrl+Alt+D 開「老師示範模式」時要輸入的密碼。請自行更改。
+   ===================================================================== */
+AX.TEACHER_PIN = '0000';
+
+/* =====================================================================
+   單元二：網絡工程師 — 為學校「創科中心」架設電腦網絡（滿分 100）
+   參考課本圖 2.5（辦公室網絡結構圖），改用學校情境。
+   ===================================================================== */
+(function () {
+  var NET = AX.NET;
+  var SCEN = {
+    zones: [
+      { id: 'old', n: '舊翼課室', x: 15, y: 15, w: 175, h: 240, note: '距離機房約 300 米' },
+      { id: 'lab', n: '電腦室', x: 205, y: 15, w: 320, h: 240 },
+      { id: 'srv', n: '機房', x: 540, y: 15, w: 185, h: 240 },
+      { id: 'staff', n: '教員室', x: 740, y: 15, w: 245, h: 240 },
+      { id: 'cor', n: '走廊 / 圖書角', x: 205, y: 270, w: 780, h: 75, cls: 'cor' },
+      { id: 'ws', n: '工場', x: 15, y: 360, w: 410, h: 225, cls: 'ws', note: '大型機器 → 電磁干擾強' },
+      { id: 'out', n: '校外', x: 760, y: 360, w: 225, h: 225, cls: 'out', note: '電訊公司寬頻線路' }
+    ],
+    dist: {
+      'lab|srv': 80, 'srv|staff': 30, 'cor|srv': 40, 'srv|ws': 60, 'old|srv': 300, 'out|srv': 10,
+      'lab|staff': 100, 'cor|lab': 20, 'lab|ws': 70, 'lab|old': 280, 'lab|out': 90,
+      'cor|staff': 30, 'staff|ws': 120, 'old|staff': 380, 'out|staff': 40,
+      'cor|ws': 50, 'cor|old': 290, 'cor|out': 50, 'old|ws': 250, 'out|ws': 90, 'old|out': 320
+    },
+    adj: { cor: [], lab: [], srv: [], staff: [] },
+    interfere: ['ws'],
+    /* 電腦室連到其他地方的主幹要 10 Gbps；其餘 1000 Mbps */
+    speed: function (a, b) { return (a.zone !== b.zone && (a.zone === 'lab' || b.zone === 'lab')) ? 10 : 1; },
+    budget: 80,
+    devices: [
+      { id: 'op1', type: 'pc', name: '舊翼電腦 1', zone: 'old', x: 55, y: 95 },
+      { id: 'op2', type: 'pc', name: '舊翼電腦 2', zone: 'old', x: 150, y: 95 },
+      { id: 'pc1', type: 'pc', name: '電腦 1', zone: 'lab', x: 255, y: 80 },
+      { id: 'pc2', type: 'pc', name: '電腦 2', zone: 'lab', x: 345, y: 80 },
+      { id: 'pc3', type: 'pc', name: '電腦 3', zone: 'lab', x: 255, y: 190 },
+      { id: 'pc4', type: 'pc', name: '電腦 4（舊電腦）', zone: 'lab', x: 355, y: 190, needNic: true, nic: false },
+      { id: 'srv1', type: 'server', name: '檔案伺服器', zone: 'srv', x: 580, y: 80 },
+      { id: 'srv2', type: 'server', name: '打印伺服器', zone: 'srv', x: 680, y: 80 },
+      { id: 'lap1', type: 'laptop', name: '老師電腦', zone: 'staff', x: 790, y: 90 },
+      { id: 'prn1', type: 'printer', name: '打印機', zone: 'staff', x: 930, y: 90 },
+      { id: 'tab1', type: 'tablet', name: '平板電腦 1', zone: 'cor', x: 470, y: 312, wl: 1 },
+      { id: 'tab2', type: 'tablet', name: '平板電腦 2', zone: 'cor', x: 600, y: 312, wl: 1 },
+      { id: 'ws1', type: 'pc', name: '工場電腦', zone: 'ws', x: 100, y: 470 },
+      { id: 'inet', type: 'inet', name: '互聯網', zone: 'out', x: 900, y: 470 }
+    ],
+    deco: [{ n: '數控機床', icon: 'machine', x: 300, y: 470 }],
+    shelf: ['switch', 'router', 'modem', 'ap', 'nic'],
+    targets: function (d) { return d.type === 'printer' || d.type === 'server' ? ['srv1'] : ['srv1', 'inet']; },
+    quizTitle: '網絡報告',
+    quiz: [
+      { q: '這個網絡覆蓋同一所學校的範圍，它屬於：', o: ['區域網絡（LAN）', '廣域網絡（WAN）'], a: 0, x: '區域網絡在相對細小的範圍內使用，例如一幢大廈或一所學校；廣域網絡則覆蓋整個國家或地區。' },
+      { q: '網絡中由檔案伺服器及打印伺服器提供資源，其他電腦向它們索取服務，這是：', o: ['對等網絡', '客戶／伺服器網絡'], a: 1, x: '客戶／伺服器網絡中有一至數台伺服器負責提供資訊和資源給其他電腦（客戶）。對等網絡則沒有中央伺服器。' },
+      { q: '同學在電腦室使用教員室的打印機列印文件，這是電腦網絡的哪一種功能？', o: ['硬件共用', '數據共用', '信息互通'], a: 0, x: '透過網絡共用打印機、掃描器等硬件，不但不用為每部電腦購買，還可以節省空間。' }
+    ]
+  };
+  var LABN = '電腦室', PCS = ['pc1', 'pc2', 'pc3', 'pc4'];
+  function lab(S) { return S.lab; }
+  function sw(S, z) { return NET.byType(lab(S), 'switch', z).length > 0; }
+  function up(S, id) { return NET.uplinkOk(SCEN, lab(S), id); }
+  function reach(S, id, to) { return NET.reach(SCEN, lab(S), id, to || 'srv1'); }
+  function cabTo(S, zoneA, zoneB) {
+    var L = lab(S), r = [];
+    L.links.forEach(function (l) { var a = NET.dev(L, l.a), b = NET.dev(L, l.b); if (!a || !b) return; if ((a.zone === zoneA && b.zone === zoneB) || (a.zone === zoneB && b.zone === zoneA)) r.push(NET.CABLES[l.cable].n + (NET.linkCheck(SCEN, L, l).ok ? '' : '（不合適）')); });
+    return r.join('、') || '（沒有）';
+  }
+  function hub(S) { return NET.byType(lab(S), 'ap', 'cor')[0] || NET.byType(lab(S), 'ap')[0] || null; }
+  function wcfg(S) { var h = hub(S); return h ? NET.wifiCfg(lab(S), h.id) : null; }
+  function inetOk(S) { return reach(S, 'srv1', 'inet'); }
+  function chain(S) {
+    var L = lab(S), m = NET.byType(L, 'modem'), r = NET.byType(L, 'router');
+    var mi = m.some(function (x) { return !!NET.linkBetween(L, x.id, 'inet'); });
+    var rm = r.some(function (y) { return m.some(function (x) { return !!NET.linkBetween(L, x.id, y.id); }); });
+    return { mi: mi, rm: rm };
+  }
+  function quizN(S) { var q = lab(S).quiz || { first: {} }; return SCEN.quiz.filter(function (Q, i) { return q.first[i] != null; }).length; }
+
+  var M = { nic: 5, labSw: 3, pc: 2, srvSw: 3, srv: 2, bb: 8, staff: 3, ws: 8, oldSw: 3, old: 6, ap: 5, ssid: 2, wpa2: 3, pwd: 2, mi: 3, rm: 3, ri: 3, test: 6, budget: 5, q: [3, 3, 2] };
+
+  AX.register({
+    id: 'NET1', code: 'NET1', mode: 'practice', full: 100, fileTag: '網絡單元二', subject: '電腦網絡', logo: '🔌', appName: '網絡工程師',
+    title: '單元二：網絡工程師 — 創科中心',
+    subtitle: '中三 電腦科 · 電腦網絡與無線網絡（課本 2.1 – 2.2）',
+    time: '40 分鐘',
+    objectives: ['認識電腦網絡的組成部分：工作站、伺服器、網絡界面卡、傳輸媒介、交換器、路由器、數據機、無線網絡接達點', '按距離、速度及環境選擇合適的傳輸媒介（雙扭線、光纖）', '設定無線網絡的 SSID 及加密方式', '分辨區域網絡／廣域網絡、對等網絡／客戶伺服器網絡及網絡的功能'],
+    intro: ['學校新建「創科中心」，你是網絡工程師，要把各房間的電腦、伺服器、打印機及平板電腦連成一個網絡，並接駁互聯網。',
+      '從左邊設備架選用合適的網絡設備，用「🔌 連線」接駁並選擇網線，最後按「▶ 測試網絡」。預算為 $80,000。'],
+    penalty: { hint1: 1, hint2: 1, hintMax: 10, err: 1, errMax: 10 },
+    startMsg: '先看看平面圖：每個房間有甚麼設備？哪些設備還未接上網絡？',
+    lab: null, /* 下面設定 */
+    steps: [
+      { title: '為「電腦 4（舊電腦）」安裝網絡界面卡', detail: '電腦 4 是舊電腦，沒有網絡界面卡（標示「無 NIC」）。在設備架選「<b>網絡界面卡</b>」，再按電腦 4 安裝。',
+        h1: '網絡界面卡是把電腦連接至網絡所需要的硬件，每張都有獨一無二的 MAC 位址。', h2: '按左邊設備架最底的「網絡界面卡」，然後按電腦室內的「電腦 4（舊電腦）」。也可以直接把它拖到電腦 4 上。',
+        check: function (S) { var d = NET.dev(lab(S), 'pc4'); return !!(d && d.nic); } },
+      { title: '電腦室：放置交換器，接上 4 部電腦', detail: '在電腦室放一部<b>交換器</b>，再用「🔌 連線」把 4 部電腦逐一接到交換器。每部電腦要有 <b>1000 Mbps</b>，選合適的雙扭線。',
+        h1: '交換器用來連接同一區域網絡上的電腦。看看課本表 2.1：哪一類雙扭線可以傳 1000 Mbps？', h2: '設備架按「交換器」→ 按電腦室空位放置 → 按「🔌 連線」→ 按電腦 1 再按交換器 → 選「雙扭線 Cat 5e」（Cat 5 只有 100 Mbps）。4 部電腦都要接。',
+        check: function (S) { return sw(S, 'lab') && PCS.every(function (id) { return up(S, id); }); } },
+      { title: '機房：放置交換器，接上兩部伺服器', detail: '在機房放一部交換器（主交換器），接上<b>檔案伺服器</b>及<b>打印伺服器</b>。',
+        h1: '伺服器負責管理及分享網絡上的資源，通常放在機房。', h2: '在機房放交換器，再把兩部伺服器用 Cat 5e（或更好）的雙扭線接到它。',
+        check: function (S) { return sw(S, 'srv') && up(S, 'srv1') && up(S, 'srv2'); } },
+      { title: '連接電腦室與機房（約 80 米，要 10 Gbps）', detail: '電腦室要經常讀取伺服器上的大型影片檔，所以這條主幹線要有 <b>10 Gbps</b>，長約 <b>80 米</b>。把電腦室交換器接到機房交換器。',
+        h1: '同時看速度和距離：Cat 6 雖然有 10 Gbps，但傳輸距離只有 37–55 米。', h2: '用「🔌 連線」接兩部交換器，選「雙扭線 Cat 6A」或「Cat 7」（10 Gbps、100 米）。光纖都可以，但很貴。',
+        check: function (S) { return PCS.every(function (id) { return reach(S, id); }); } },
+      { title: '教員室：接上老師電腦及打印機（約 30 米）', detail: '讓<b>老師電腦</b>及<b>打印機</b>都可以使用網絡。你可以在教員室多放一部交換器，或直接拉線到機房。',
+        h1: '打印機接上網絡後，其他電腦便可以共用它（硬件共用）。', h2: '例如：在教員室放交換器，接老師電腦和打印機，再用 Cat 5e 接到機房交換器（30 米）。',
+        check: function (S) { return reach(S, 'lap1') && reach(S, 'prn1'); } },
+      { title: '工場：接上工場電腦（注意電磁干擾）', detail: '工場有大型機器，會產生很強的<b>電磁干擾</b>。工場電腦到機房約 60 米。',
+        h1: '課本表 2.2：雙扭線的缺點是「防干擾能力較差」；哪種傳輸媒介「不受電磁波干擾」？', h2: '把工場電腦直接接到機房交換器，傳輸媒介選「光纖」。',
+        check: function (S) { return reach(S, 'ws1'); } },
+      { title: '舊翼：接上兩部電腦（距離約 300 米）', detail: '舊翼課室距離機房約 <b>300 米</b>。在舊翼放一部交換器接兩部電腦，再把舊翼交換器連到機房。',
+        h1: '雙扭線最遠只可以傳 100 米。', h2: '舊翼內：交換器 + 兩條 Cat 5e；舊翼交換器 → 機房交換器：選「光纖」（傳輸距離較遠）。',
+        check: function (S) { return reach(S, 'op1') && reach(S, 'op2'); } },
+      { title: '走廊：讓平板電腦用無線網絡（WPA2）', detail: '在走廊放一部<b>無線網絡接達點</b>，用網線接到交換器；再按它 →「📶 設定無線網絡」，設定 SSID、加密方式 <b>WPA2</b> 及一個不易猜中的密碼。',
+        h1: '無線網絡接達點連繫有線和無線網絡。WEP 最舊、保護能力最薄弱；WPA2 最好。', h2: '放置後按它，在下方資料欄按「📶 設定無線網絡」。密碼要最少 8 個字元，有英文字母和數字（這只是模擬，不要用你真正的密碼）。',
+        check: function (S) { var c = wcfg(S); return reach(S, 'tab1') && reach(S, 'tab2') && !!c && c.sec === 'WPA2' && NET.strongPwd(c.pwd); } },
+      { title: '接駁互聯網：互聯網 → 數據機 → 路由器 → 交換器', detail: '在機房放<b>數據機</b>及<b>路由器</b>：數據機接「互聯網」的寬頻線路，路由器接數據機，再接到機房交換器。',
+        h1: '數據機把模擬信號和數碼信號互相轉換；路由器把學校的區域網絡連接到互聯網。', h2: '連線次序：互聯網 → 數據機（自動用寬頻線路）→ 路由器 → 機房交換器（Cat 5e）。',
+        check: function (S) { return inetOk(S); } },
+      { title: '測試網絡：全部設備都可以使用網絡', detail: '按工具列的「<b>▶ 測試網絡</b>」。數據包會由每部設備出發；如有問題，下方會說明原因，請修改後再測試。',
+        h1: '紅色的線表示那條線不合適。按一下它，下方會顯示它的長度和需要的速度。', h2: '常見問題：電腦 4 沒有網絡界面卡；Cat 6 太短；工場用了雙扭線；舊翼沒有用光纖；無線網絡未用 WPA2。',
+        check: function (S) { var t = lab(S).test || {}; return !!t.ok && !t.stale; } },
+      { title: '完成「網絡報告」3 條問題', detail: '按工具列的「<b>📝 網絡報告</b>」，根據你建立的網絡回答 3 條問題。',
+        h1: '想想這個網絡覆蓋的範圍有多大、伺服器的角色，以及共用打印機屬於哪一種功能。', h2: '區域網絡；客戶／伺服器網絡；硬件共用。',
+        check: function (S) { return quizN(S) === SCEN.quiz.length; } }
+    ],
+    ref: function () {
+      return '<h4>📐 網絡要求</h4><table class="reft" style="text-align:left"><tr><th>位置</th><th>要求</th></tr>' +
+        '<tr><td>每部電腦</td><td>最少 1000 Mbps</td></tr><tr><td>電腦室 ↔ 其他地方</td><td>主幹 10 Gbps</td></tr><tr><td>工場</td><td>電磁干擾強</td></tr><tr><td>舊翼 ↔ 機房</td><td>約 300 米</td></tr><tr><td>走廊</td><td>平板電腦用無線網絡（WPA2）</td></tr><tr><td>預算</td><td>$80,000</td></tr></table>' +
+        '<h4 style="margin-top:10px">📏 雙扭線（課本表 2.1）</h4><table class="reft"><tr><th>種類</th><th>速度</th><th>距離</th></tr><tr><td>Cat 5</td><td>100 Mbps</td><td>100 m</td></tr><tr><td>Cat 5e</td><td>1000 Mbps</td><td>100 m</td></tr><tr><td>Cat 6</td><td>10 Gbps</td><td>37–55 m</td></tr><tr><td>Cat 6A</td><td>10 Gbps</td><td>100 m</td></tr><tr><td>Cat 7</td><td>10 Gbps</td><td>100 m</td></tr></table>';
+    },
+    grade: function (S) {
+      var L = lab(S), items = [], notes = [], y = function (b) { return b ? '已完成' : '未完成'; };
+      var add = function (l, ok, c, m, why, yv) { items.push({ l: l, y: yv != null ? yv : y(ok), c: c, g: ok ? m : 0, f: m, why: why }); };
+      var d4 = NET.dev(L, 'pc4');
+      add('電腦 4 安裝網絡界面卡', !!(d4 && d4.nic), '已安裝', M.nic, '舊電腦要先安裝網絡界面卡，才可以接駁網絡。');
+      add('電腦室：交換器', sw(S, 'lab'), '有交換器', M.labSw, '交換器把同一房間的電腦連接起來。');
+      PCS.forEach(function (id) { var d = NET.dev(L, id); add(d.name + '接上交換器', up(S, id), '合適的雙扭線（≥1000 Mbps）', M.pc, '每部電腦要 1000 Mbps：Cat 5 只有 100 Mbps，要用 Cat 5e 或以上。'); });
+      add('機房：交換器', sw(S, 'srv'), '有交換器', M.srvSw, '機房的主交換器把各房間及伺服器連起來。');
+      ['srv1', 'srv2'].forEach(function (id) { add(NET.dev(L, id).name + '接上交換器', up(S, id), '合適的雙扭線', M.srv, '伺服器要接上網絡，其他電腦才可以使用它的資源。'); });
+      var bb = PCS.every(function (id) { return reach(S, id); });
+      add('主幹：電腦室 ↔ 機房', bb, 'Cat 6A / Cat 7（10 Gbps、80 米）', M.bb, 'Cat 6 雖然有 10 Gbps，但只可傳 37–55 米；80 米要用 Cat 6A 或 Cat 7。', cabTo(S, 'lab', 'srv'));
+      ['lap1', 'prn1'].forEach(function (id) { add(NET.dev(L, id).name + '連到伺服器', reach(S, id), '可連接', M.staff, '教員室到機房約 30 米，Cat 5e 已足夠。'); });
+      add('工場電腦連到伺服器', reach(S, 'ws1'), '光纖', M.ws, '工場有電磁干擾，雙扭線防干擾能力較差；光纖不受電磁波干擾。', cabTo(S, 'ws', 'srv'));
+      add('舊翼：交換器', sw(S, 'old'), '有交換器', M.oldSw, '用一部交換器接兩部電腦，只需拉一條長線到機房，可以節省成本。');
+      ['op1', 'op2'].forEach(function (id) { add(NET.dev(L, id).name + '連到伺服器', reach(S, id), '光纖連到機房', M.old, '雙扭線最遠只可以傳 100 米；300 米要用傳輸距離較遠的光纖。', cabTo(S, 'old', 'srv')); });
+      var h = hub(S), c = wcfg(S);
+      add('走廊：無線網絡接達點', !!h && reach(S, 'tab1') && reach(S, 'tab2'), '平板電腦可上網', M.ap, '無線網絡接達點要用網線接到交換器，平板電腦才可以經無線網絡使用網絡。');
+      add('無線網絡 SSID', !!(c && c.ssid), '已設定', M.ssid, 'SSID 是無線區域網絡的名稱，用戶靠它找到網絡。', c && c.ssid ? c.ssid : '未設定');
+      add('無線網絡加密', !!(c && c.sec === 'WPA2'), 'WPA2', M.wpa2, 'WEP 是最舊的加密方式，保護能力最薄弱；WPA2 最好。', c ? (c.sec === 'none' ? '不加密' : c.sec) : '未設定');
+      add('無線網絡密碼', !!(c && NET.strongPwd(c.pwd)), '最少 8 個字元，有英文及數字', M.pwd, '密碼要組合英文、數字（及特殊符號），而且不可以太短。', c ? (NET.strongPwd(c.pwd) ? '足夠' : '太簡單') : '未設定');
+      var ch = chain(S);
+      add('數據機接駁互聯網', ch.mi, '互聯網 → 數據機', M.mi, '寬頻線路先接數據機，由數據機轉換信號。');
+      add('路由器接數據機', ch.rm, '數據機 → 路由器', M.rm, '路由器把區域網絡連接至互聯網，決定信息傳輸的路徑。');
+      add('網絡可以上互聯網', inetOk(S), '路由器 → 交換器', M.ri, '路由器要接到交換器，區域網絡內的電腦才可以上網。');
+      var t = L.test || {};
+      add('測試網絡全部通過', !!t.ok && !t.stale, '全部通過', M.test, '修改網絡後要再按「測試網絡」，確定所有設備都可以使用網絡。', !t.n ? '未測試' : t.stale ? '修改後未再測試' : t.ok ? '全部通過' : '未通過');
+      var cost = NET.cost(L);
+      add('預算', cost <= SCEN.budget && bb, '不超過 $80,000', M.budget, '光纖速度快、距離遠，但價格昂貴；只在需要的地方使用（工場、舊翼）。', '$' + Math.round(cost * 1000).toLocaleString());
+      var q = L.quiz || { first: {} };
+      SCEN.quiz.forEach(function (Q, i) { var a = q.first[i]; items.push({ l: '網絡報告第 ' + (i + 1) + ' 題', y: a == null ? '未答' : Q.o[a], c: Q.o[Q.a], g: a === Q.a ? M.q[i] : 0, f: M.q[i], why: Q.x }); });
+      if (NET.byType(L, 'router').length > 1) notes.push('用了 ' + NET.byType(L, 'router').length + ' 部路由器；這個網絡只需要一部。');
+      if (L.links.some(function (l) { return l.cable === 'fiber'; }) && L.links.filter(function (l) { return l.cable === 'fiber'; }).length > 3) notes.push('用了 ' + L.links.filter(function (l) { return l.cable === 'fiber'; }).length + ' 條光纖；光纖昂貴，只在需要時使用。');
+      return { items: items, notes: notes };
+    },
+    reportExtra: function (st) {
+      var L = st.lab; if (!L) return '';
+      var E = AX.esc, h = '<h2>三、網絡設備及連線</h2><div style="display:flex;gap:10px;font-size:11.5px"><div style="flex:1"><b>設備：</b>' +
+        L.devs.filter(function (d) { return !d.fixed; }).map(function (d) { return E(d.name) + '（' + E(NET.zname(SCEN, d.zone)) + '）'; }).join('、') + '</div><div style="flex:2"><b>連線：</b>' +
+        L.links.map(function (l) { var a = NET.dev(L, l.a), b = NET.dev(L, l.b), ok = NET.linkCheck(SCEN, L, l).ok; return E(a.name + '—' + b.name + '：' + NET.CABLES[l.cable].n) + (ok ? '' : ' ✘'); }).join('；') + '</div></div>';
+      return h;
+    }
+  });
+
+  /* 互動區及示範 */
+  AX.CFG.NET1.lab = NET.lab(SCEN, {
+    demo: [
+      function (O) { O.nic('pc4'); },
+      function (O) { var s = O.place('switch', 460, 140); ['pc1', 'pc2', 'pc3', 'pc4'].forEach(function (p) { O.link(p, s, 'cat5e'); }); },
+      function (O) { var s = O.place('switch', 630, 170); O.link('srv1', s, 'cat5e'); O.link('srv2', s, 'cat5e'); },
+      function (O) { O.link(O.find('switch', 'lab'), O.find('switch', 'srv'), 'cat6a'); },
+      function (O) { var s = O.place('switch', 860, 190); O.link('lap1', s, 'cat5e'); O.link('prn1', s, 'cat5e'); O.link(s, O.find('switch', 'srv'), 'cat5e'); },
+      function (O) { O.link('ws1', O.find('switch', 'srv'), 'fiber'); },
+      function (O) { var s = O.place('switch', 100, 185); O.link('op1', s, 'cat5e'); O.link('op2', s, 'cat5e'); O.link(s, O.find('switch', 'srv'), 'fiber'); },
+      function (O) { var a = O.place('ap', 720, 312); O.link(a, O.find('switch', 'srv'), 'cat5e'); O.wifi(a, { ssid: 'CS-Centre', sec: 'WPA2', pwd: 'Maker2026!' }); },
+      function (O) { var m = O.place('modem', 700, 225), r = O.place('router', 580, 225); O.link('inet', m); O.link(m, r, 'cat5e'); O.link(r, O.find('switch', 'srv'), 'cat5e'); },
+      function (O) { O.test(); },
+      function (O) { O.quiz([0, 1, 0]); }
+    ]
+  });
+})();
+
+AX.bootLab(AX.CFG['NET1']);
+</script>
+</body>
+</html>
