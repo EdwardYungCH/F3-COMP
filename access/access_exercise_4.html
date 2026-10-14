@@ -959,7 +959,7 @@ AX.reportInner = function (cfg, d, ev, code) {
   });
   h += '</tbody><tfoot><tr><td colspan="3">操作得分</td><td class="c">' + ev.raw + ' / ' + ev.full + '</td></tr>' +
     '<tr><td colspan="3">提示扣分(第一級 ' + ev.hs.n1 + ' 次 × ' + cfg.penalty.hint1 + '，第二級 ' + ev.hs.n2 + ' 次 × ' + cfg.penalty.hint2 + '，上限 ' + cfg.penalty.hintMax + ')</td><td class="c">− ' + ev.dh + '</td></tr>' +
-    '<tr><td colspan="3">誤操作扣分(' + d.errs + ' 次 × ' + cfg.penalty.err + '，上限 ' + cfg.penalty.errMax + ')</td><td class="c">− ' + ev.de + '</td></tr>' +
+    (cfg.penalty.errMax ? '<tr><td colspan="3">誤操作扣分(' + d.errs + ' 次 × ' + cfg.penalty.err + '，上限 ' + cfg.penalty.errMax + ')</td><td class="c">− ' + ev.de + '</td></tr>' : '') +
     '<tr class="tot"><td colspan="3">最終得分</td><td class="c">' + ev.final + ' / ' + ev.full + '</td></tr></tfoot></table>';
 
   var wrong = ev.items.filter(function (it) { return it.g < it.f; }), el = (d.errList || []).slice(-6);

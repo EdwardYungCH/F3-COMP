@@ -1053,7 +1053,7 @@ AX.reportInner = function (cfg, d, ev, code) {
   });
   h += '</tbody><tfoot><tr><td colspan="3">操作得分</td><td class="c">' + ev.raw + ' / ' + ev.full + '</td></tr>' +
     '<tr><td colspan="3">提示扣分(第一級 ' + ev.hs.n1 + ' 次 × ' + cfg.penalty.hint1 + '，第二級 ' + ev.hs.n2 + ' 次 × ' + cfg.penalty.hint2 + '，上限 ' + cfg.penalty.hintMax + ')</td><td class="c">− ' + ev.dh + '</td></tr>' +
-    '<tr><td colspan="3">誤操作扣分(' + d.errs + ' 次 × ' + cfg.penalty.err + '，上限 ' + cfg.penalty.errMax + ')</td><td class="c">− ' + ev.de + '</td></tr>' +
+    (cfg.penalty.errMax ? '<tr><td colspan="3">誤操作扣分(' + d.errs + ' 次 × ' + cfg.penalty.err + '，上限 ' + cfg.penalty.errMax + ')</td><td class="c">− ' + ev.de + '</td></tr>' : '') +
     '<tr class="tot"><td colspan="3">最終得分</td><td class="c">' + ev.final + ' / ' + ev.full + '</td></tr></tfoot></table>';
 
   var wrong = ev.items.filter(function (it) { return it.g < it.f; }), el = (d.errList || []).slice(-6);
@@ -1288,7 +1288,7 @@ AX.bootLab = function (C) {
     $('#hwho').className = 'chip' + (S.demo ? ' demo-badge' : '');
     var d = stepsDone(), n = d.filter(Boolean).length, hs = AX.hintStats(C, S.hints);
     $('#hprog').innerHTML = '進度 <b>' + n + '</b> / ' + C.steps.length;
-    $('#hded').innerHTML = '提示 −' + Math.min(hs.raw, P.hintMax) + ' ｜ 誤操作 −' + Math.min(S.errs * P.err, P.errMax);
+    $('#hded').innerHTML = '提示 −' + Math.min(hs.raw, P.hintMax) + (P.errMax ? ' ｜ 誤操作 −' + Math.min(S.errs * P.err, P.errMax) : '');
     $('#bfin').textContent = '✅ 完成並產生報告';
   }
   function checkProgress() {
@@ -1391,7 +1391,7 @@ AX.bootLab = function (C) {
   /* ================= 開始 / 續做 / 重設 ================= */
   function rulesHTML() {
     return '<b>提示</b>分兩級：「提示一」扣 ' + P.hint1 + ' 分，「提示二」（詳細做法）再扣 ' + P.hint2 + ' 分；同一步每級只扣一次，最多共扣 ' + P.hintMax + ' 分。<br>' +
-      '<b>誤操作</b>（例如接駁明顯錯誤的設備）每次扣 ' + P.err + ' 分，最多扣 ' + P.errMax + ' 分；1.5 秒內重複同一個錯誤只計一次。<br>' +
+      (C.rulesErr || '<b>誤操作</b>（例如接駁明顯錯誤的設備）每次扣 ' + P.err + ' 分，最多扣 ' + P.errMax + ' 分；1.5 秒內重複同一個錯誤只計一次。') + '<br>' +
       '<b>自動保存</b>：進度會保存在這部電腦的瀏覽器，不小心關閉網頁，重新打開可以繼續。<br>' +
       '完成後按右上角<b>「完成並產生報告」</b>，下載報告檔(.html)上傳給老師。提交後仍可返回修改再提交，報告會記錄提交次數。';
   }
